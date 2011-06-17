@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Viper</title>
+<style type="text/css">
+body {
+	background-color: #302c2b;
+	color: white;
+	font-size: 16px;
+	font-family: 'TitilliumText14L800wt', sans-serif;
+}
+a {
+	color: #ecb220;
+}
+#header {
+	text-transform: uppercase;
+}
+.tracker {
+	color: #bbd4ce;
+	font-family: "Myriad Pro", sans-serif;
+}
+.tracker strong {
+	font-weight: bold;
+}
+.waiting {
+	font-size: 14px;
+	color: #ff9900;
+	font-weight: bold;
+}
+.num {
+	color: white;
+}
+#totalConnections {
+	color: #75ff75;
+	font-weight: bold;
+}
+</style>
+<script type="text/javascript" src="http://aaronjwood.com:9000/socket.io/socket.io.js"></script>
+<script>
+    WEB_SOCKET_SWF_LOCATION = 'http://aaronjwood.com:9000/socket.io/WebSocketMain.swf'
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="header">
+	<h1>Framingham.edu</h1>
+	<h2>Top 10 viewed pages in <span style="color: #eab323";>real time</span></h2>
+	<h3>Best viewed with <a target="_blank" href="http://www.google.com/chrome">Chrome</a> or <a target="_blank" href="http://www.apple.com/safari/">Safari</a></h3>
+</div>
+<br />
+<div class="total">Total connections: <span id="totalConnections">0</span></div>
+<br />
+<div id="tracking"></div>
+<script type="text/javascript">
+$(function() {
+	function colorPicker() {
+			var colors = ["#ebb12b", "#ff9191", "#ffffff", "#75ff75", "#ffff00", "#b2b2b2"];
+			return colors[Math.floor(Math.random()*6)];
+	}
+	
+	var socket = new io.Socket('aaronjwood.com', {port: 9000});
+	socket.connect();
+	socket.on('connect', function() {
+		console.log('Connected');
+		$("#tracking").html("<span class='waiting'>Gathering statistics and processing data...</span>");
+	});
+	socket.on('message', function(msg) {
+		if(parseInt(msg) || msg == 0) {
+			$("#totalConnections").html(msg);
+		}
+		else {
+			var trackers = JSON.parse(msg);
+			var trackingData = "";
+			for(i = 0; i < trackers.length; i++) {
+				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + trackers[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + trackers[i].connections + "</strong></span><br /><br />";
+			}
+			$("#tracking").html(trackingData);
+		}
+	});
+});
+</script>
+</body>
+</html>
