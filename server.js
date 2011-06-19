@@ -9,12 +9,12 @@ var viewServer = http.createServer(function(req, res) {
 		file.serve(req, res);
 	});
 });
-//Bind to port 9000
 //TODO make the port a user-changable setting...maybe through the use of config files?
 viewServer.listen(9000);
+
 var viewSocket = io.listen(viewServer);
 
-//Total visitors/connections from all the pages the tracking code is on
+//Total visitors/connections from all the pages the tracking code resides on
 var totalConnections = 0;
 
 //Array to hold tracker objects
@@ -25,6 +25,7 @@ var trackers = [];
 var topTrackers = [];
 
 //Tracker object
+//TODO Add functionality to hold the browser's name, version, and the platform it is running on
 function pageTracker(sessId, url, connections) {
 	this.sessId = [];
 	this.sessId.push(sessId);
@@ -32,7 +33,7 @@ function pageTracker(sessId, url, connections) {
 	this.connections = connections;
 }
 
-//This will return the trackers in an array in descending order
+//This will sort the array of trackers in descending order
 function sortTracking(pageTracker1, pageTracker2) {
 	return pageTracker2.connections - pageTracker1.connections;
 }
@@ -46,6 +47,7 @@ viewSocket.on('connection', function(client) {
 			if(trackers[i].url == msg) {
 				exists = true;
 				trackers[i].connections++;
+				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
 				trackers[i].sessId.push(client.sessionId);
 			}
 		}
