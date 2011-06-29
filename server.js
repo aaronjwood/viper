@@ -2,7 +2,7 @@ var http = require('http');
 var io = require('socket.io');
 var static = require('node-static');
 
-//Create a new static server and serve the files inside the public/ directory
+//Create a new static server and serve the files inside the public directory
 var file = new(static.Server)('./public/');
 var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
@@ -38,7 +38,7 @@ function sortTracking(pageTracker1, pageTracker2) {
 	return pageTracker2.connections - pageTracker1.connections;
 }
 
-viewSocket.on('connection', function(client) {
+viewSocket.sockets.on('connection', function(client) {
 	client.on('message', function(msg) {
 		totalConnections++;
 		var exists = false;
@@ -65,8 +65,8 @@ viewSocket.on('connection', function(client) {
 		//Sort the top 10 trackers in descending order before we send them to the client
 		topTrackers.sort(sortTracking);
 		//Send the top 10 trackers and the total connection count
-		client.broadcast(JSON.stringify(topTrackers));
-		client.broadcast(totalConnections);
+		viewSocket.sockets.json.send(topTrackers);
+		viewSocket.sockets.send(totalConnections);
 	});
 	
 	client.on('disconnect', function() {
