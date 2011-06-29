@@ -48,12 +48,12 @@ viewSocket.sockets.on('connection', function(client) {
 				exists = true;
 				trackers[i].connections++;
 				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
-				trackers[i].sessId.push(client.sessionId);
+				trackers[i].sessId.push(client.id);
 			}
 		}
 		//Otherwise, create a new object and set the appropriate values
 		if(!exists) {
-			trackers.push(new pageTracker(client.sessionId, msg, 1));
+			trackers.push(new pageTracker(client.id, msg, 1));
 		}
 		trackers.sort(sortTracking);
 		for(var i = 0; i < trackers.length; i++) {
@@ -72,15 +72,16 @@ viewSocket.sockets.on('connection', function(client) {
 	client.on('disconnect', function() {
 		trackers.sort(sortTracking);
 		for(var i = 0; i < trackers.length; i++) {
-			if(trackers[i].sessId.indexOf(client.sessionId) != -1) {
+			if(trackers[i].sessId.indexOf(client.id) != -1) {
 				totalConnections--;
 				trackers[i].connections--;
-				trackers[i].sessId.splice(trackers[i].sessId.indexOf(client.sessionId), 1);
+				trackers[i].sessId.splice(trackers[i].sessId.indexOf(client.id), 1);
 			}
 		}
 		topTrackers.sort(sortTracking);
 		client.broadcast(JSON.stringify(topTrackers));
 		client.broadcast(totalConnections);
 	});
+	
 });
 
