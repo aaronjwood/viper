@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Viper</title>
@@ -34,10 +35,7 @@ a {
 	font-weight: bold;
 }
 </style>
-<script type="text/javascript" src="http://aaronjwood.com:9000/socket.io/socket.io.js"></script>
-<script>
-    WEB_SOCKET_SWF_LOCATION = 'http://aaronjwood.com:9000/socket.io/WebSocketMain.swf'
-</script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 </head>
 <body>
@@ -50,7 +48,7 @@ a {
 <div class="total">Total connections: <span id="totalConnections">0</span></div>
 <br />
 <div id="tracking"></div>
-<script type="text/javascript">
+<script async="async" type="text/javascript">
 $(function() {
 	//Return a random color from an array of specified colors
 	function colorPicker() {
@@ -59,8 +57,7 @@ $(function() {
 	}
 	
 	//Connect with proper settings
-	var socket = new io.Socket('aaronjwood.com', {port: 9000});
-	socket.connect();
+	var socket = io.connect();
 	socket.on('connect', function() {
 		console.log('Connected');
 		//TODO Make it so when a user connects, it immediately fetches the current data from the server. Right now, I am relying on data coming in to populate the page.
