@@ -2,17 +2,18 @@ var http = require('http');
 var io = require('socket.io');
 var static = require('node-static');
 
-//Create a new static server and serve the files inside the public directory
+//Static server to serve the dashboard
 var file = new(static.Server)('./public/');
 var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
 		file.serve(req, res);
 	});
 });
+
 //TODO make the port a user-changable setting...maybe through the use of config files?
 viewServer.listen(9000);
 
-var viewSocket = io.listen(viewServer);
+var socket = io.listen(viewServer);
 
 //Total visitors/connections from all the pages the tracking code resides on
 var totalConnections = 0;
@@ -38,7 +39,11 @@ function sortTracking(pageTracker1, pageTracker2) {
 	return pageTracker2.connections - pageTracker1.connections;
 }
 
-viewSocket.sockets.on('connection', function(client) {
+socket.sockets.on('connection', function(client) {
+	//Immediately send data upon connection
+	socket.sockets.json.send(topTrackers);
+	socket.sockets.send(totalConnections);
+	
 	client.on('message', function(msg) {
 		totalConnections++;
 		var exists = false;
@@ -65,8 +70,8 @@ viewSocket.sockets.on('connection', function(client) {
 		//Sort the top 10 trackers in descending order before we send them to the client
 		topTrackers.sort(sortTracking);
 		//Send the top 10 trackers and the total connection count
-		viewSocket.sockets.json.send(topTrackers);
-		viewSocket.sockets.send(totalConnections);
+		socket.sockets.json.send(topTrackers);
+		socket.sockets.send(totalConnections);
 	});
 	
 	client.on('disconnect', function() {
@@ -79,8 +84,8 @@ viewSocket.sockets.on('connection', function(client) {
 			}
 		}
 		topTrackers.sort(sortTracking);
-		viewSocket.sockets.json.send(topTrackers);
-		viewSocket.sockets.send(totalConnections);
+		socket.sockets.json.send(topTrackers);
+		socket.sockets.send(totalConnections);
 	});
 	
 });

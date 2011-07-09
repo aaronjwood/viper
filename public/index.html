@@ -16,15 +16,8 @@
 <div class="total">Total connections: <span id="totalConnections">0</span></div>
 <br />
 <div id="tracking"></div>
-<script async="async" type="text/javascript">
+<script type="text/javascript">
 $(function() {
-	//Return a random color from an array of specified colors
-	function colorPicker() {
-			var colors = ["#ebb12b", "#ff9191", "#ffffff", "#75ff75", "#ffff00", "#b2b2b2"];
-			return colors[Math.floor(Math.random()*6)];
-	}
-	
-	//Connect with proper settings
 	var socket = io.connect();
 	socket.on('connect', function() {
 		console.log('Connected');
