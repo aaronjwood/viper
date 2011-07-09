@@ -1,0 +1,31 @@
+body {
+	background-color: #302c2b;
+	color: white;
+	font-size: 16px;
+	font-family: 'TitilliumText14L800wt', sans-serif;
+}
+a {
+	color: #ecb220;
+}
+#header {
+	text-transform: uppercase;
+}
+.tracker {
+	color: #bbd4ce;
+	font-family: "Myriad Pro", sans-serif;
+}
+.tracker strong {
+	font-weight: bold;
+}
+.waiting {
+	font-size: 14px;
+	color: #ff9900;
+	font-weight: bold;
+}
+.num {
+	color: white;
+}
+#totalConnections {
+	color: #75ff75;
+	font-weight: bold;
+}

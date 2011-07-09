@@ -2,39 +2,7 @@
 <html>
 <head>
 <title>Viper</title>
-<style type="text/css">
-body {
-	background-color: #302c2b;
-	color: white;
-	font-size: 16px;
-	font-family: 'TitilliumText14L800wt', sans-serif;
-}
-a {
-	color: #ecb220;
-}
-#header {
-	text-transform: uppercase;
-}
-.tracker {
-	color: #bbd4ce;
-	font-family: "Myriad Pro", sans-serif;
-}
-.tracker strong {
-	font-weight: bold;
-}
-.waiting {
-	font-size: 14px;
-	color: #ff9900;
-	font-weight: bold;
-}
-.num {
-	color: white;
-}
-#totalConnections {
-	color: #75ff75;
-	font-weight: bold;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 </head>
@@ -71,7 +39,7 @@ $(function() {
 		//The data received should be an array of objects
 		//TODO implement additional checking to make sure the data is an array of objects. There's not enough checking right now...
 		else {
-			var trackers = JSON.parse(msg);
+			var trackers = msg;
 			var trackingData = "";
 			//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
 			for(i = 0; i < trackers.length; i++) {
