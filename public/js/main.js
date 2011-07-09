@@ -4,6 +4,38 @@ function colorPicker() {
 	return colors[Math.floor(Math.random()*6)];
 }
 
+//Browser detection
+function getBrowser() {
+	var agent = window.navigator.userAgent.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
+	if(agent == "Chrome") {
+		return "Chrome";
+	}
+	else if(agent == "Firefox") {
+		return "Firefox";
+	}
+	else if(agent == "Opera") {
+		return "Opera";
+	}
+	else if(agent == "MSIE") {
+		return "IE";
+	}
+	else if(agent == "Safari") {
+		return "Safari";
+	}
+	else if(agent == "Android") {
+		return "Android";
+	}
+	else if(agent == "iPad") {
+		return "iPad";
+	}
+	else if(agent == "iPhone") {
+		return "iPhone";
+	}
+	else {
+		return "Other";
+	}
+}
+
 
 
 $(function() {
