@@ -79,8 +79,8 @@ viewSocket.sockets.on('connection', function(client) {
 			}
 		}
 		topTrackers.sort(sortTracking);
-		client.broadcast(JSON.stringify(topTrackers));
-		client.broadcast(totalConnections);
+		viewSocket.sockets.json.send(topTrackers);
+		viewSocket.sockets.send(totalConnections);
 	});
 	
 });
