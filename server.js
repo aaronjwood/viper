@@ -50,7 +50,7 @@ socket.sockets.on('connection', function(client) {
 		
 		//Otherwise, create a new object and set the appropriate values
 		if(!exists) {
-			trackers.push(new tracker.track(client.id, trackingData.url, 1));
+			trackers.push(new tracker.track(client.id, trackingData.url, trackingData.browser, 1));
 		}
 		
 		//Sort the trackers before we send them back to the client
