@@ -15,20 +15,16 @@ viewServer.listen(config.set.port);
 
 var socket = io.listen(viewServer);
 
-//Total visitors/connections from all the pages the tracking code resides on
+//Total connections from all of the pages the tracking code resides on
 var totalConnections = 0;
 
 //Tracker objects
 var trackers = [];
 
-//Array to hold the top 10 tracker objects
-//TODO Maybe get rid of this and just send back the top 10 trackers from the trackers array? Possibly unnecessary overhead by using two arrays filled with objects...
-var topTrackers = [];
-
 socket.sockets.on('connection', function(client) {
 	
 	//Immediately send data upon connection
-	socket.sockets.json.send(trackers.slice(0, 10));
+	socket.sockets.json.send(trackers.slice(0, config.set.totalTrackers));
 	socket.sockets.send(totalConnections);
 	
 	client.on('message', function(msg) {
@@ -51,11 +47,10 @@ socket.sockets.on('connection', function(client) {
 		if(!exists) {
 			trackers.push(new tracker.track(client.id, trackingData.url, trackingData.browser, 1));
 		}
-		//Sort the trackers before we send them back to the client
-		trackers.sort(tracker.sort);
 		
-		//Send the top 10 trackers and the total connection count
-		socket.sockets.json.send(trackers.slice(0, 10));
+		//Sort the trackers and send them back
+		trackers.sort(tracker.sort);
+		socket.sockets.json.send(trackers.slice(0, config.set.totalTrackers));
 		socket.sockets.send(totalConnections);
 	});
 	
@@ -68,11 +63,10 @@ socket.sockets.on('connection', function(client) {
 			}
 		}
 		
-		//Sort the trackers before sending them back to the client
+		//Sort the trackers and send them back
 		trackers.sort(tracker.sort);
-		socket.sockets.json.send(trackers.slice(0, 10));
+		socket.sockets.json.send(trackers.slice(0, config.set.totalTrackers));
 		socket.sockets.send(totalConnections);
 	});
 	
 });
-

@@ -10,7 +10,6 @@ $(function() {
 	var socket = io.connect();
 	socket.on('connect', function() {
 		console.log('Connected');
-		//TODO Make it so when a user connects, it immediately fetches the current data from the server. Right now, I am relying on data coming in to populate the page.
 		$("#tracking").html("<span class='waiting'>Gathering statistics and processing data...</span>");
 	});
 	socket.on('message', function(msg) {

@@ -7,6 +7,7 @@ exports.track = function(sessId, url, browser, connections) {
 	this.connections = connections;
 	this.browser = getBrowser(browser);
 	
+	//TODO this should not just return the browser being used for the specific object. This needs to be a separate tracking metric that gives totals, etc. This should probably NOT be inside of this object...migrate to the server
 	function getBrowser(browser) {
 		var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
 		if(agent == "Chrome") {
