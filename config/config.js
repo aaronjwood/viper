@@ -1,3 +1,3 @@
-exports.confg = {
+exports.set = {
 		"port":9000
 }
