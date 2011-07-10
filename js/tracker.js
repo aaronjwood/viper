@@ -5,8 +5,9 @@ exports.track = function(sessId, url, browser, connections) {
 	this.sessId.push(sessId);
 	this.url = url;
 	this.connections = connections;
-	//Browser detection
-	this.browser = function(browser) {
+	this.browser = getBrowser(browser);
+	
+	function getBrowser(browser) {
 		var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
 		if(agent == "Chrome") {
 			return "Chrome";

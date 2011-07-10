@@ -35,7 +35,6 @@ socket.sockets.on('connection', function(client) {
 		totalConnections++;
 		var trackingData = JSON.parse(msg);
 		var exists = false;
-		
 		for(var i = 0; i < trackers.length; i++) {
 			
 			//If an object already exists with the same URL, don't create a new one!
@@ -52,7 +51,6 @@ socket.sockets.on('connection', function(client) {
 		if(!exists) {
 			trackers.push(new tracker.track(client.id, trackingData.url, trackingData.browser, 1));
 		}
-		
 		//Sort the trackers before we send them back to the client
 		trackers.sort(tracker.sort);
 		
