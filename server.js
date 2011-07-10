@@ -33,11 +33,13 @@ socket.sockets.on('connection', function(client) {
 	
 	client.on('message', function(msg) {
 		totalConnections++;
+		var trackingData = JSON.parse(msg);
 		var exists = false;
+		
 		for(var i = 0; i < trackers.length; i++) {
 			
 			//If an object already exists with the same URL, don't create a new one!
-			if(trackers[i].url == msg) {
+			if(trackers[i].url == trackingData.url) {
 				exists = true;
 				trackers[i].connections++;
 				
@@ -48,7 +50,7 @@ socket.sockets.on('connection', function(client) {
 		
 		//Otherwise, create a new object and set the appropriate values
 		if(!exists) {
-			trackers.push(new tracker.track(client.id, msg, 1));
+			trackers.push(new tracker.track(client.id, trackingData.url, 1));
 		}
 		
 		//Sort the trackers before we send them back to the client
