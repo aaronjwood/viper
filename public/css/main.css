@@ -1,18 +1,20 @@
 body {
-	background-color: #302c2b;
+	background-color: black;
 	color: white;
 	font-size: 16px;
-	font-family: 'TitilliumText14L800wt', sans-serif;
+	font-family: Verdana, sans-serif;
 }
 a {
 	color: #ecb220;
+}
+a:hover {
+	color: #ffd454;
 }
 #header {
 	text-transform: uppercase;
 }
 .tracker {
 	color: #bbd4ce;
-	font-family: "Myriad Pro", sans-serif;
 }
 .tracker strong {
 	font-weight: bold;
