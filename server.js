@@ -1,40 +1,9 @@
 var http = require('http');
 var io = require('socket.io');
 var static = require('node-static');
+var config = require('./sys/config.js');
+var method = require('./sys/functions.js');
 var tracker = require('./js/tracker');
-var config = require('./config/config.js');
-
-//Determine which browser is being used
-function getBrowser(browser) {
-	var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
-	if(agent == "Chrome") {
-		return "Chrome";
-	}
-	else if(agent == "Firefox") {
-		return "Firefox";
-	}
-	else if(agent == "Opera") {
-		return "Opera";
-	}
-	else if(agent == "MSIE") {
-		return "IE";
-	}
-	else if(agent == "Safari") {
-		return "Safari";
-	}
-	else if(agent == "Android") {
-		return "Android";
-	}
-	else if(agent == "iPad") {
-		return "iPad";
-	}
-	else if(agent == "iPhone") {
-		return "iPhone";
-	}
-	else {
-		return "Other";
-	}
-}
 
 //Static server to serve the dashboard
 var file = new(static.Server)('./public/');
@@ -46,7 +15,6 @@ var viewServer = http.createServer(function(req, res) {
 viewServer.listen(config.port);
 
 var socket = io.listen(viewServer);
-
 //Total connections from all of the pages the tracking code resides on
 var totalConnections = 0;
 
