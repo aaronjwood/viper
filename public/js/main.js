@@ -4,8 +4,6 @@ function colorPicker() {
 	return colors[Math.floor(Math.random()*6)];
 }
 
-
-
 $(function() {
 	var socket = io.connect();
 	socket.on('connect', function() {
