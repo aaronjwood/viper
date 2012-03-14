@@ -21,8 +21,8 @@ $(function() {
 			var trackers = msg;
 			var trackingData = "";
 			//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
-			for(i = 0; i < trackers.length; i++) {
-				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + trackers[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + trackers[i].connections + "</strong></span><br />Browser: " + trackers[i].browser + "<br /><br />";
+			for(var i = 0; i < trackers.length; i++) {
+				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + trackers[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + trackers[i].connections + "</strong></span><br /><br />";
 			}
 			//Update page
 			document.getElementById('tracking').innerHTML = trackingData;
