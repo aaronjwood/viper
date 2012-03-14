@@ -1,12 +1,17 @@
-var method = require('../sys/functions.js');
+//User object to hold each user's id and browser type
+exports.user = function(id, browser) {
+    this.id = id;
+    this.browser = browser;
+}
 
-//Tracker object
+
 //TODO Add functionality to hold the browser's version and the platform it is running on
-exports.track = function(sessId, url, browser, connections) {
+//Main tracker object
+exports.track = function(sessId, url, connections) {
+    //TODO rename sessId to clients
 	this.sessId = [];
 	this.sessId.push(sessId);
 	this.url = url;
-	this.browser = method.getBrowser(browser);
 	this.connections = connections;
 }
 

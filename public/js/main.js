@@ -15,17 +15,24 @@ $(function() {
 		if(parseInt(msg) || msg == 0) {
 			$("#totalConnections").html(msg);
 		}
-		//The data received should be an array of objects
-		//TODO implement additional checking to make sure the data is an array of objects. There's not enough checking right now...
-		else {
-			var trackers = msg;
+		//If the data received is an array, it is the array of trackers
+		else if(msg instanceof Array) {
 			var trackingData = "";
 			//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
-			for(var i = 0; i < trackers.length; i++) {
-				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + trackers[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + trackers[i].connections + "</strong></span><br /><br />";
+			for(var i = 0; i < msg.length; i++) {
+				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + msg[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + msg[i].connections + "</strong></span><br /><br />";
 			}
-			//Update page
+			//Update page (innerHTML seems to be the fastest)
 			document.getElementById('tracking').innerHTML = trackingData;
 		}
+        //If the data received is an object and has the count property, it is the browser counter
+        else if(msg instanceof Object && msg.count !== "undefined") {
+            var browserCounts = "Google Chrome: " + msg.count.Chrome + " <br />";
+            browserCounts += "Mozilla Firefox: " + msg.count.Firefox + " <br />";
+            browserCounts += "Apple Safari: " + msg.count.Safari + " <br />";
+            browserCounts += "Opera: " + msg.count.Opera + " <br />";
+            browserCounts += "Microsoft Internet Explorer: " + msg.count.IE + " <br />";
+            document.getElementById('browserCount').innerHTML = browserCounts;
+        }
 	});
 });
