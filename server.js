@@ -1,12 +1,12 @@
 var http = require('http');
 var io = require('socket.io');
-var static = require('node-static');
+var client = require('node-static');
 var config = require('./sys/config.js');
 var method = require('./sys/functions.js');
 var tracker = require('./js/tracker');
 
 //Static server to serve the dashboard
-var file = new(static.Server)('./public/');
+var file = new(client.Server)('./public/');
 var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
 		file.serve(req, res);
@@ -21,11 +21,13 @@ var totalConnections = 0;
 
 //Browsers
 var browsers = {
-	"Chrome": 0,
-	"Firefox": 0,
-	"Safari": 0,
-	"Opera": 0,
-	"Internet Explorer": 0
+    count: {
+        "Chrome": 0,
+        "Firefox": 0,
+        "Safari": 0,
+        "Opera": 0,
+        "Internet Explorer": 0
+    }
 }
 
 //Tracker objects
@@ -47,7 +49,7 @@ socket.sockets.on('connection', function(client) {
 			if(newTracker.url == trackingData.url) {
 				exists = true;
 				newTracker.connections++;
-				browsers[method.getBrowser(trackingData.browser)]++;
+				browsers.count[method.getBrowser(trackingData.browser)]++;
 				
 				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
 				newTracker.sessId.push(client.id);
@@ -57,7 +59,7 @@ socket.sockets.on('connection', function(client) {
 		//Otherwise, create a new object and set the appropriate values
 		if(!exists) {
 			trackers.push(new tracker.track(client.id, trackingData.url, method.getBrowser(trackingData.browser), 1));
-			browsers[method.getBrowser(trackingData.browser)]++;
+			browsers.count[method.getBrowser(trackingData.browser)]++;
 		}
 		
 		//Sort the trackers and send them back
@@ -72,7 +74,7 @@ socket.sockets.on('connection', function(client) {
 				var killedTracker = trackers[i];
 				totalConnections--;
 				killedTracker.connections--;
-				browsers[killedTracker.browser]--;
+				browsers.count[killedTracker.browser]--;
 				killedTracker.sessId.splice(trackers[i].sessId.indexOf(client.id), 1);
 			}
 		}
