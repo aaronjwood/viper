@@ -1,0 +1,11 @@
+{
+	"name": "Viper",
+	"version": "0.1.0",
+	"main": "server",
+	"description": "Real-time tracking and analytics using Node.js and Socket.IO",
+	"author": "Aaron Wood",
+	"dependencies": {
+		"socket.io": ">= 0.7.x",
+		"node-static": ">= 0.5.x"
+	}
+}
