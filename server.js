@@ -26,7 +26,11 @@ var browsers = {
         "Firefox": 0,
         "Safari": 0,
         "Opera": 0,
-        "IE": 0
+        "IE": 0,
+        "Android": 0,
+        "iPad": 0,
+        "iPhone": 0,
+        "Other": 0
     }
 }
 

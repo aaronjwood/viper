@@ -32,6 +32,10 @@ $(function() {
             browserCounts += "Apple Safari: " + msg.count.Safari + " <br />";
             browserCounts += "Opera: " + msg.count.Opera + " <br />";
             browserCounts += "Microsoft Internet Explorer: " + msg.count.IE + " <br />";
+            browserCounts += "Android: " + msg.count.Android + "<br />";
+            browserCounts += "iPad: " + msg.count.iPad + "<br />";
+            browserCounts += "iPhone: " + msg.count.iPhone + "<br />";
+            browserCounts += "Other: " + msg.count.Other + "<br />";
             document.getElementById('browserCount').innerHTML = browserCounts;
         }
 	});
