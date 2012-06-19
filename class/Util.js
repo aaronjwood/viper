@@ -1,6 +1,10 @@
-exports.getBrowser = function(browser) {
-	//Determine which browser is being used
-	var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
+var Util = function() {
+    
+}
+
+//Return the browser's name
+Util.getBrowser = function(browser) {
+    var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
 	if(agent == "Chrome") {
 		return "Chrome";
 	}
@@ -29,3 +33,5 @@ exports.getBrowser = function(browser) {
 		return "Other";
 	}
 }
+
+module.exports = Util;
