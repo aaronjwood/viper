@@ -7,7 +7,6 @@ function colorPicker() {
 $(function() {
 	var socket = io.connect();
 	socket.on('connect', function() {
-		console.log('Connected');
 		$("#tracking").html("<span class='waiting'>Gathering statistics and processing data...</span>");
 	});
 	socket.on('message', function(msg) {
@@ -20,7 +19,7 @@ $(function() {
 			var trackingData = "";
 			//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
 			for(var i = 0; i < msg.length; i++) {
-				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + msg[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + msg[i].connections + "</strong></span><br /><br />";
+				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + msg[i].url + "</em> - <strong style='color: " + colorPicker() + "'>" + msg[i].numConnections + "</strong></span><br /><br />";
 			}
 			//Update page (innerHTML seems to be the fastest)
 			document.getElementById('tracking').innerHTML = trackingData;
