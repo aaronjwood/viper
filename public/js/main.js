@@ -93,17 +93,6 @@ $(function() {
 		}
         //If the data received is an object and has the count property, it is the browser counter
         else if(msg instanceof Object && msg.count !== "undefined") {
-            var browserCounts = "Google Chrome: " + msg.count.Chrome + " <br />";
-            browserCounts += "Mozilla Firefox: " + msg.count.Firefox + " <br />";
-            browserCounts += "Apple Safari: " + msg.count.Safari + " <br />";
-            browserCounts += "Opera: " + msg.count.Opera + " <br />";
-            browserCounts += "Microsoft Internet Explorer: " + msg.count.IE + " <br />";
-            browserCounts += "Android: " + msg.count.Android + "<br />";
-            browserCounts += "iPad: " + msg.count.iPad + "<br />";
-            browserCounts += "iPhone: " + msg.count.iPhone + "<br />";
-            browserCounts += "Other: " + msg.count.Other + "<br />";
-            document.getElementById('browserCount').innerHTML = browserCounts;
-            
             chart.chrome = msg.count.Chrome;
             chart.ie = msg.count.IE;
             chart.opera = msg.count.Opera;
