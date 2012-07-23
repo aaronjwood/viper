@@ -31,3 +31,82 @@ a:hover {
 	color: #75ff75;
 	font-weight: bold;
 }
+
+/* Chart */
+#chartContainer {
+    position: relative;
+}
+#chartNumbers {
+	font-size: 10px;
+}
+#browserTotal {
+	position: absolute;
+	
+}
+#browserZero {
+	position: absolute;
+	bottom: 0;
+}
+#chartBars {
+	margin-left: 30px;
+	width: 1100px;
+	height: 200px;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+}
+#chartLabels {
+	margin-left: 30px;
+}
+.chart {
+	position: relative;
+	width: 100px;
+	height: 200px;
+	overflow: hidden;
+	float: left;
+	margin: 0 10px 0 10px;
+}
+.chartInner {
+	width: 100%;
+	height: 100%;
+	bottom: -200px;
+	position: relative;
+}
+.chartCount {
+	text-align: center;
+	font-size: 10px;
+	color: #ffffff;
+}
+.chartLabel {
+	float: left;
+	width: 100px;
+	margin: 0 10px 0 10px;
+	text-align: center;
+	font-weight: bold;
+}
+.chrome {
+	background: #4cb848;
+}
+.firefox {
+	background: #ce470d;
+}
+.ie {
+	background: #00acee;
+}
+.opera {
+	background: #c70f17;
+}
+.safari {
+	background: #d9d9d9;
+}
+.android {
+	background: #8dd215;
+}
+.ipad {
+	background: #717171;
+}
+.iphone {
+	background: #000000;
+}
+.other {
+	background: #871F78;
+}
