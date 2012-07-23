@@ -76,34 +76,25 @@ $(function() {
 	socket.on('connect', function() {
 		$("#tracking").html("<span class='waiting'>Gathering statistics and processing data...</span>");
 	});
-	socket.on('message', function(msg) {
-		//If the data received was an integer, it's the total connection count
-		if(parseInt(msg) || msg == 0) {
-			$("#totalConnections").html(msg);
+	socket.on('message', function(payload) {
+		document.getElementById("totalConnections").innerHTML = payload.totalConnections;
+		var trackingData = "";
+		//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
+		for(var i = 0; i < payload.trackers.length; i++) {
+			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + payload.trackers[i].url + "</em> - <strong>" + payload.trackers[i].numConnections + "</strong></span><br /><br />";
 		}
-		//If the data received is an array, it is the array of trackers
-		else if(msg instanceof Array) {
-			var trackingData = "";
-			//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
-			for(var i = 0; i < msg.length; i++) {
-				trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + msg[i].url + "</em> - <strong>" + msg[i].numConnections + "</strong></span><br /><br />";
-			}
-			//Update page (innerHTML seems to be the fastest)
-			document.getElementById('tracking').innerHTML = trackingData;
-		}
+		document.getElementById('tracking').innerHTML = trackingData;
         //If the data received is an object and has the count property, it is the browser counter
-        else if(msg instanceof Object && msg.count !== "undefined") {
-            chart.chrome = msg.count.Chrome;
-            chart.ie = msg.count.IE;
-            chart.opera = msg.count.Opera;
-            chart.firefox = msg.count.Firefox;
-            chart.safari = msg.count.Safari;
-            chart.android = msg.count.Android;
-            chart.ipad = msg.count.iPad;
-            chart.iphone = msg.count.iPhone;
-            chart.other = msg.count.Other;
+            chart.chrome = payload.browsers.count.Chrome;
+            chart.ie = payload.browsers.count.IE;
+            chart.opera = payload.browsers.count.Opera;
+            chart.firefox = payload.browsers.count.Firefox;
+            chart.safari = payload.browsers.count.Safari;
+            chart.android = payload.browsers.count.Android;
+            chart.ipad = payload.browsers.count.iPad;
+            chart.iphone = payload.browsers.count.iPhone;
+            chart.other = payload.browsers.count.Other;
             chart.repaint();
-        }
 	});
 	
 });
