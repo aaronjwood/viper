@@ -35,33 +35,8 @@ var payload = {
 	trackers: []
 };
 
-//Total connections from all of the pages the tracking code resides on
-// var totalConnections = 0;
-
-//Browser types
-// var browsers = {
-    // count: {
-        // "Chrome": 0,
-        // "Firefox": 0,
-        // "Safari": 0,
-        // "Opera": 0,
-        // "IE": 0,
-        // "Android": 0,
-        // "iPad": 0,
-        // "iPhone": 0,
-        // "Other": 0
-    // }
-// }
-
-//Tracker for connected clients
-// var trackers = [];
-
 socket.sockets.on('connection', function(client) {
-    //TODO combine all this data into an object and send it all in one piece!
 	//Immediately sort and send any data available upon connection
-    // socket.sockets.json.send(trackers.slice(0, config.totalTrackers));
-	// socket.sockets.send(totalConnections);
-    // socket.sockets.json.send(browsers);
 	payload.trackers.sort(Tracker.sortByConnections);
 	socket.sockets.json.send(payload);
 	
@@ -90,12 +65,8 @@ socket.sockets.on('connection', function(client) {
 			payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
 		}
 		
-        //TODO combine all this data into an object and send it all in one piece!
 		//Sort the trackers and send them back
 		payload.trackers.sort(Tracker.sortByConnections);
-		// socket.sockets.json.send(trackers.slice(0, config.totalTrackers));
-		// socket.sockets.send(totalConnections);
-        // socket.sockets.json.send(browsers);
 		socket.sockets.json.send(payload);
 	});
 	
@@ -115,12 +86,8 @@ socket.sockets.on('connection', function(client) {
             }
 		}
 		
-        //TODO combine all this data into an object and send it all in one piece!
 		//Sort the trackers and send them back
 		payload.trackers.sort(Tracker.sortByConnections);
-		// socket.sockets.json.send(trackers.slice(0, config.totalTrackers));
-		// socket.sockets.send(totalConnections);
-        // socket.sockets.json.send(browsers);
 		socket.sockets.json.send(payload);
 	});
 	
