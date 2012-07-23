@@ -59,15 +59,15 @@ $(function() {
 			var iphone = $(".iphone");
 			var other = $(".other");
 			browserTotal.text(this.total());
-			chrome.animate({"bottom": this.height("chrome")});
-			ie.animate({"bottom": this.height("ie")});
-			opera.animate({"bottom": this.height("opera")});
-			firefox.animate({"bottom": this.height("firefox")});
-			safari.animate({"bottom": this.height("safari")});
-			android.animate({"bottom": this.height("android")});
-			ipad.animate({"bottom": this.height("ipad")});
-			iphone.animate({"bottom": this.height("iphone")});
-			other.animate({"bottom": this.height("other")});
+			chrome.stop().animate({"bottom": this.height("chrome")});
+			ie.stop().animate({"bottom": this.height("ie")});
+			opera.stop().animate({"bottom": this.height("opera")});
+			firefox.stop().animate({"bottom": this.height("firefox")});
+			safari.stop().animate({"bottom": this.height("safari")});
+			android.stop().animate({"bottom": this.height("android")});
+			ipad.stop().animate({"bottom": this.height("ipad")});
+			iphone.stop().animate({"bottom": this.height("iphone")});
+			other.stop().animate({"bottom": this.height("other")});
 			this.updateChartCounts();
 		}
 	};
