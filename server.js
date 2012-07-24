@@ -32,7 +32,8 @@ var payload = {
 			"Other": 0
 		}
 	},
-	trackers: []
+	trackers: [],
+	screenResolutions: []
 };
 
 socket.sockets.on('connection', function(client) {
@@ -54,6 +55,11 @@ socket.sockets.on('connection', function(client) {
 				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
                 var newUser = new User(client.id, Util.getBrowser(trackingData.browser), trackingData.screenWidth, trackingData.screenHeight);
 				newTracker.clients.push(newUser);
+				//Get the string value for the screen resolution and add it to the payload if it doesn't exist
+				var screenResolution = newUser.getScreenResolution();
+				if(payload.screenResolutions.indexOf(screenResolution) == -1) {
+					payload.screenResolutions.push(screenResolution);
+				}
 			}
 		}
 		
