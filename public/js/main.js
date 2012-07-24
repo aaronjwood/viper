@@ -95,9 +95,11 @@ $(function() {
             chart.iphone = payload.browsers.count.iPhone;
             chart.other = payload.browsers.count.Other;
             chart.repaint();
-            for(var i = 0; i < payload.screenResolutions; i++) {
-        		$("#screenResContainer").append("<div>" + payload.screenResolutions[i] + "</div>");
+            var resolutionData = "";
+            for(var resolution in payload.screenResolutions) {
+				resolutionData += "<div>" + resolution + " - " + payload.screenResolutions[resolution] + "</div>";
         	}
+			$("#screenResContainer").html(resolutionData);
 	});
 	
 });

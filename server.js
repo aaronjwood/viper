@@ -33,7 +33,7 @@ var payload = {
 		}
 	},
 	trackers: [],
-	screenResolutions: []
+	screenResolutions: {}
 };
 
 socket.sockets.on('connection', function(client) {
@@ -57,8 +57,11 @@ socket.sockets.on('connection', function(client) {
 				newTracker.clients.push(newUser);
 				//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 				var screenResolution = newUser.getScreenResolution();
-				if(payload.screenResolutions.indexOf(screenResolution) == -1) {
-					payload.screenResolutions.push(screenResolution);
+				if(typeof payload.screenResolutions[screenResolution] === "undefined") {
+					payload.screenResolutions[screenResolution] = 1;
+				}
+				else {
+					payload.screenResolutions[screenResolution]++;
 				}
 			}
 		}
@@ -69,6 +72,14 @@ socket.sockets.on('connection', function(client) {
             var newTracker = new Tracker(newUser, trackingData.url, 1);
 			payload.trackers.push(newTracker);
 			payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
+			//Get the string value for the screen resolution and add it to the payload if it doesn't exist
+			var screenResolution = newUser.getScreenResolution();
+			if(typeof payload.screenResolutions[screenResolution] === "undefined") {
+				payload.screenResolutions[screenResolution] = 1;
+			}
+			else {
+				payload.screenResolutions[screenResolution]++;
+			}
 		}
 		
 		//Sort the trackers and send them back
@@ -91,6 +102,8 @@ socket.sockets.on('connection', function(client) {
                 }
             }
 		}
+		
+		//TODO find what resolution the user had and decrement the count in the payload
 		
 		//Sort the trackers and send them back
 		payload.trackers.sort(Tracker.sortByConnections);

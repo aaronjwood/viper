@@ -13,6 +13,9 @@ a:hover {
 #header {
 	text-transform: uppercase;
 }
+.clear {
+	clear: both;
+}
 .tracker {
 	color: #bbd4ce;
 }
