@@ -52,14 +52,14 @@ socket.sockets.on('connection', function(client) {
 				newTracker.numConnections++;
 				payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
 				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
-                var newUser = new User(client.id, Util.getBrowser(trackingData.browser));
+                var newUser = new User(client.id, Util.getBrowser(trackingData.browser), trackingData.screenWidth, trackingData.screenHeight);
 				newTracker.clients.push(newUser);
 			}
 		}
 		
 		//Otherwise, create a new user/tracker, set the appropriate values, and increment the browser count
 		if(!exists) {
-            var newUser = new User(client.id, Util.getBrowser(trackingData.browser));
+            var newUser = new User(client.id, Util.getBrowser(trackingData.browser), trackingData.screenWidth, trackingData.screenHeight);
             var newTracker = new Tracker(newUser, trackingData.url, 1);
 			payload.trackers.push(newTracker);
 			payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
