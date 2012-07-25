@@ -36,7 +36,7 @@ a:hover {
 }
 
 /* Chart */
-#chartContainer {
+#browserChartContainer {
     position: relative;
 }
 #chartNumbers {
