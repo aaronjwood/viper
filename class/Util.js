@@ -1,6 +1,6 @@
 var Util = function() {
     
-}
+};
 
 //Return the browser's name
 Util.getBrowser = function(browser) {
@@ -32,6 +32,6 @@ Util.getBrowser = function(browser) {
 	else {
 		return "Other";
 	}
-}
+};
 
 module.exports = Util;
