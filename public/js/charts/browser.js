@@ -20,6 +20,9 @@ var browserChart = {
 	},
 	height: function(browser) {
 		var height = parseInt($(".chart").css("height"));
+		if(this.total() == 0) {
+			return -height;
+		}
 		var barHeight = this[browser] / this.total();
 		barHeight = parseFloat(height * barHeight);
 		barHeight = 200 - barHeight;
