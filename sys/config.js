@@ -1,5 +1,6 @@
-module.exports = config = {
+var config = {
 	"port":9000,
-        //"port":process.env.C9_PORT,
-		"totalTrackers":10
+	"totalTrackers":10
 };
+
+module.exports = config;
