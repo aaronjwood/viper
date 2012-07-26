@@ -97,13 +97,15 @@ socket.sockets.on('connection', function(client) {
                     payload.totalConnections--;
                     killedTracker.numConnections--;
                     payload.browsers.count[killedTracker.clients[c].browser]--;
+                    //Get the string value of the user's screen resolution
+                    var screenResolution = killedTracker.clients[c].getScreenResolution();
+                    //Decrement the count in the payload for the appropriate resolution
+                    payload.screenResolutions[screenResolution]--;
                     //Remove the user object from the array
                     killedTracker.clients.splice(c, 1);
                 }
             }
 		}
-		
-		//TODO find what resolution the user had and decrement the count in the payload
 		
 		//Sort the trackers and send them back
 		payload.trackers.sort(Tracker.sortByConnections);
