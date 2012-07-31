@@ -33,7 +33,8 @@ var payload = {
 		}
 	},
 	trackers: [],
-	screenResolutions: {}
+	screenResolutions: {},
+	os: {}
 };
 
 socket.sockets.on('connection', function(client) {
@@ -41,22 +42,23 @@ socket.sockets.on('connection', function(client) {
 	payload.trackers.sort(Tracker.sortByConnections);
 	socket.sockets.json.send(payload);
 	
-	client.on('message', function(msg) {
+	client.on('message', function(data) {
 		payload.totalConnections++;
-		var trackingData = JSON.parse(msg);
-		var exists = false;
+		var trackingData = JSON.parse(data);
+		var trackerExists = false;
 		for(var i = 0; i < payload.trackers.length; i++) {
 			var newTracker = payload.trackers[i];
 			//If an object already exists with the same URL, don't create a new one!
 			if(newTracker.url == trackingData.url) {
-				exists = true;
+				trackerExists = true;
 				newTracker.numConnections++;
 				//Set up an object to hold the data being tracked
 				var userData = {
 						"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
 						"browser": Util.getBrowser(trackingData.browser),
 						"screenWidth": trackingData.screenWidth,
-						"screenHeight": trackingData.screenHeight
+						"screenHeight": trackingData.screenHeight,
+						"os": trackingData.os
 				};
 				payload.browsers.count[userData.browser]++;
                 var newUser = new User(userData);
@@ -69,17 +71,26 @@ socket.sockets.on('connection', function(client) {
 				else {
 					payload.screenResolutions[screenResolution]++;
 				}
+				//Get the OS and add it to the payload if it doesn't exist
+				var os = newUser.getOs();
+				if(typeof payload.os[os] === "undefined") {
+					payload.os[os] = 1;
+				}
+				else {
+					payload.os[os]++;
+				}
 			}
 		}
 		
 		//Otherwise, create a new user/tracker, set the appropriate values, and increment the browser count
-		if(!exists) {
+		if(!trackerExists) {
 			//Set up an object to hold the data being tracked
 			var userData = {
 					"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
 					"browser": Util.getBrowser(trackingData.browser),
 					"screenWidth": trackingData.screenWidth,
-					"screenHeight": trackingData.screenHeight
+					"screenHeight": trackingData.screenHeight,
+					"os": trackingData.os
 			};
 			payload.browsers.count[userData.browser]++;
 			var newUser = new User(userData);
@@ -92,6 +103,14 @@ socket.sockets.on('connection', function(client) {
 			}
 			else {
 				payload.screenResolutions[screenResolution]++;
+			}
+			//Get the OS and add it to the payload if it doesn't exist
+			var os = newUser.getOs();
+			if(typeof payload.os[os] === "undefined") {
+				payload.os[os] = 1;
+			}
+			else {
+				payload.os[os]++;
 			}
 		}
 		
@@ -114,6 +133,10 @@ socket.sockets.on('connection', function(client) {
                     var screenResolution = killedTracker.clients[c].getScreenResolution();
                     //Decrement the count in the payload for the appropriate resolution
                     payload.screenResolutions[screenResolution]--;
+                    //Get the OS
+                    var os = killedTracker.clients[c].getOs();
+                    //Decrement the count in the payload for the appropriate OS
+                    payload.os[os]--;
                     //Remove the user object from the array
                     killedTracker.clients.splice(c, 1);
                 }

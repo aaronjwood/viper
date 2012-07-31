@@ -28,6 +28,11 @@ $(function() {
 				resolutionData += "<div>" + resolution + " - " + payload.screenResolutions[resolution] + "</div>";
         	}
 			$("#screenResContainer").html(resolutionData);
+			var osData = "";
+			for(var os in payload.os) {
+				osData += "<div>" + os + " - " + payload.os[os] + "</div>";
+			}
+			$("#osContainer").html(osData);
 	});
 	
 });
