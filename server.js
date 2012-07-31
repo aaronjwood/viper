@@ -51,9 +51,15 @@ socket.sockets.on('connection', function(client) {
 			if(newTracker.url == trackingData.url) {
 				exists = true;
 				newTracker.numConnections++;
-				payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
-				//We need the client's session id to accurately increment or decrement the number of connections to a given URL
-                var newUser = new User(client.id, Util.getBrowser(trackingData.browser), trackingData.screenWidth, trackingData.screenHeight);
+				//Set up an object to hold the data being tracked
+				var userData = {
+						"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
+						"browser": Util.getBrowser(trackingData.browser),
+						"screenWidth": trackingData.screenWidth,
+						"screenHeight": trackingData.screenHeight
+				};
+				payload.browsers.count[userData.browser]++;
+                var newUser = new User(userData);
 				newTracker.clients.push(newUser);
 				//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 				var screenResolution = newUser.getScreenResolution();
@@ -68,10 +74,17 @@ socket.sockets.on('connection', function(client) {
 		
 		//Otherwise, create a new user/tracker, set the appropriate values, and increment the browser count
 		if(!exists) {
-            var newUser = new User(client.id, Util.getBrowser(trackingData.browser), trackingData.screenWidth, trackingData.screenHeight);
+			//Set up an object to hold the data being tracked
+			var userData = {
+					"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
+					"browser": Util.getBrowser(trackingData.browser),
+					"screenWidth": trackingData.screenWidth,
+					"screenHeight": trackingData.screenHeight
+			};
+			payload.browsers.count[userData.browser]++;
+			var newUser = new User(userData);
             var newTracker = new Tracker(newUser, trackingData.url, 1);
 			payload.trackers.push(newTracker);
-			payload.browsers.count[Util.getBrowser(trackingData.browser)]++;
 			//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 			var screenResolution = newUser.getScreenResolution();
 			if(typeof payload.screenResolutions[screenResolution] === "undefined") {
