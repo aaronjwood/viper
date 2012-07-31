@@ -58,7 +58,7 @@ socket.sockets.on('connection', function(client) {
 						"browser": Util.getBrowser(trackingData.browser),
 						"screenWidth": trackingData.screenWidth,
 						"screenHeight": trackingData.screenHeight,
-						"os": trackingData.os
+						"os": Util.getBrowser(trackingData.os)
 				};
 				payload.browsers.count[userData.browser]++;
                 var newUser = new User(userData);
@@ -71,13 +71,12 @@ socket.sockets.on('connection', function(client) {
 				else {
 					payload.screenResolutions[screenResolution]++;
 				}
-				//Get the OS and add it to the payload if it doesn't exist
-				var os = newUser.getOs();
-				if(typeof payload.os[os] === "undefined") {
-					payload.os[os] = 1;
+				//Add the OS to the payload if it doesn't exist
+				if(typeof payload.os[userData.os] === "undefined") {
+					payload.os[userData.os] = 1;
 				}
 				else {
-					payload.os[os]++;
+					payload.os[userData.os]++;
 				}
 			}
 		}
@@ -90,7 +89,7 @@ socket.sockets.on('connection', function(client) {
 					"browser": Util.getBrowser(trackingData.browser),
 					"screenWidth": trackingData.screenWidth,
 					"screenHeight": trackingData.screenHeight,
-					"os": trackingData.os
+					"os": Util.getBrowser(trackingData.os)
 			};
 			payload.browsers.count[userData.browser]++;
 			var newUser = new User(userData);
@@ -104,13 +103,12 @@ socket.sockets.on('connection', function(client) {
 			else {
 				payload.screenResolutions[screenResolution]++;
 			}
-			//Get the OS and add it to the payload if it doesn't exist
-			var os = newUser.getOs();
-			if(typeof payload.os[os] === "undefined") {
-				payload.os[os] = 1;
+			//Add the OS to the payload if it doesn't exist
+			if(typeof payload.os[userData.os] === "undefined") {
+				payload.os[userData.os] = 1;
 			}
 			else {
-				payload.os[os]++;
+				payload.os[userData.os]++;
 			}
 		}
 		

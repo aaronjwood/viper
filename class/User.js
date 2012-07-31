@@ -11,22 +11,7 @@ User.prototype.getScreenResolution = function() {
 };
 
 User.prototype.getOs = function() {
-	var os = this.os.match(/Win|Mac|UNIX|Linux/gi);
-	if(os == "Win") {
-		return "Windows";
-	}
-	else if(os == "Mac") {
-		return "Mac";
-	}
-	else if(os == "UNIX") {
-		return "Unix";
-	}
-	else if(os == "Linux") {
-		return "Linux";
-	}
-	else {
-		return "Other";
-	}
+	return this.os;
 };
 
 module.exports = User;

@@ -1,5 +1,5 @@
 var Util = function() {
-    
+	
 };
 
 //Return the browser's name
@@ -28,6 +28,25 @@ Util.getBrowser = function(browser) {
 	}
 	else if(agent == "iPhone") {
 		return "iPhone";
+	}
+	else {
+		return "Other";
+	}
+};
+
+Util.getOs = function(operatingSystem) {
+	var os = operatingSystem.match(/Win|Mac|UNIX|Linux/gi);
+	if(os == "Win") {
+		return "Windows";
+	}
+	else if(os == "Mac") {
+		return "Mac";
+	}
+	else if(os == "UNIX") {
+		return "Unix";
+	}
+	else if(os == "Linux") {
+		return "Linux";
 	}
 	else {
 		return "Other";
