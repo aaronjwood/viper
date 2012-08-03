@@ -6,15 +6,17 @@
 		var browser = window.navigator.userAgent;
 		var screenWidth = screen.width;
 		var screenHeight = screen.height;
+		var os = navigator.appVersion;
 		var tracker = {
 			"url": url,
 			"browser": browser,
 			"screenWidth": screenWidth,
-			"screenHeight": screenHeight
+			"screenHeight": screenHeight,
+			"os": os
 		};
-	    var socket = io.connect("<LISTENING SERVER>");
-	    socket.on('connect', function() {
-	        socket.send(JSON.stringify(tracker));
-	    });
+		var socket = io.connect("http://aaronjwood.com:9000");
+		socket.on('connect', function() {
+			socket.send(JSON.stringify(tracker));
+		});
 	</script>
 
