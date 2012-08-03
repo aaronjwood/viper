@@ -8,8 +8,8 @@ $(function() {
 		document.getElementById("totalConnections").innerHTML = payload.totalConnections;
 		var trackingData = "";
 		//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
-		for(var i = 0; i < payload.trackers.length; i++) {
-			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + payload.trackers[i].url + "</em> - <strong>" + payload.trackers[i].numConnections + "</strong></span><br /><br />";
+		for(var i = 0; i < payload.sentTrackers.length; i++) {
+			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + payload.sentTrackers[i].url + "</em> - <strong>" + payload.sentTrackers[i].numConnections + "</strong></span><br /><br />";
 		}
 		document.getElementById('tracking').innerHTML = trackingData;
         //If the data received is an object and has the count property, it is the browser counter
