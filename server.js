@@ -12,8 +12,7 @@ var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
 		file.serve(req, res);
 	});
-});
-viewServer.listen(config.port);
+}).listen(config.port);
 
 var socket = io.listen(viewServer);
 
