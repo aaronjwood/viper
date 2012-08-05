@@ -17,6 +17,8 @@ viewServer.listen(config.port);
 
 var socket = io.listen(viewServer);
 
+var allTrackers = [];
+
 var payload = {
 	totalConnections: 0,
 	browsers: {
@@ -32,24 +34,23 @@ var payload = {
 			"Other": 0
 		}
 	},
-	allTrackers: [],
-	sentTrackers: [],
+	trackers: [],
 	screenResolutions: {},
 	os: {}
 };
 
 socket.sockets.on('connection', function(client) {
 	//Immediately send any data available upon connection
-	payload.allTrackers.sort(Tracker.sortByConnections);
-	payload.sentTrackers = payload.allTrackers.slice(0, config.totalTrackers);
+	allTrackers.sort(Tracker.sortByConnections);
+	payload.trackers = allTrackers.slice(0, config.totalTrackers);
 	socket.sockets.json.send(payload);
 	
 	client.on('message', function(data) {
 		payload.totalConnections++;
 		var trackingData = JSON.parse(data);
 		var trackerExists = false;
-		for(var i = 0; i < payload.allTrackers.length; i++) {
-			var newTracker = payload.allTrackers[i];
+		for(var i = 0; i < allTrackers.length; i++) {
+			var newTracker = allTrackers[i];
 			//If an object already exists with the same URL, don't create a new one!
 			if(newTracker.url == trackingData.url) {
 				trackerExists = true;
@@ -96,7 +97,7 @@ socket.sockets.on('connection', function(client) {
 			payload.browsers.count[userData.browser]++;
 			var newUser = new User(userData);
             var newTracker = new Tracker(newUser, trackingData.url, 1);
-			payload.allTrackers.push(newTracker);
+			allTrackers.push(newTracker);
 			//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 			var screenResolution = newUser.getScreenResolution();
 			if(typeof payload.screenResolutions[screenResolution] === "undefined") {
@@ -115,18 +116,18 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Send the data back
-		payload.allTrackers.sort(Tracker.sortByConnections);
-		payload.sentTrackers = payload.allTrackers.slice(0, config.totalTrackers);
+		allTrackers.sort(Tracker.sortByConnections);
+		payload.trackers = allTrackers.slice(0, config.totalTrackers);
 		socket.sockets.json.send(payload);
 	});
 	
 	client.on('disconnect', function() {
         //TODO monitor this for potential future performance issues when dealing with large amounts of traffic
-		for(var i = 0; i < payload.allTrackers.length; i++) {
+		for(var i = 0; i < allTrackers.length; i++) {
             //Loop through all the trackers and then all of the sessId objects to find the right client id
-            for(var c = 0; c < payload.allTrackers[i].clients.length; c++) {
-                if(payload.allTrackers[i].clients[c].id == client.id) {
-                    var killedTracker = payload.allTrackers[i];
+            for(var c = 0; c < allTrackers[i].clients.length; c++) {
+                if(allTrackers[i].clients[c].id == client.id) {
+                    var killedTracker = allTrackers[i];
                     payload.totalConnections--;
                     killedTracker.numConnections--;
                     payload.browsers.count[killedTracker.clients[c].browser]--;
@@ -145,8 +146,8 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Send the data back
-		payload.allTrackers.sort(Tracker.sortByConnections);
-		payload.sentTrackers = payload.allTrackers.slice(0, config.totalTrackers);
+		allTrackers.sort(Tracker.sortByConnections);
+		payload.trackers = allTrackers.slice(0, config.totalTrackers);
 		socket.sockets.json.send(payload);
 	});
 	
