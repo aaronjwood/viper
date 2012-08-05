@@ -41,9 +41,7 @@ var payload = {
 
 socket.sockets.on('connection', function(client) {
 	//Immediately send any data available upon connection
-	allTrackers.sort(Tracker.sortByConnections);
-	payload.trackers = allTrackers.slice(0, config.totalTrackers);
-	socket.sockets.json.send(payload);
+	Tracker.sendPayload(allTrackers, payload, config, socket);
 	
 	client.on('message', function(data) {
 		payload.totalConnections++;
@@ -116,9 +114,7 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Send the data back
-		allTrackers.sort(Tracker.sortByConnections);
-		payload.trackers = allTrackers.slice(0, config.totalTrackers);
-		socket.sockets.json.send(payload);
+		Tracker.sendPayload(allTrackers, payload, config, socket);
 	});
 	
 	client.on('disconnect', function() {
@@ -146,9 +142,7 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Send the data back
-		allTrackers.sort(Tracker.sortByConnections);
-		payload.trackers = allTrackers.slice(0, config.totalTrackers);
-		socket.sockets.json.send(payload);
+		Tracker.sendPayload(allTrackers, payload, config, socket);
 	});
 	
 });
