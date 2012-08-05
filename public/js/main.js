@@ -1,8 +1,13 @@
 $(function() {
 	
+	function changeBrowserColor(browser) {
+		return $("."+browser.toLowerCase()+"").css("background-color");
+	}
+	
 	var socket = io.connect();
 	var tracking = document.getElementById("tracking");
 	var totalConnections = document.getElementById("totalConnections");
+	var mostPopularBrowser = document.getElementById("mostPopularBrowser");
 	var screenResContainer = document.getElementById("screenResContainer");
 	var osContainer = document.getElementById("osContainer");
 	socket.on('connect', function() {
@@ -20,16 +25,12 @@ $(function() {
 			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + tracker.url + "</em> - <strong>" + tracker.numConnections + "</strong></span><br /><br />";
 		}
 		tracking.innerHTML = trackingData;
-       	browserChart.chrome = payload.browsers.count.Chrome;
-        browserChart.ie = payload.browsers.count.IE;
-        browserChart.opera = payload.browsers.count.Opera;
-        browserChart.firefox = payload.browsers.count.Firefox;
-        browserChart.safari = payload.browsers.count.Safari;
-        browserChart.android = payload.browsers.count.Android;
-        browserChart.ipad = payload.browsers.count.iPad;
-        browserChart.iphone = payload.browsers.count.iPhone;
-        browserChart.other = payload.browsers.count.Other;
+		for(var browser in payload.browsers.count) {
+			browserChart.browsers[browser] = payload.browsers.count[browser];
+		}
         browserChart.repaint();
+        mostPopularBrowser.style.color = changeBrowserColor(mostPopularBrowser.innerHTML);
+        console.log(mostPopularBrowser.innerHTML);
         var resolutionData = "";
         for(var resolution in payload.screenResolutions) {
 			resolutionData += "<div>" + resolution + " - " + payload.screenResolutions[resolution] + "</div>";

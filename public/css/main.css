@@ -1,17 +1,53 @@
+* {
+	margin: 0;
+	padding: 0;
+}
 body {
 	background-color: black;
 	color: white;
-	font-size: 16px;
 	font-family: Verdana, sans-serif;
+	font-size: 14px;
 }
 a {
 	color: #ecb220;
+	text-decoration: none;
 }
 a:hover {
 	color: #ffd454;
 }
-#header {
-	text-transform: uppercase;
+#wrapper {
+	position: relative;
+}
+#controls {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.control {
+	border-bottom: 1px solid white;
+	border-right: 1px solid white;
+	padding: 25px;
+	font-size: 12px;
+}
+.control.title {
+	color: #ad011b;
+	font-weight: bold;
+	font-size: 30px;
+	font-family: 'Lobster', cursive;
+}
+#quickStats {
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+.stat {
+	padding: 25px;
+	border-bottom: 1px solid white;
+	border-left: 1px solid white;
+}
+#content {
+	width: 1000px;
+	margin: 0 200px;
 }
 .clear {
 	clear: both;
@@ -31,7 +67,7 @@ a:hover {
 	color: white;
 }
 #totalConnections {
-	color: #75ff75;
+	color: #4cb848;
 	font-weight: bold;
 }
 
@@ -44,7 +80,7 @@ a:hover {
 }
 #browserTotal {
 	position: absolute;
-	
+	top: 0;
 }
 #browserZero {
 	position: absolute;
@@ -52,7 +88,7 @@ a:hover {
 }
 #chartBars {
 	margin-left: 30px;
-	width: 1100px;
+	width: 1000px;
 	height: 200px;
 	border-bottom: 1px solid black;
 	border-left: 1px solid black;
@@ -62,7 +98,7 @@ a:hover {
 }
 .chart {
 	position: relative;
-	width: 100px;
+	width: 90px;
 	height: 200px;
 	overflow: hidden;
 	float: left;
@@ -81,10 +117,9 @@ a:hover {
 }
 .chartLabel {
 	float: left;
-	width: 100px;
+	width: 95px;
 	margin: 0 10px 0 10px;
 	text-align: center;
-	font-weight: bold;
 }
 .chrome {
 	background: #4cb848;

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Viper</title>
+<link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="/css/main.css" />
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -9,94 +10,110 @@
 <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
-
-<div id="header">
-	<h1>Viper</h1>
-	<h2>Top 10 viewed pages in <span style="color: #eab323;">real time</span></h2>
-</div>
-
-<br />
-<div class="total">Total connections: <span id="totalConnections">0</span></div>
-<br />
-
-<div id="tracking"></div>
-
-<div id="browserCount"></div>
-<br />
-
-<div id="browserChartContainer">
-    <div id="chartNumbers">
-		<div id="browserTotal"></div>
-		<div id="browserZero">0</div>
-	</div>
-	<div id="chartBars">
-		<div class="chart">
-			<div class="chrome chartInner">
-				<div class="chartCount"></div>
-			</div>
+<div id="wrapper">
+	<div id="controls">
+		<div class="control title">
+		Viper
 		</div>
-		<div class="chart">
-			<div class="opera chartInner">
-				<div class="chartCount"></div>
-			</div>
+		<div class="control">
+		<a href="#">Pages</a>
 		</div>
-		<div class="chart">
-			<div class="ie chartInner">
-				<div class="chartCount"></div>
-			</div>
+		<div class="control">
+		<a href="#">Browsers</a>
 		</div>
-		<div class="chart">
-			<div class="firefox chartInner">
-				<div class="chartCount"></div>
-			</div>
+		<div class="control">
+		<a href="#">Resolutions</a>
 		</div>
-		<div class="chart">
-			<div class="safari chartInner">
-				<div class="chartCount"></div>
-			</div>
-		</div>
-		<div class="chart">
-			<div class="android chartInner">
-				<div class="chartCount"></div>
-			</div>
-		</div>
-		<div class="chart">
-			<div class="ipad chartInner">
-				<div class="chartCount"></div>
-			</div>
-		</div>
-		<div class="chart">
-			<div class="iphone chartInner">
-				<div class="chartCount"></div>
-			</div>
-		</div>
-		<div class="chart">
-			<div class="other chartInner">
-				<div class="chartCount"></div>
-			</div>
+		<div class="control">
+		<a href="#">Operating Systems</a>
 		</div>
 	</div>
-	<div id="chartLabels">
-		<div class="chartLabel">Chrome</div>
-		<div class="chartLabel">Opera</div>
-		<div class="chartLabel">Internet Explorer</div>
-		<div class="chartLabel">Firefox</div>
-		<div class="chartLabel">Safari</div>
-		<div class="chartLabel">Android</div>
-		<div class="chartLabel">iPad</div>
-		<div class="chartLabel">iPhone</div>
-		<div class="chartLabel">Other</div>
+	<div id="content">
+		<div id="tracking"></div>
+		
+		<div id="browserChartContainer">
+		    <div id="chartNumbers">
+				<div id="browserTotal"></div>
+				<div id="browserZero">0</div>
+			</div>
+			<div id="chartBars">
+				<div class="chart">
+					<div class="chrome chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="opera chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="ie chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="firefox chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="safari chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="android chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="ipad chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="iphone chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+				<div class="chart">
+					<div class="other chartInner">
+						<div class="chartCount"></div>
+					</div>
+				</div>
+			</div>
+			<div id="chartLabels">
+				<div class="chartLabel">Chrome</div>
+				<div class="chartLabel">Opera</div>
+				<div class="chartLabel">Internet Explorer</div>
+				<div class="chartLabel">Firefox</div>
+				<div class="chartLabel">Safari</div>
+				<div class="chartLabel">Android</div>
+				<div class="chartLabel">iPad</div>
+				<div class="chartLabel">iPhone</div>
+				<div class="chartLabel">Other</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br />
+		<div id="screenResContainer">
+			
+		</div>
+		<br />
+		<div id="osContainer">
+		
+		</div>
 	</div>
+	<div id="quickStats">
+		<div class="stat">
+			Total connections: <span id="totalConnections">0</span>
+		</div>
+		<div class="stat">
+			Most popular browser: <span id="mostPopularBrowser"></span>
+		</div>
+	</div>
+	<div class="clear"></div>
 </div>
-<div class="clear"></div>
-<br />
-<div id="screenResContainer">
-	
-</div>
-<br />
-<div id="osContainer">
-
-</div>
-
 </body>
 </html>
