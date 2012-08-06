@@ -4,6 +4,8 @@ $(function() {
 		return $("."+browser.toLowerCase()+"").css("background-color");
 	}
 	
+	browserChart.init();
+	
 	var socket = io.connect();
 	var tracking = document.getElementById("tracking");
 	var totalConnections = document.getElementById("totalConnections");
@@ -30,7 +32,6 @@ $(function() {
 		}
         browserChart.repaint();
         mostPopularBrowser.style.color = changeBrowserColor(mostPopularBrowser.innerHTML);
-        console.log(mostPopularBrowser.innerHTML);
         var resolutionData = "";
         for(var resolution in payload.screenResolutions) {
 			resolutionData += "<div>" + resolution + " - " + payload.screenResolutions[resolution] + "</div>";

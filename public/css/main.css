@@ -40,13 +40,18 @@ a:hover {
 	top: 0;
 	right: 0;
 }
+.statsHeader {
+	font-weight: bold;
+	color: #AD011B;
+	font-size: 17px;
+}
 .stat {
-	padding: 25px;
+	padding: 12px;
 	border-bottom: 1px solid white;
 	border-left: 1px solid white;
 }
 #content {
-	width: 1000px;
+	width: 1100px;
 	margin: 0 200px;
 }
 .clear {
@@ -67,7 +72,7 @@ a:hover {
 	color: white;
 }
 #totalConnections {
-	color: #4cb848;
+	color: #ECB220;
 	font-weight: bold;
 }
 
