@@ -77,7 +77,7 @@ a:hover {
 }
 
 /* Chart */
-#browserChartContainer {
+#browsers {
     position: relative;
 }
 #chartNumbers {

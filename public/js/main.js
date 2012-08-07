@@ -7,18 +7,19 @@ $(function() {
 	browserChart.init();
 	
 	var socket = io.connect();
-	var tracking = document.getElementById("tracking");
+	var pages = document.getElementById("pages");
 	var totalConnections = document.getElementById("totalConnections");
 	var mostPopularBrowser = document.getElementById("mostPopularBrowser");
-	var screenResContainer = document.getElementById("screenResContainer");
-	var osContainer = document.getElementById("osContainer");
+	var screenResContainer = document.getElementById("resolutions");
+	var osContainer = document.getElementById("os");
 	socket.on('connect', function() {
-		tracking.innerHTML = "<span class='waiting'>Gathering statistics and processing data...</span>";
+		//TODO activate first panel
+		//TODO think about how to show/hide the various panels
 	});
 	socket.on('message', function(payload) {
 		totalConnections.innerHTML = payload.totalConnections;
 		var trackingData = "";
-		//For each of the tracker objects in the array, get the data we want out of it and push it into the trackingData variable
+		//For each of the tracker objects, get the data we want out of it
 		for(var i = 0; i < payload.trackers.length; i++) {
 			var tracker = payload.trackers[i];
 			if(tracker.numConnections == 0) {
@@ -26,7 +27,7 @@ $(function() {
 			}
 			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + tracker.url + "</em> - <strong>" + tracker.numConnections + "</strong></span><br /><br />";
 		}
-		tracking.innerHTML = trackingData;
+		pages.innerHTML = trackingData;
 		for(var browser in payload.browsers.count) {
 			browserChart.browsers[browser] = payload.browsers.count[browser];
 		}
