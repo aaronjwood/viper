@@ -1,7 +1,9 @@
 $(function() {
 	
 	function changeBrowserColor(browser) {
-		return $("."+browser.toLowerCase()+"").css("background-color");
+		if(browser) {
+			return $("."+browser.toLowerCase()).css("background-color");
+		}
 	}
 	
 	browserChart.init();
@@ -12,6 +14,7 @@ $(function() {
 	var mostPopularBrowser = document.getElementById("mostPopularBrowser");
 	var screenResContainer = document.getElementById("resolutions");
 	var osContainer = document.getElementById("os");
+	
 	socket.on('connect', function() {
 		//TODO activate first panel
 		//TODO think about how to show/hide the various panels
