@@ -1,46 +1,28 @@
 var browserChart = {
 	browsers: {},
-	browserTotal: null,
-	mostPopularBrowser: null,
-	chromeCount: null,
-	ieCount: null,
-	operaCount: null,
-	firefoxCount: null,
-	safariCount: null,
-	androidCount: null,
-	ipadCount: null,
-	iphoneCount: null,
-	otherCount: null,
-	chrome: null,
-	ie: null,
-	opera: null,
-	firefox: null,
-	safari: null,
-	android: null,
-	ipad: null,
-	iphone: null,
-	other: null,
+	counts: {},
+	bars: {},
 	init: function() {
 		this.browserTotal = $("#browserTotal");
 		this.mostPopularBrowser = $("#mostPopularBrowser");
-		this.chromeCount = $(".chrome .chartCount");
-		this.ieCount = $(".ie .chartCount");
-		this.operaCount = $(".opera .chartCount");
-		this.firefoxCount = $(".firefox .chartCount");
-		this.safariCount = $(".safari .chartCount");
-		this.androidCount = $(".android .chartCount");
-		this.ipadCount = $(".ipad .chartCount");
-		this.iphoneCount = $(".iphone .chartCount");
-		this.otherCount = $(".other .chartCount");
-		this.chrome = $(".chrome");
-		this.ie = $(".ie");
-		this.opera = $(".opera");
-		this.firefox = $(".firefox");
-		this.safari = $(".safari");
-		this.android = $(".android");
-		this.ipad = $(".ipad");
-		this.iphone = $(".iphone");
-		this.other = $(".other");
+		this.counts.Chrome = $(".chrome .chartCount");
+		this.counts.IE = $(".ie .chartCount");
+		this.counts.Opera = $(".opera .chartCount");
+		this.counts.Firefox = $(".firefox .chartCount");
+		this.counts.Safari = $(".safari .chartCount");
+		this.counts.Android = $(".android .chartCount");
+		this.counts.iPad = $(".ipad .chartCount");
+		this.counts.iPhone = $(".iphone .chartCount");
+		this.counts.Other = $(".other .chartCount");
+		this.bars.Chrome = $(".chrome");
+		this.bars.IE = $(".ie");
+		this.bars.Opera = $(".opera");
+		this.bars.Firefox = $(".firefox");
+		this.bars.Safari = $(".safari");
+		this.bars.Android = $(".android");
+		this.bars.iPad = $(".ipad");
+		this.bars.iPhone = $(".iphone");
+		this.bars.Other = $(".other");
 	},
 	total: function() {
 		var total = 0;
@@ -71,28 +53,16 @@ var browserChart = {
 		return -barHeight;
 	},
 	updateChartCounts: function() {
-		this.chromeCount.text(this.browsers.Chrome);
-		this.ieCount.text(this.browsers.IE);
-		this.operaCount.text(this.browsers.Opera);
-		this.firefoxCount.text(this.browsers.Firefox);
-		this.safariCount.text(this.browsers.Safari);
-		this.androidCount.text(this.browsers.Android);
-		this.ipadCount.text(this.browsers.iPad);
-		this.iphoneCount.text(this.browsers.iPhone);
-		this.otherCount.text(this.browsers.Other);
+		for(var count in this.counts) {
+			this.counts[count].text(this.browsers[count]);
+		}
 	},
 	repaint: function() {
 		this.browserTotal.text(this.total());
-		this.chrome.stop().animate({"bottom": this.height("Chrome")});
-		this.ie.stop().animate({"bottom": this.height("IE")});
-		this.opera.stop().animate({"bottom": this.height("Opera")});
-		this.firefox.stop().animate({"bottom": this.height("Firefox")});
-		this.safari.stop().animate({"bottom": this.height("Safari")});
-		this.android.stop().animate({"bottom": this.height("Android")});
-		this.ipad.stop().animate({"bottom": this.height("iPad")});
-		this.iphone.stop().animate({"bottom": this.height("iPhone")});
-		this.other.stop().animate({"bottom": this.height("Other")});
 		this.mostPopularBrowser.text(this.mostPopular());
 		this.updateChartCounts();
+		for(var bar in this.bars) {
+			this.bars[bar].stop().animate({"bottom": this.height(bar)});
+		}
 	}
 };
