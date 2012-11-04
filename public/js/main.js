@@ -1,3 +1,9 @@
+function changeBrowserColor(browser) {
+	if(browser) {
+		return $("."+browser.toLowerCase()).css("background-color");
+	}
+}
+
 $(function() {
 	
 	$("#showQuickStats").on("click", function(e) {
@@ -10,11 +16,13 @@ $(function() {
 		return false;
 	});
 	
-	function changeBrowserColor(browser) {
-		if(browser) {
-			return $("."+browser.toLowerCase()).css("background-color");
-		}
-	}
+	$(".control a").on("click", function() {
+		var control = $(this).attr("class");
+		$(".activeControl").slideUp(400, function() {
+			$("#"+control).slideDown(400).addClass("activeControl");
+		}).removeClass("activeControl");
+		return false;
+	});
 	
 	browserChart.init();
 	
