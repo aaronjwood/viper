@@ -1,5 +1,15 @@
 $(function() {
 	
+	$("#showQuickStats").on("click", function(e) {
+		if(parseInt($("#quickStats").css("top")) != 0) {
+			$("#quickStats").animate({"top": 0});
+		}
+		else {
+			$("#quickStats").animate({"top": -84});
+		}
+		return false;
+	});
+	
 	function changeBrowserColor(browser) {
 		if(browser) {
 			return $("."+browser.toLowerCase()).css("background-color");

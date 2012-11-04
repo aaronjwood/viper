@@ -24,8 +24,8 @@ a:hover {
 	left: 0;
 }
 .control {
-	border-bottom: 1px solid white;
-	border-right: 1px solid white;
+	border-bottom: 2px solid white;
+	border-right: 2px solid white;
 	padding: 25px;
 	font-size: 12px;
 }
@@ -35,20 +35,33 @@ a:hover {
 	font-size: 30px;
 	font-family: 'Lobster', cursive;
 }
+.control.last {
+	border-radius: 0 0 10px 0;
+}
 #quickStats {
 	position: fixed;
-	top: 0;
+	top: -84px;
 	right: 0;
+	background: black;
 }
-.statsHeader {
+#quickStatsButton {
+	text-align: center;
 	font-weight: bold;
-	color: #AD011B;
 	font-size: 17px;
+	background: #AD011B;
+	border-radius: 0 0 10px 10px;
+	padding: 5px;
+}
+#quickStatsButton a {
+	color: white;
 }
 .stat {
 	padding: 12px;
 	border-bottom: 1px solid white;
 	border-left: 1px solid white;
+}
+.stat.last {
+	border-bottom: none;
 }
 #content {
 	width: 1100px;
@@ -114,6 +127,7 @@ a:hover {
 	height: 100%;
 	bottom: -200px;
 	position: relative;
+	border-radius: 7px 7px 0 0;
 }
 .chartCount {
 	text-align: center;
