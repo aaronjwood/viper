@@ -14,7 +14,9 @@ var viewServer = http.createServer(function(req, res) {
 	});
 }).listen(config.port);
 
-var socket = io.listen(viewServer);
+var socket = io.listen(viewServer, {
+	"log level": 0
+});
 
 var allTrackers = {};
 
@@ -67,18 +69,18 @@ socket.sockets.on('connection', function(client) {
 		}
 		//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 		var screenResolution = newUser.getScreenResolution();
-		if(typeof payload.screenResolutions[screenResolution] === "undefined") {
-			payload.screenResolutions[screenResolution] = 1;
-		}
-		else {
+		if(payload.screenResolutions[screenResolution]) {
 			payload.screenResolutions[screenResolution]++;
 		}
+		else {
+			payload.screenResolutions[screenResolution] = 1;
+		}
 		//Add the OS to the payload if it doesn't exist
-		if(typeof payload.os[userData.os] === "undefined") {
-			payload.os[userData.os] = 1;
+		if(payload.os[userData.os]) {
+			payload.os[userData.os]++;
 		}
 		else {
-			payload.os[userData.os]++;
+			payload.os[userData.os] = 1;
 		}
 		
 		//Send the data back
@@ -98,10 +100,24 @@ socket.sockets.on('connection', function(client) {
 			payload.browsers.count[killedTracker.browser]--;
 			//Decrement the appropriate screen resolution count
 			payload.screenResolutions[killedTracker.getScreenResolution()]--;
+			//Remove the resolution if the count is 0
+			if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
+				delete payload.screenResolutions[killedTracker.getScreenResolution()];
+			}
 			//Decrement the appropriate operating system count
 			payload.os[killedTracker.getOs()]--;
-			//Remove the actual client
-			delete allTrackers[client.url].clients[client.id];
+			//Remove the operating system if the count is 0
+			if(payload.os[killedTracker.getOs()] == 0) {
+				delete payload.os[killedTracker.getOs()];
+			}
+			//Remove the URL if there are no connections to it
+			if(allTrackers[client.url].numConnections == 0) {
+				delete allTrackers[client.url];
+			}
+			//Otherwise remove the specific client
+			else {
+				delete allTrackers[client.url].clients[client.id];
+			}
 		}
 		
 		//Send the data back after manipulation
