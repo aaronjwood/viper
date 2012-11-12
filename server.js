@@ -35,7 +35,7 @@ var payload = {
 			"Other": 0
 		}
 	},
-	trackers: allTrackers,
+	trackers: [],
 	screenResolutions: {},
 	os: {}
 };
