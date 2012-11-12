@@ -39,6 +39,7 @@ a:hover {
 	position: fixed;
 	top: -84px;
 	right: 0;
+	width: 250px;
 	background: black;
 }
 #quickStatsButton {
@@ -153,7 +154,7 @@ a:hover {
 	background: #c70f17;
 }
 .safari {
-	background: #d9d9d9;
+	background: #cd3f00;
 }
 .android {
 	background: #8dd215;
@@ -162,7 +163,7 @@ a:hover {
 	background: #717171;
 }
 .iphone {
-	background: #000000;
+	background: #343d46;
 }
 .other {
 	background: #871F78;
