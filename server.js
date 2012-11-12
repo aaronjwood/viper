@@ -38,9 +38,6 @@ var payload = {
 	os: {}
 };
 
-//Keep track of the most recently accessed URL
-var clientUrl;
-
 socket.sockets.on('connection', function(client) {
 	//Immediately send any data available upon connection
 	Tracker.sendPayload(allTrackers, payload, config, socket);
@@ -48,8 +45,7 @@ socket.sockets.on('connection', function(client) {
 	client.on('message', function(data) {
 		payload.totalConnections++;
 		var trackingData = JSON.parse(data);
-		clientUrl = trackingData.url;
-		
+		client["url"] = trackingData.url;
 		//The client id uniquely identifies a user
 		var userData = {
 				"sessionId": client.id,
@@ -91,13 +87,13 @@ socket.sockets.on('connection', function(client) {
 	
 	client.on('disconnect', function() {
 		//Get the appropriate tracker to work with
-		var killedTracker = allTrackers[clientUrl].clients[client.id];
-		//TODO can we detect disconnections only from a certain socket? We don't want to trigger this for dashboard disconnects
-		if(killedTracker) {
+		if(allTrackers[client.url]) {
+			var killedTracker = allTrackers[client.url].clients[client.id];
+			//TODO can we detect disconnections only from a certain socket? We don't want to trigger this for dashboard disconnects
 			//Decrement the total connections
 			payload.totalConnections--;
 			//Decrement the number of connections to a given URL
-			allTrackers[clientUrl].numConnections--;
+			allTrackers[client.url].numConnections--;
 			//Decrement the appropriate browser count
 			payload.browsers.count[killedTracker.browser]--;
 			//Decrement the appropriate screen resolution count
@@ -105,7 +101,7 @@ socket.sockets.on('connection', function(client) {
 			//Decrement the appropriate operating system count
 			payload.os[killedTracker.getOs()]--;
 			//Remove the actual client
-			delete allTrackers[clientUrl].clients[client.id];
+			delete allTrackers[client.url].clients[client.id];
 		}
 		
 		//Send the data back after manipulation
