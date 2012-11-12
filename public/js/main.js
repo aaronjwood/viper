@@ -40,13 +40,16 @@ $(function() {
 	socket.on('message', function(payload) {
 		totalConnections.innerHTML = payload.totalConnections;
 		var trackingData = "";
-		//For each of the tracker objects, get the data we want out of it
-		for(var i = 0; i < payload.trackers.length; i++) {
-			var tracker = payload.trackers[i];
-			if(tracker.numConnections == 0) {
-				continue;
+		//Get the URL and number of connections for each tracker
+		
+		var i = 0; //Temporary counter until tracker sorting is implemented again
+		for(var tracker in payload.trackers) {
+			trackingData += "<span class='tracker'><em>" + tracker + "</em> - <strong>" + payload.trackers[tracker].numConnections + "</strong></span><br /><br />";
+			//Temporary until tracker sorting is implemented again
+			if(i == 10) {
+				break;
 			}
-			trackingData += "<span class='tracker'><span class='num'>" + (i+1) + ".</span> <em>" + tracker.url + "</em> - <strong>" + tracker.numConnections + "</strong></span><br /><br />";
+			i++;
 		}
 		pages.innerHTML = trackingData;
 		for(var browser in payload.browsers.count) {

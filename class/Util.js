@@ -1,10 +1,8 @@
-var Util = function() {
-	
-};
+var Util = function() {};
 
 //Return the browser's name
 Util.getBrowser = function(browser) {
-    var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
+	var agent = browser.match(/Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/i);
 	if(agent == "Chrome") {
 		return "Chrome";
 	}

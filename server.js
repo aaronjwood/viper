@@ -16,7 +16,7 @@ var viewServer = http.createServer(function(req, res) {
 
 var socket = io.listen(viewServer);
 
-var allTrackers = [];
+var allTrackers = {};
 
 var payload = {
 	totalConnections: 0,
@@ -33,10 +33,13 @@ var payload = {
 			"Other": 0
 		}
 	},
-	trackers: [],
+	trackers: allTrackers,
 	screenResolutions: {},
 	os: {}
 };
+
+//Keep track of the most recently accessed URL
+var clientUrl;
 
 socket.sockets.on('connection', function(client) {
 	//Immediately send any data available upon connection
@@ -45,71 +48,41 @@ socket.sockets.on('connection', function(client) {
 	client.on('message', function(data) {
 		payload.totalConnections++;
 		var trackingData = JSON.parse(data);
-		var trackerExists = false;
-		for(var i = 0; i < allTrackers.length; i++) {
-			var newTracker = allTrackers[i];
-			//If an object already exists with the same URL, don't create a new one!
-			if(newTracker.url == trackingData.url) {
-				trackerExists = true;
-				newTracker.numConnections++;
-				//Set up an object to hold the data being tracked
-				var userData = {
-						"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
-						"browser": Util.getBrowser(trackingData.browser),
-						"screenWidth": trackingData.screenWidth,
-						"screenHeight": trackingData.screenHeight,
-						"os": Util.getOs(trackingData.os)
-				};
-				payload.browsers.count[userData.browser]++;
-                var newUser = new User(userData);
-				newTracker.clients.push(newUser);
-				//Get the string value for the screen resolution and add it to the payload if it doesn't exist
-				var screenResolution = newUser.getScreenResolution();
-				if(typeof payload.screenResolutions[screenResolution] === "undefined") {
-					payload.screenResolutions[screenResolution] = 1;
-				}
-				else {
-					payload.screenResolutions[screenResolution]++;
-				}
-				//Add the OS to the payload if it doesn't exist
-				if(typeof payload.os[userData.os] === "undefined") {
-					payload.os[userData.os] = 1;
-				}
-				else {
-					payload.os[userData.os]++;
-				}
-			}
-		}
+		clientUrl = trackingData.url;
 		
-		//Otherwise, create a new user/tracker, set the appropriate values, and increment the browser count
-		if(!trackerExists) {
-			//Set up an object to hold the data being tracked
-			var userData = {
-					"sessionId": client.id, //We need the session id to accurately increment or decrement the number of connections to a given URL
-					"browser": Util.getBrowser(trackingData.browser),
-					"screenWidth": trackingData.screenWidth,
-					"screenHeight": trackingData.screenHeight,
-					"os": Util.getOs(trackingData.os)
-			};
-			payload.browsers.count[userData.browser]++;
-			var newUser = new User(userData);
-            var newTracker = new Tracker(newUser, trackingData.url, 1);
-			allTrackers.push(newTracker);
-			//Get the string value for the screen resolution and add it to the payload if it doesn't exist
-			var screenResolution = newUser.getScreenResolution();
-			if(typeof payload.screenResolutions[screenResolution] === "undefined") {
-				payload.screenResolutions[screenResolution] = 1;
-			}
-			else {
-				payload.screenResolutions[screenResolution]++;
-			}
-			//Add the OS to the payload if it doesn't exist
-			if(typeof payload.os[userData.os] === "undefined") {
-				payload.os[userData.os] = 1;
-			}
-			else {
-				payload.os[userData.os]++;
-			}
+		//The client id uniquely identifies a user
+		var userData = {
+				"sessionId": client.id,
+				"browser": Util.getBrowser(trackingData.browser),
+				"screenWidth": trackingData.screenWidth,
+				"screenHeight": trackingData.screenHeight,
+				"os": Util.getOs(trackingData.os)
+		};
+		payload.browsers.count[userData.browser]++;
+		var newUser = new User(userData);
+		if(allTrackers[trackingData.url]) {
+			allTrackers[trackingData.url].numConnections++;
+			allTrackers[trackingData.url].clients[client.id] = newUser;
+		}
+		else {
+			var newTracker = new Tracker(newUser, trackingData.url);
+			allTrackers[trackingData.url] = newTracker;
+			allTrackers[trackingData.url].numConnections = 1;
+		}
+		//Get the string value for the screen resolution and add it to the payload if it doesn't exist
+		var screenResolution = newUser.getScreenResolution();
+		if(typeof payload.screenResolutions[screenResolution] === "undefined") {
+			payload.screenResolutions[screenResolution] = 1;
+		}
+		else {
+			payload.screenResolutions[screenResolution]++;
+		}
+		//Add the OS to the payload if it doesn't exist
+		if(typeof payload.os[userData.os] === "undefined") {
+			payload.os[userData.os] = 1;
+		}
+		else {
+			payload.os[userData.os]++;
 		}
 		
 		//Send the data back
@@ -117,30 +90,25 @@ socket.sockets.on('connection', function(client) {
 	});
 	
 	client.on('disconnect', function() {
-        //TODO monitor this for potential future performance issues when dealing with large amounts of traffic
-		for(var i = 0; i < allTrackers.length; i++) {
-            //Loop through all the trackers and then all of the sessId objects to find the right client id
-            for(var c = 0; c < allTrackers[i].clients.length; c++) {
-                if(allTrackers[i].clients[c].id == client.id) {
-                    var killedTracker = allTrackers[i];
-                    payload.totalConnections--;
-                    killedTracker.numConnections--;
-                    payload.browsers.count[killedTracker.clients[c].browser]--;
-                    //Get the string value of the user's screen resolution
-                    var screenResolution = killedTracker.clients[c].getScreenResolution();
-                    //Decrement the count in the payload for the appropriate resolution
-                    payload.screenResolutions[screenResolution]--;
-                    //Get the OS
-                    var os = killedTracker.clients[c].getOs();
-                    //Decrement the count in the payload for the appropriate OS
-                    payload.os[os]--;
-                    //Remove the user object from the array
-                    killedTracker.clients.splice(c, 1);
-                }
-            }
+		//Get the appropriate tracker to work with
+		var killedTracker = allTrackers[clientUrl].clients[client.id];
+		//TODO can we detect disconnections only from a certain socket? We don't want to trigger this for dashboard disconnects
+		if(killedTracker) {
+			//Decrement the total connections
+			payload.totalConnections--;
+			//Decrement the number of connections to a given URL
+			allTrackers[clientUrl].numConnections--;
+			//Decrement the appropriate browser count
+			payload.browsers.count[killedTracker.browser]--;
+			//Decrement the appropriate screen resolution count
+			payload.screenResolutions[killedTracker.getScreenResolution()]--;
+			//Decrement the appropriate operating system count
+			payload.os[killedTracker.getOs()]--;
+			//Remove the actual client
+			delete allTrackers[clientUrl].clients[client.id];
 		}
 		
-		//Send the data back
+		//Send the data back after manipulation
 		Tracker.sendPayload(allTrackers, payload, config, socket);
 	});
 	
