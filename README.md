@@ -1,5 +1,5 @@
 # Demo
-Demo currently unavailable until some performance issues are addressed
+A rough demo can be viewed [here](http://aaronjwood.com:9000/). Keep in mind that this program is still in the very early stages.
 
 # Tracking Code
 
