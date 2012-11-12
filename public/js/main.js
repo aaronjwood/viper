@@ -34,8 +34,7 @@ $(function() {
 	var osContainer = document.getElementById("os");
 	
 	socket.on('connect', function() {
-		//TODO activate first panel
-		//TODO think about how to show/hide the various panels
+		$("#browsers").slideDown(400).addClass("activeControl");
 	});
 	socket.on('message', function(payload) {
 		totalConnections.innerHTML = payload.totalConnections;

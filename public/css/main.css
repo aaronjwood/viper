@@ -52,7 +52,7 @@ a:hover {
 #quickStatsButton a {
 	color: white;
 }
-#browsers, #resolutions, #os {
+.section {
 	display: none;
 }
 .stat {
