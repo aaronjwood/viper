@@ -44,9 +44,6 @@ $(function() {
 		
 		var i = 0; //Temporary counter until tracker sorting is implemented again
 		for(var tracker in payload.trackers) {
-			/*if(payload.trackers[tracker].numConnections == 0) {
-				continue;
-			}*/
 			trackingData += "<span class='tracker'><em>" + tracker + "</em> - <strong>" + payload.trackers[tracker].numConnections + "</strong></span><br /><br />";
 			//Temporary until tracker sorting is implemented again
 			if(i == 10) {
