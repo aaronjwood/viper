@@ -1,5 +1,5 @@
 # Demo
-A rough demo can be viewed [here](http://aaronjwood.com:9000/). Keep in mind that this program is still in the very early stages.
+A rough demo can be viewed [here](http://aaronjwood.dyndns.org:9000/). Keep in mind that this program is still in the very early stages.
 
 # Tracking Code
 
@@ -17,7 +17,7 @@ A rough demo can be viewed [here](http://aaronjwood.com:9000/). Keep in mind tha
 			"screenHeight": screenHeight,
 			"os": os
 		};
-		var socket = io.connect("http://aaronjwood.com:9000");
+		var socket = io.connect("http://aaronjwood.dyndns.org:9000");
 		socket.on('connect', function() {
 			socket.send(JSON.stringify(tracker));
 		});
