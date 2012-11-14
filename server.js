@@ -18,8 +18,10 @@ var socket = io.listen(viewServer, {
 	"log level": 0
 });
 
+//Object to hold all trackers
 var allTrackers = {};
 
+//Data that will be sent to the dashboard
 var payload = {
 	totalConnections: 0,
 	browsers: {
@@ -44,29 +46,37 @@ socket.sockets.on('connection', function(client) {
 	//Immediately send any data available upon connection
 	Tracker.sendPayload(allTrackers, payload, config, socket);
 	
-	client.on('message', function(data) {
+	//When a tracker emits a beacon then do necessary processing
+	client.on('beacon', function(data) {
 		payload.totalConnections++;
-		var trackingData = JSON.parse(data);
-		client["url"] = trackingData.url;
+		client["url"] = data.url;
+		
 		//The client id uniquely identifies a user
 		var userData = {
 				"sessionId": client.id,
-				"browser": Util.getBrowser(trackingData.browser),
-				"screenWidth": trackingData.screenWidth,
-				"screenHeight": trackingData.screenHeight,
-				"os": Util.getOs(trackingData.os)
+				"browser": Util.getBrowser(data.browser),
+				"screenWidth": data.screenWidth,
+				"screenHeight": data.screenHeight,
+				"os": Util.getOs(data.os)
 		};
+		
+		//Increment the appropriate browser count
 		payload.browsers.count[userData.browser]++;
 		var newUser = new User(userData);
-		if(allTrackers[trackingData.url]) {
-			allTrackers[trackingData.url].numConnections++;
-			allTrackers[trackingData.url].clients[client.id] = newUser;
+		
+		//If an object tracking the URL already exists then increment the number of connections and assign the new user
+		if(allTrackers[data.url]) {
+			allTrackers[data.url].numConnections++;
+			allTrackers[data.url].clients[client.id] = newUser;
 		}
+		
+		//Otherwise create a new tracker and user and assign it to the URL
 		else {
-			var newTracker = new Tracker(newUser, trackingData.url);
-			allTrackers[trackingData.url] = newTracker;
-			allTrackers[trackingData.url].numConnections = 1;
+			var newTracker = new Tracker(newUser, data.url);
+			allTrackers[data.url] = newTracker;
+			allTrackers[data.url].numConnections = 1;
 		}
+		
 		//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 		var screenResolution = newUser.getScreenResolution();
 		if(payload.screenResolutions[screenResolution]) {
@@ -75,6 +85,7 @@ socket.sockets.on('connection', function(client) {
 		else {
 			payload.screenResolutions[screenResolution] = 1;
 		}
+		
 		//Add the OS to the payload if it doesn't exist
 		if(payload.os[userData.os]) {
 			payload.os[userData.os]++;
@@ -88,32 +99,42 @@ socket.sockets.on('connection', function(client) {
 	});
 	
 	client.on('disconnect', function() {
+		
 		//Get the appropriate tracker to work with
 		if(allTrackers[client.url]) {
 			var killedTracker = allTrackers[client.url].clients[client.id];
+			
 			//TODO can we detect disconnections only from a certain socket? We don't want to trigger this for dashboard disconnects
 			//Decrement the total connections
 			payload.totalConnections--;
+			
 			//Decrement the number of connections to a given URL
 			allTrackers[client.url].numConnections--;
+			
 			//Decrement the appropriate browser count
 			payload.browsers.count[killedTracker.browser]--;
+			
 			//Decrement the appropriate screen resolution count
 			payload.screenResolutions[killedTracker.getScreenResolution()]--;
+			
 			//Remove the resolution if the count is 0
 			if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
 				delete payload.screenResolutions[killedTracker.getScreenResolution()];
 			}
+			
 			//Decrement the appropriate operating system count
 			payload.os[killedTracker.getOs()]--;
+			
 			//Remove the operating system if the count is 0
 			if(payload.os[killedTracker.getOs()] == 0) {
 				delete payload.os[killedTracker.getOs()];
 			}
+			
 			//Remove the URL if there are no connections to it
 			if(allTrackers[client.url].numConnections == 0) {
 				delete allTrackers[client.url];
 			}
+			
 			//Otherwise remove the specific client
 			else {
 				delete allTrackers[client.url].clients[client.id];
