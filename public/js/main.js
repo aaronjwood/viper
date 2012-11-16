@@ -35,6 +35,7 @@ $(function() {
 	
 	socket.on('connect', function() {
 		$("#browsers").slideDown(400).addClass("activeControl");
+		socket.emit("sendStats");
 	});
 	socket.on('message', function(payload) {
 		totalConnections.innerHTML = payload.totalConnections;

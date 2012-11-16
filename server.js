@@ -43,8 +43,11 @@ var payload = {
 };
 
 socket.sockets.on('connection', function(client) {
-	//Immediately send any data available upon connection
-	Tracker.sendPayload(allTrackers, payload, config, socket);
+	
+	//Immediately send stats to the dashboard if requested
+	client.on('sendStats', function() {
+		Tracker.sendPayload(allTrackers, payload, config, socket);
+	});
 	
 	//When a tracker emits a beacon then do necessary processing
 	client.on('beacon', function(data) {
@@ -103,46 +106,50 @@ socket.sockets.on('connection', function(client) {
 	//TODO can we detect disconnections from a certain page? We don't want to trigger this for dashboard disconnects
 	client.on('disconnect', function() {
 		
-		//Decrement the total connections
-		payload.totalConnections--;
-		
-		//Get the appropriate tracker to work with
-		var killedTracker = allTrackers[client.url].clients[client.id];
-		
-		//Decrement the number of connections to a given URL
-		allTrackers[client.url].numConnections--;
-		
-		//Decrement the appropriate browser count
-		payload.browsers.count[killedTracker.browser]--;
-		
-		//Decrement the appropriate screen resolution count
-		payload.screenResolutions[killedTracker.getScreenResolution()]--;
-		
-		//Remove the resolution if the count is 0
-		if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
-			delete payload.screenResolutions[killedTracker.getScreenResolution()];
+		//Ignore disconnects from the dashboard
+		if(allTrackers[client.url]) {
+			
+			//Decrement the total connections
+			payload.totalConnections--;
+			
+			//Get the appropriate tracker to work with
+			var killedTracker = allTrackers[client.url].clients[client.id];
+			
+			//Decrement the number of connections to a given URL
+			allTrackers[client.url].numConnections--;
+			
+			//Decrement the appropriate browser count
+			payload.browsers.count[killedTracker.browser]--;
+			
+			//Decrement the appropriate screen resolution count
+			payload.screenResolutions[killedTracker.getScreenResolution()]--;
+			
+			//Remove the resolution if the count is 0
+			if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
+				delete payload.screenResolutions[killedTracker.getScreenResolution()];
+			}
+			
+			//Decrement the appropriate operating system count
+			payload.os[killedTracker.getOs()]--;
+			
+			//Remove the operating system if the count is 0
+			if(payload.os[killedTracker.getOs()] == 0) {
+				delete payload.os[killedTracker.getOs()];
+			}
+			
+			//Remove the URL if there are no connections to it
+			if(allTrackers[client.url].numConnections == 0) {
+				delete allTrackers[client.url];
+			}
+			
+			//Otherwise remove the specific client
+			else {
+				delete allTrackers[client.url].clients[client.id];
+			}
+			
+			//Send the data back after manipulation
+			Tracker.sendPayload(allTrackers, payload, config, socket);
 		}
-		
-		//Decrement the appropriate operating system count
-		payload.os[killedTracker.getOs()]--;
-		
-		//Remove the operating system if the count is 0
-		if(payload.os[killedTracker.getOs()] == 0) {
-			delete payload.os[killedTracker.getOs()];
-		}
-		
-		//Remove the URL if there are no connections to it
-		if(allTrackers[client.url].numConnections == 0) {
-			delete allTrackers[client.url];
-		}
-		
-		//Otherwise remove the specific client
-		else {
-			delete allTrackers[client.url].clients[client.id];
-		}
-		
-		//Send the data back after manipulation
-		Tracker.sendPayload(allTrackers, payload, config, socket);
 		
 	});
 	
