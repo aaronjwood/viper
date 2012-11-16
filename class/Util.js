@@ -38,6 +38,10 @@ Util.getBrowser = function(browser) {
 };
 
 Util.getOs = function(operatingSystem) {
+	if(typeof operatingSystem === "undefined") {
+		return "Other";
+	}
+	
 	var os = operatingSystem.match(/Win|Mac|UNIX|Linux/gi);
 	if(os == "Win") {
 		return "Windows";
