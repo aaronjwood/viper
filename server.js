@@ -111,14 +111,14 @@ socket.sockets.on('connection', function(client) {
 			//Decrement the total connections
 			payload.totalConnections--;
 			
-			//Get the appropriate tracker to work with
-			var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
-			
 			//Decrement the number of connections to a given URL
 			allTrackers[client.handshake.headers.referer].numConnections--;
 			
 			//Decrement the appropriate browser count
-			payload.browsers.count[killedTracker.browser]--;
+			payload.browsers.count[Util.getBrowser(client.handshake.headers["user-agent"])]--;
+			
+			//Get the appropriate tracker to work with
+			var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
 			
 			//Decrement the appropriate screen resolution count
 			payload.screenResolutions[killedTracker.getScreenResolution()]--;
