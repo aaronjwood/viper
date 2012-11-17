@@ -53,7 +53,6 @@ socket.sockets.on('connection', function(client) {
 	client.on('beacon', function(data) {
 		
 		payload.totalConnections++;
-		client["url"] = data.url;
 		
 		//The client id uniquely identifies a user
 		var userData = {
@@ -69,21 +68,21 @@ socket.sockets.on('connection', function(client) {
 		var newUser = new User(userData);
 		
 		//If an object tracking the URL already exists then increment the number of connections and assign the new user
-		if(allTrackers[data.url]) {
-			allTrackers[data.url].numConnections++;
-			allTrackers[data.url].clients[client.id] = newUser;
+		if(allTrackers.hasOwnProperty(client.handshake.headers.referer)) {
+			allTrackers[client.handshake.headers.referer].numConnections++;
+			allTrackers[client.handshake.headers.referer].clients[client.id] = newUser;
 		}
 		
 		//Otherwise create a new tracker and user and assign it to the URL
 		else {
-			var newTracker = new Tracker(newUser, data.url);
-			allTrackers[data.url] = newTracker;
-			allTrackers[data.url].numConnections = 1;
+			var newTracker = new Tracker(newUser, client.handshake.headers.referer);
+			allTrackers[client.handshake.headers.referer] = newTracker;
+			allTrackers[client.handshake.headers.referer].numConnections = 1;
 		}
 		
 		//Get the string value for the screen resolution and add it to the payload if it doesn't exist
 		var screenResolution = newUser.getScreenResolution();
-		if(payload.screenResolutions[screenResolution]) {
+		if(payload.screenResolutions.hasOwnProperty(screenResolution)) {
 			payload.screenResolutions[screenResolution]++;
 		}
 		else {
@@ -91,7 +90,7 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Add the OS to the payload if it doesn't exist
-		if(payload.os[userData.os]) {
+		if(payload.os.hasOwnProperty(userData.os)) {
 			payload.os[userData.os]++;
 		}
 		else {
@@ -107,16 +106,16 @@ socket.sockets.on('connection', function(client) {
 	client.on('disconnect', function() {
 		
 		//Ignore disconnects from the dashboard
-		if(allTrackers[client.url]) {
+		if(allTrackers.hasOwnProperty(client.handshake.headers.referer)) {
 			
 			//Decrement the total connections
 			payload.totalConnections--;
 			
 			//Get the appropriate tracker to work with
-			var killedTracker = allTrackers[client.url].clients[client.id];
+			var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
 			
 			//Decrement the number of connections to a given URL
-			allTrackers[client.url].numConnections--;
+			allTrackers[client.handshake.headers.referer].numConnections--;
 			
 			//Decrement the appropriate browser count
 			payload.browsers.count[killedTracker.browser]--;
@@ -138,13 +137,13 @@ socket.sockets.on('connection', function(client) {
 			}
 			
 			//Remove the URL if there are no connections to it
-			if(allTrackers[client.url].numConnections == 0) {
-				delete allTrackers[client.url];
+			if(allTrackers[client.handshake.headers.referer].numConnections == 0) {
+				delete allTrackers[client.handshake.headers.referer];
 			}
 			
 			//Otherwise remove the specific client
 			else {
-				delete allTrackers[client.url].clients[client.id];
+				delete allTrackers[client.handshake.headers.referer].clients[client.id];
 			}
 			
 			//Send the data back after manipulation
