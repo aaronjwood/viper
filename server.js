@@ -108,11 +108,7 @@ clientSocket.sockets.on('connection', function(client) {
 	client.on('disconnect', function() {
 		
 		//Avoid the race condition of a client connecting but disconnecting before the data is sent to the server
-<<<<<<< HEAD
 		if(allTrackers.hasOwnProperty(client.handshake.headers.referer) && allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
-=======
-		if(allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
->>>>>>> 546e7641376696df9acd721309eca2105ba7f968
 			
 			//Decrement the total connections
 			payload.totalConnections--;
