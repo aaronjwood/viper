@@ -102,23 +102,22 @@ socket.sockets.on('connection', function(client) {
 		
 	});
 	
-	//TODO can we detect disconnections from a certain page? We don't want to trigger this for dashboard disconnects
 	client.on('disconnect', function() {
 		
-		//Ignore disconnects from the dashboard
-		if(allTrackers.hasOwnProperty(client.handshake.headers.referer)) {
+		//Ignore disconnects from the dashboard and avoid the race condition of a client connecting but disconnecting before the data is sent to the server
+		if(allTrackers.hasOwnProperty(client.handshake.headers.referer) && allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
 			
 			//Decrement the total connections
 			payload.totalConnections--;
+			
+			//Get the appropriate tracker to work with
+			var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
 			
 			//Decrement the number of connections to a given URL
 			allTrackers[client.handshake.headers.referer].numConnections--;
 			
 			//Decrement the appropriate browser count
-			payload.browsers.count[Util.getBrowser(client.handshake.headers["user-agent"])]--;
-			
-			//Get the appropriate tracker to work with
-			var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
+			payload.browsers.count[killedTracker.browser]--;
 			
 			//Decrement the appropriate screen resolution count
 			payload.screenResolutions[killedTracker.getScreenResolution()]--;
