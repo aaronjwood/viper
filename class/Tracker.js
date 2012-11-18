@@ -1,3 +1,5 @@
+var BISON = require("../lib/bison.js");
+
 var Tracker = function(client, url) {
 	this.clients = {};
 	this.url = url;
@@ -15,7 +17,7 @@ Tracker.sendPayload = function(allTrackers, payload, config, socket) {
 	}
 	payload.trackers = sortedTrackers.sort(Tracker.sortByConnections);
 	payload.trackers = sortedTrackers.slice(0, config.totalTrackers);
-	socket.sockets.json.send(payload);
+	socket.sockets.json.send(BISON.encode(payload));
 };
 
 module.exports = Tracker;

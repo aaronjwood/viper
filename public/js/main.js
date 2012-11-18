@@ -38,6 +38,8 @@ $(function() {
 		socket.emit("sendStats");
 	});
 	socket.on('message', function(payload) {
+		payload = BISON.decode(payload);
+		
 		totalConnections.innerHTML = payload.totalConnections;
 		var trackingData = "";
 		//Get the URL and number of connections for each tracker

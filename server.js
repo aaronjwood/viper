@@ -1,10 +1,10 @@
-var http = require('http');
-var io = require('socket.io');
-var client = require('node-static');
-var config = require('./sys/config.js');
-var Util = require('./class/Util.js');
-var User = require('./class/User.js');
-var Tracker = require('./class/Tracker.js');
+var http = require("http");
+var io = require("socket.io");
+var client = require("node-static");
+var config = require("./sys/config.js");
+var Util = require("./class/Util.js");
+var User = require("./class/User.js");
+var Tracker = require("./class/Tracker.js");
 
 //Static server to serve the dashboard
 var file = new(client.Server)('./public/');
