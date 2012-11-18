@@ -12,9 +12,12 @@ var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
 		file.serve(req, res);
 	});
-}).listen(config.port);
+}).listen(config.dashboardPort);
 
-var socket = io.listen(viewServer, {
+var clientSocket = io.listen(config.socketPort, {
+	"log level": 0
+});
+var dashboardSocket = io.listen(viewServer, {
 	"log level": 0
 });
 
@@ -42,12 +45,12 @@ var payload = {
 	os: {}
 };
 
-socket.sockets.on('connection', function(client) {
-	
-	//Immediately send stats to the dashboard if requested
-	client.on('sendStats', function() {
-		Tracker.sendPayload(allTrackers, payload, config, socket);
-	});
+dashboardSocket.sockets.on("connection", function(client) {
+	//Immediately send stats to the dashboard upon request
+	Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
+});
+
+clientSocket.sockets.on('connection', function(client) {
 	
 	//When a tracker emits a beacon then do necessary processing
 	client.on('beacon', function(data) {
@@ -98,13 +101,13 @@ socket.sockets.on('connection', function(client) {
 		}
 		
 		//Send the data back
-		Tracker.sendPayload(allTrackers, payload, config, socket);
+		Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 		
 	});
 	
 	client.on('disconnect', function() {
 		
-		//Ignore disconnects from the dashboard and avoid the race condition of a client connecting but disconnecting before the data is sent to the server
+		//Avoid the race condition of a client connecting but disconnecting before the data is sent to the server
 		if(allTrackers.hasOwnProperty(client.handshake.headers.referer) && allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
 			
 			//Decrement the total connections
@@ -146,7 +149,7 @@ socket.sockets.on('connection', function(client) {
 			}
 			
 			//Send the data back after manipulation
-			Tracker.sendPayload(allTrackers, payload, config, socket);
+			Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 		}
 		
 	});
