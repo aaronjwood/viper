@@ -11,13 +11,17 @@ Tracker.sortByConnections = function(tracker1, tracker2) {
 };
 
 Tracker.sendPayload = function(allTrackers, payload, config, socket) {
-	var sortedTrackers = [];
-	for(var tracker in allTrackers) {
-		sortedTrackers.push(allTrackers[tracker]);
+	
+	//Only send the payload if there is a connection to the dashboard
+	if(Object.keys(socket.sockets.manager.connected).length > 0) {
+		var sortedTrackers = [];
+		for(var tracker in allTrackers) {
+			sortedTrackers.push(allTrackers[tracker]);
+		}
+		payload.trackers = sortedTrackers.sort(Tracker.sortByConnections);
+		payload.trackers = sortedTrackers.slice(0, config.totalTrackers);
+		socket.sockets.json.send(BISON.encode(payload));
 	}
-	payload.trackers = sortedTrackers.sort(Tracker.sortByConnections);
-	payload.trackers = sortedTrackers.slice(0, config.totalTrackers);
-	socket.sockets.json.send(BISON.encode(payload));
 };
 
 module.exports = Tracker;
