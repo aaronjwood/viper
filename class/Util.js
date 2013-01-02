@@ -3,6 +3,15 @@ var Util = function() {};
 //Return the browser's name
 Util.getBrowserInfo = function(userAgent) {
 	
+	if(typeof userAgent === "undefined") {
+		return {
+			platform: "Other",
+			isCellular: false,
+			browser: "Other",
+			os: "Other"
+		};
+	}
+	
 	var platform;
 	var cellular = false;
 	var browser;
@@ -17,6 +26,7 @@ Util.getBrowserInfo = function(userAgent) {
 	var platformTest = userAgent.match(/iPhone|iPad|Android|BlackBerry|RIM Tablet|Windows Phone/gi);
 	if(platformTest == "iPhone" || platformTest == "iPad") {
 		platform = "Apple";
+		os = "Mac OS X";
 	}
 	else if(platformTest == "Android") {
 		platform = "Google";
@@ -32,25 +42,41 @@ Util.getBrowserInfo = function(userAgent) {
 	}
 	
 	//Detect browser
-	var browserTest = userAgent.match(/CriOS|Chrome|Firefox|iPad|iPhone|Android/gi);
+	var browserTest = userAgent.match(/CriOS|Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/gi);
 	if(browserTest.indexOf("CriOS") != -1 && (browserTest.indexOf("iPad") != -1 || browserTest.indexOf("iPhone") != -1)) {
-		platform = "Apple";
 		browser = "Chrome";
+		platform = "Apple";
+		os = "iOS";
 	}
-	else if(browserTest == "Chrome") {
+	else if(browserTest.indexOf("Chrome") != -1) {
 		browser = "Chrome";
 	}
 	else if(browserTest == "Firefox") {
 		browser = "Firefox";
 	}
+	else if(browserTest == "Opera") {
+		browser = "Opera";
+	}
+	else if(browserTest.indexOf("Safari") != -1 && browserTest.indexOf("Chrome") == -1) {
+		browser = "Safari";
+	}
+	else if(browserTest == "MSIE") {
+		browser = "IE";
+		platform = "Microsoft";
+	}
 	else if(browserTest == "Android") {
 		browser = "Android";
+		platform = "Google";
 	}
 	else if(browserTest == "iPad") {
 		browser = "iPad";
+		platform = "Apple";
+		os = "iOS";
 	}
 	else if(browserTest == "iPhone") {
 		browser = "iPhone";
+		platform = "Apple";
+		os = "iOS";
 	}
 	else {
 		browser = "Other";
