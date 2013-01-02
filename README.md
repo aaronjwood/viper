@@ -7,11 +7,9 @@ A rough demo can be viewed [here](http://aaronjwood.dyndns.org:9001/). Keep in m
 	<script type="text/javascript">
 		var screenWidth = screen.width;
 		var screenHeight = screen.height;
-		var os = navigator.appVersion;
 		var tracker = {
 			"screenWidth": screenWidth,
-			"screenHeight": screenHeight,
-			"os": os
+			"screenHeight": screenHeight
 		};
 		var socket = io.connect("http://aaronjwood.dyndns.org:9000");
 		socket.on('connect', function() {

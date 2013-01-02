@@ -60,14 +60,13 @@ clientSocket.sockets.on('connection', function(client) {
 		//The client id uniquely identifies a user
 		var userData = {
 				"sessionId": client.id,
-				"browser": Util.getBrowser(client.handshake.headers["user-agent"]),
+				"browserInfo": Util.getBrowserInfo(client.handshake.headers["user-agent"]),
 				"screenWidth": data.screenWidth,
 				"screenHeight": data.screenHeight,
-				"os": Util.getOs(data.os)
 		};
 		
 		//Increment the appropriate browser count
-		payload.browsers.count[userData.browser]++;
+		payload.browsers.count[userData.browserInfo.browser]++;
 		var newUser = new User(userData);
 		
 		//If an object tracking the URL already exists then increment the number of connections and assign the new user
@@ -93,11 +92,11 @@ clientSocket.sockets.on('connection', function(client) {
 		}
 		
 		//Add the OS to the payload if it doesn't exist
-		if(payload.os.hasOwnProperty(userData.os)) {
-			payload.os[userData.os]++;
+		if(payload.os.hasOwnProperty(userData.browserInfo.os)) {
+			payload.os[userData.browserInfo.os]++;
 		}
 		else {
-			payload.os[userData.os] = 1;
+			payload.os[userData.browserInfo.os] = 1;
 		}
 		
 		//Send the data back
