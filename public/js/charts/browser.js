@@ -49,7 +49,7 @@ var browserChart = {
 		}
 		var barHeight = this.browsers[browser] / this.total();
 		barHeight = parseFloat(height * barHeight);
-		barHeight = 200 - barHeight;
+		barHeight = 550 - barHeight;
 		return -barHeight;
 	},
 	updateChartCounts: function() {

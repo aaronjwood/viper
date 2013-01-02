@@ -11,6 +11,17 @@
 <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
+<div id="quickStats">
+	<div class="stat">
+		Total connections: <span id="totalConnections">0</span>
+	</div>
+	<div class="stat last">
+		Most popular browser: <span id="mostPopularBrowser"></span>
+	</div>
+	<div id="quickStatsButton">
+		<a id="showQuickStats" href="#">Quick Stats</a>
+	</div>
+</div>
 <div id="controls">
 	<div class="control title">
 	Viper
@@ -63,12 +74,12 @@
 				</div>
 			</div>
 			<div class="chart">
-				<div class="android chartInner">
+				<div class="ipad chartInner">
 					<div class="chartCount"></div>
 				</div>
 			</div>
 			<div class="chart">
-				<div class="ipad chartInner">
+				<div class="android chartInner">
 					<div class="chartCount"></div>
 				</div>
 			</div>
@@ -84,32 +95,38 @@
 			</div>
 		</div>
 		<div id="chartLabels">
-			<div class="chartLabel">Chrome</div>
-			<div class="chartLabel">Opera</div>
-			<div class="chartLabel">Internet Explorer</div>
-			<div class="chartLabel">Firefox</div>
-			<div class="chartLabel">Safari</div>
-			<div class="chartLabel">Android</div>
-			<div class="chartLabel">iPad</div>
-			<div class="chartLabel">iPhone</div>
-			<div class="chartLabel">Other</div>
+			<div title="Google Chrome" class="chartLabel">
+				<img src="img/charts/browser/chrome.png" alt="Google Chrome" />
+			</div>
+			<div title="Opera" class="chartLabel">
+				<img src="img/charts/browser/opera.png" alt="Opera" />
+			</div>
+			<div title="Microsoft Internet Explorer" class="chartLabel">
+				<img src="img/charts/browser/ie.png" alt="Microsoft Internet Explorer" />
+			</div>
+			<div title="Mozilla Firefox" class="chartLabel">
+				<img src="img/charts/browser/firefox.png" alt="Mozilla Firefox" />
+			</div>
+			<div title="Apple Safari" class="chartLabel">
+				<img src="img/charts/browser/safari.png" alt="Apple Safari" />
+			</div>
+			<div title="Apple iPad" class="chartLabel">
+				<img src="img/charts/browser/apple.png" alt="Apple iPad" />
+			</div>
+			<div title="Android" class="chartLabel">
+				<img src="img/charts/browser/android.png" alt="Android" />
+			</div>
+			<div title="Apple iPhone" class="chartLabel">
+				<img src="img/charts/browser/apple.png" alt="Apple iPhone" />
+			</div>
+			<div title="Other" class="chartLabel">
+				<img src="img/charts/browser/other.png" alt="Other" />
+			</div>
 		</div>
 	</div>
 	<div class="clear"></div>
 	<div id="resolutions" class="section"></div>
 	<div id="os" class="section"></div>
 </div>
-<div id="quickStats">
-	<div class="stat">
-		Total connections: <span id="totalConnections">0</span>
-	</div>
-	<div class="stat last">
-		Most popular browser: <span id="mostPopularBrowser"></span>
-	</div>
-	<div id="quickStatsButton">
-		<a id="showQuickStats" href="#">Quick Stats</a>
-	</div>
-</div>
-<div class="clear"></div>
 </body>
 </html>
