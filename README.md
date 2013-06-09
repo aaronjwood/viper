@@ -22,4 +22,3 @@ Since Viper's purpose is to give data on a real-time basis there is no need for 
 			socket.emit("beacon", tracker);
 		});
 	</script>
-
