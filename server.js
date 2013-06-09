@@ -19,8 +19,7 @@ console.log("Dashboard server created");
 console.log("Creating client socket server...");
 var clientSocket = io.listen(config.socketPort, {
     "log level": 1,
-    "browser client minification": true,
-    "browser client gzip": true
+    "browser client": false
 });
 console.log("Client socket server created");
 
