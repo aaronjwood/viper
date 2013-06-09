@@ -3,7 +3,7 @@ var Util = function() {};
 //Return the browser's name
 Util.getBrowserInfo = function(userAgent) {
 	
-	if(typeof userAgent === "undefined") {
+	if(typeof userAgent === "undefined" || !userAgent) {
 		return {
 			platform: "Other",
 			isCellular: false,
