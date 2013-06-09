@@ -26,7 +26,8 @@ console.log("Client socket server created");
 console.log("Creating dashboard socket server...");
 var dashboardSocket = io.listen(viewServer, {
     "log level": 1,
-    "browser client minification": true
+    "browser client minification": true,
+    "browser client etag": true
 });
 console.log("Dashboard socket server created");
 
