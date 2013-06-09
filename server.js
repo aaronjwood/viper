@@ -16,15 +16,19 @@ var viewServer = http.createServer(function(req, res) {
 }).listen(config.dashboardPort);
 console.log("Dashboard server created");
 
-console.log("Creating client socket server...")
+console.log("Creating client socket server...");
 var clientSocket = io.listen(config.socketPort, {
-    "log level": 0
+    "log level": 1,
+    "browser client minification": true,
+    "browser client gzip": true
 });
 console.log("Client socket server created");
 
 console.log("Creating dashboard socket server...");
 var dashboardSocket = io.listen(viewServer, {
-    "log level": 0
+    "log level": 1,
+    "browser client minification": true,
+    "browser client gzip": true
 });
 console.log("Dashboard socket server created");
 
@@ -114,50 +118,46 @@ clientSocket.sockets.on('connection', function(client) {
 
     client.on('disconnect', function() {
 
-        //Avoid the race condition of a client connecting but disconnecting before the data is sent to the server
-        if (allTrackers.hasOwnProperty(client.handshake.headers.referer) && allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
+        //Decrement the total connections
+        payload.totalConnections--;
 
-            //Decrement the total connections
-            payload.totalConnections--;
+        //Get the appropriate tracker to work with
+        var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
 
-            //Get the appropriate tracker to work with
-            var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
+        //Decrement the number of connections to a given URL
+        allTrackers[client.handshake.headers.referer].numConnections--;
 
-            //Decrement the number of connections to a given URL
-            allTrackers[client.handshake.headers.referer].numConnections--;
+        //Decrement the appropriate browser count
+        payload.browsers.count[killedTracker.browser]--;
 
-            //Decrement the appropriate browser count
-            payload.browsers.count[killedTracker.browser]--;
+        //Decrement the appropriate screen resolution count
+        payload.screenResolutions[killedTracker.getScreenResolution()]--;
 
-            //Decrement the appropriate screen resolution count
-            payload.screenResolutions[killedTracker.getScreenResolution()]--;
-
-            //Remove the resolution if the count is 0
-            if (payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
-                delete payload.screenResolutions[killedTracker.getScreenResolution()];
-            }
-
-            //Decrement the appropriate operating system count
-            payload.os[killedTracker.getOs()]--;
-
-            //Remove the operating system if the count is 0
-            if (payload.os[killedTracker.getOs()] == 0) {
-                delete payload.os[killedTracker.getOs()];
-            }
-
-            //Remove the URL if there are no connections to it
-            if (allTrackers[client.handshake.headers.referer].numConnections == 0) {
-                delete allTrackers[client.handshake.headers.referer];
-            }
-
-            //Otherwise remove the specific client
-            else {
-                delete allTrackers[client.handshake.headers.referer].clients[client.id];
-            }
-
-            //Send the data back after manipulation
-            Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
+        //Remove the resolution if the count is 0
+        if (payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
+            delete payload.screenResolutions[killedTracker.getScreenResolution()];
         }
+
+        //Decrement the appropriate operating system count
+        payload.os[killedTracker.getOs()]--;
+
+        //Remove the operating system if the count is 0
+        if (payload.os[killedTracker.getOs()] == 0) {
+            delete payload.os[killedTracker.getOs()];
+        }
+
+        //Remove the URL if there are no connections to it
+        if (allTrackers[client.handshake.headers.referer].numConnections == 0) {
+            delete allTrackers[client.handshake.headers.referer];
+        }
+
+        //Otherwise remove the specific client
+        else {
+            delete allTrackers[client.handshake.headers.referer].clients[client.id];
+        }
+
+        //Send the data back after manipulation
+        Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 
     });
 
