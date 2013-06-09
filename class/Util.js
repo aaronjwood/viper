@@ -1,137 +1,145 @@
-var Util = function() {};
+var Util = function() {
+};
 
 //Return the browser's name
 Util.getBrowserInfo = function(userAgent) {
-	
-	if(typeof userAgent === "undefined" || !userAgent) {
-		return {
-			platform: "Other",
-			isCellular: false,
-			browser: "Other",
-			os: "Other"
-		};
-	}
-	
-	var platform;
-	var cellular = false;
-	var browser;
-	var os;
-	
-	//Detect cellular capabilities
-	if(userAgent.match(/iPhone|Android|BlackBerry|Windows Phone/gi)) {
-		cellular = true;
-	}
-	
-	//Detect platform
-	var platformTest = userAgent.match(/iPhone|iPad|Android|BlackBerry|RIM Tablet|Windows Phone/gi);
-	if(platformTest == "iPhone" || platformTest == "iPad") {
-		platform = "Apple";
-		os = "Mac OS X";
-	}
-	else if(platformTest == "Android") {
-		platform = "Google";
-	}
-	else if(platformTest == "Blackberry" || platformTest == "RIM Tablet") {
-		platform = "RIM";
-	}
-	else if(platformTest == "Windows Phone") {
-		platform = "Microsoft";
-	}
-	else {
-		platform = "Other";
-	}
-	
-	//Detect browser
-	var browserTest = userAgent.match(/CriOS|Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/gi);
-	if(browserTest.indexOf("CriOS") != -1 && (browserTest.indexOf("iPad") != -1 || browserTest.indexOf("iPhone") != -1)) {
-		browser = "Chrome";
-		platform = "Apple";
-		os = "iOS";
-	}
-	else if(browserTest.indexOf("Chrome") != -1) {
-		browser = "Chrome";
-	}
-	else if(browserTest == "Firefox") {
-		browser = "Firefox";
-	}
-	else if(browserTest == "Opera") {
-		browser = "Opera";
-	}
-	else if(browserTest.indexOf("Safari") != -1 && browserTest.indexOf("Chrome") == -1) {
-		browser = "Safari";
-	}
-	else if(browserTest == "MSIE") {
-		browser = "IE";
-		platform = "Microsoft";
-	}
-	else if(browserTest == "Android") {
-		browser = "Android";
-		platform = "Google";
-	}
-	else if(browserTest == "iPad") {
-		browser = "iPad";
-		platform = "Apple";
-		os = "iOS";
-	}
-	else if(browserTest == "iPhone") {
-		browser = "iPhone";
-		platform = "Apple";
-		os = "iOS";
-	}
-	else {
-		browser = "Other";
-	}
-	
-	//Detect operating system
-	var osTest = userAgent.match(/Windows NT 5.0|Windows NT 5.1|Windows NT 6.0|Windows NT 6.1|Windows NT 6.2|Mac|UNIX|Linux/gi);
-	if(osTest == "Windows NT 5.0") {
-		os = "Windows 2000";
-		platform = "Microsoft";
-	}
-	else if(osTest == "Windows NT 5.1") {
-		os = "Windows XP";
-		platform = "Microsoft";
-	}
-	else if(osTest == "Windows NT 6.0") {
-		os = "Windows Vista";
-		platform = "Microsoft";
-	}
-	else if(osTest == "Windows NT 6.1") {
-		os = "Windows 7";
-		platform = "Microsoft";
-	}
-	else if(osTest == "Windows NT 6.2") {
-		os = "Windows 8";
-		platform = "Microsoft";
-	}
-	else if(osTest == "Mac") {
-		os = "Mac OS X";
-		platform = "Apple";
-	}
-	else if(browser == "iPad" || browser == "iPhone") {
-		os = "iOS";
-		platform = "Apple";
-	}
-	else if(browser == "Android") {
-		os = "Android";
-		platform = "Google";
-	}
-	else if(osTest == "UNIX") {
-		os = "Unix";
-	}
-	else if(osTest == "Linux") {
-		os = "Linux";
-	}
-	else {
-		os = "Other";
-	}
-	
-	return {
-		platform: platform,
-		isCellular: cellular,
-		browser: browser,
-		os: os
-	};
+
+    if (typeof userAgent === "undefined" || !userAgent) {
+        return {
+            platform: "Other",
+            isCellular: false,
+            browser: "Other",
+            os: "Other"
+        };
+    }
+
+    var platform;
+    var cellular = false;
+    var browser;
+    var os;
+
+    //Detect cellular capabilities
+    if (userAgent.match(/iPhone|Android|BlackBerry|Windows Phone/gi)) {
+        cellular = true;
+    }
+
+    //Detect platform
+    var platformTest = userAgent.match(/iPhone|iPad|Android|BlackBerry|RIM Tablet|BB10|Windows Phone/gi);
+    if (platformTest) {
+        if (platformTest.indexOf("iPhone") != -1 || platformTest.indexOf("iPad") != -1) {
+            platform = "Apple";
+            os = "iOS";
+        }
+        else if (platformTest.indexOf("Android") != -1) {
+            platform = "Google";
+        }
+        else if (platformTest.indexOf("BlackBerry") != -1 || platformTest.indexOf("RIM Tablet") != -1 || platformTest.indexOf("BB10") != -1) {
+            platform = "RIM";
+            os = "BlackBerry OS";
+        }
+        else if (platformTest.indexOf("Windows Phone") != -1) {
+            platform = "Microsoft";
+        }
+    }
+    else {
+        platform = "Other";
+    }
+
+    //Detect browser
+    var browserTest = userAgent.match(/CriOS|Chrome|Firefox|MSIE|iPad|iPhone|Android|Opera|Safari/gi);
+    if (browserTest) {
+        if (browserTest.indexOf("CriOS") != -1 && (browserTest.indexOf("iPad") != -1 || browserTest.indexOf("iPhone") != -1)) {
+            browser = "Chrome";
+            platform = "Apple";
+            os = "iOS";
+        }
+        else if (browserTest.indexOf("Chrome") != -1) {
+            browser = "Chrome";
+        }
+        else if (browserTest.indexOf("Firefox") != -1) {
+            browser = "Firefox";
+        }
+        else if (browserTest.indexOf("Opera") != -1) {
+            browser = "Opera";
+        }
+        else if (browserTest.indexOf("MSIE") != -1) {
+            browser = "IE";
+            platform = "Microsoft";
+        }
+        else if (browserTest.indexOf("Android") != -1) {
+            browser = "Android";
+            platform = "Google";
+        }
+        else if (browserTest.indexOf("iPad") != -1) {
+            browser = "iPad";
+            platform = "Apple";
+            os = "iOS";
+        }
+        else if (browserTest.indexOf("iPhone") != -1) {
+            browser = "iPhone";
+            platform = "Apple";
+            os = "iOS";
+        }
+        else if (browserTest.indexOf("Safari") != -1 && browserTest.indexOf("Chrome") == -1) {
+            browser = "Safari";
+        }
+    }
+    else {
+        browser = "Other";
+    }
+
+    //Detect operating system
+    var osTest = userAgent.match(/Windows NT 5.0|Windows NT 5.1|Windows NT 6.0|Windows NT 6.1|Windows NT 6.2|Mac OS X|iPad|iPhone|Android|UNIX|Linux/gi);
+    if (osTest) {
+        if (osTest.indexOf("Windows NT 5.0") != -1) {
+            os = "Windows 2000";
+            platform = "Microsoft";
+        }
+        else if (osTest.indexOf("Windows NT 5.1") != -1) {
+            os = "Windows XP";
+            platform = "Microsoft";
+        }
+        else if (osTest.indexOf("Windows NT 6.0") != -1) {
+            os = "Windows Vista";
+            platform = "Microsoft";
+        }
+        else if (osTest.indexOf("Windows NT 6.1") != -1) {
+            os = "Windows 7";
+            platform = "Microsoft";
+        }
+        else if (osTest.indexOf("Windows NT 6.2") != -1) {
+            os = "Windows 8";
+            platform = "Microsoft";
+        }
+        else if (osTest.indexOf("iPad") != -1 || osTest.indexOf("iPhone") != -1) {
+            os = "iOS";
+            platform = "Apple";
+        }
+        else if (osTest.indexOf("Mac OS X") != -1) {
+            os = "Mac OS X";
+            platform = "Apple";
+        }
+        else if (osTest.indexOf("Android") != -1) {
+            os = "Android";
+            platform = "Google";
+        }
+        else if (osTest.indexOf("UNIX") != -1) {
+            os = "Unix";
+        }
+        else if (osTest.indexOf("Linux") != -1) {
+            os = "Linux";
+        }
+    }
+    else if (!os) {
+        os = "Other";
+    }
+
+    return {
+        platform: platform,
+        isCellular: cellular,
+        browser: browser,
+        os: os
+    };
 };
 
 module.exports = Util;

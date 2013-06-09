@@ -90,10 +90,6 @@ a:hover {
 #totalConnections {
     color: #ECB220;
     font-weight: bold;
-    font-family: 'Lobster', cursive;
-}
-#mostPopularBrowser {
-    font-family: 'Lobster', cursive;
 }
 
 /* Chart */
