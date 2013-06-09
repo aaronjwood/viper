@@ -127,7 +127,7 @@ clientSocket.sockets.on('connection', function(client) {
         //Make sure there's a referer
         //Avoid the race condition of a client connecting and disconnecting before their data is sent to the server
         //Avoid potential malicious/tampered requests that modify the referer
-        if(!client.handshake.headers.referer || !allTrackers.hasOwnProperty(client.handshake.headers.referer) || !allTrackers[client.handshake.headers.referer].hasOwnProperty(clients)) {
+        if(!client.handshake.headers.referer || !allTrackers.hasOwnProperty(client.handshake.headers.referer) || !allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
             return;
         }
         
