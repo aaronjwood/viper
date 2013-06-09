@@ -7,19 +7,26 @@ var User = require("./class/User.js");
 var Tracker = require("./class/Tracker.js");
 
 //Static server to serve the dashboard
+console.log("Creating dashboard server...");
 var file = new(client.Server)('./public/');
 var viewServer = http.createServer(function(req, res) {
 	req.addListener('end', function() {
 		file.serve(req, res);
-	});
+	}).resume();
 }).listen(config.dashboardPort);
+console.log("Dashboard server created");
 
+console.log("Creating client socket server...")
 var clientSocket = io.listen(config.socketPort, {
 	"log level": 0
 });
+console.log("Client socket server created");
+
+console.log("Creating dashboard socket server...");
 var dashboardSocket = io.listen(viewServer, {
 	"log level": 0
 });
+console.log("Dashboard socket server created");
 
 //Object to hold all trackers
 var allTrackers = {};
@@ -45,7 +52,8 @@ var payload = {
 	os: {}
 };
 
-dashboardSocket.sockets.on("connection", function(client) {
+dashboardSocket.sockets.on("connection", function() {
+	
 	//Immediately send stats to the dashboard upon request
 	Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 });
@@ -59,10 +67,10 @@ clientSocket.sockets.on('connection', function(client) {
 		
 		//The client id uniquely identifies a user
 		var userData = {
-				"sessionId": client.id,
-				"browserInfo": Util.getBrowserInfo(client.handshake.headers["user-agent"]),
-				"screenWidth": data.screenWidth,
-				"screenHeight": data.screenHeight,
+				sessionId: client.id,
+				browserInfo: Util.getBrowserInfo(client.handshake.headers["user-agent"]),
+				screenWidth: data.screenWidth,
+				screenHeight: data.screenHeight,
 		};
 		
 		//Increment the appropriate browser count

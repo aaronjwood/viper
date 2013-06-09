@@ -6,7 +6,7 @@ function changeBrowserColor(browser) {
 
 $(function() {
 	
-	$("#showQuickStats").on("click", function(e) {
+	$("#showQuickStats").on("click", function() {
 		if(parseInt($("#quickStats").css("top")) != 0) {
 			$("#quickStats").animate({"top": 0});
 		}
@@ -27,41 +27,48 @@ $(function() {
 	browserChart.init();
 	
 	var socket = io.connect();
-	var pages = document.getElementById("pages");
-	var totalConnections = document.getElementById("totalConnections");
-	var mostPopularBrowser = document.getElementById("mostPopularBrowser");
-	var screenResContainer = document.getElementById("resolutions");
-	var osContainer = document.getElementById("os");
+	var pages = $("#pages");
+	var totalConnections = $("#totalConnections");
+	var mostPopularBrowser = $("#mostPopularBrowser");
+	var screenResContainer = $("#resolutions");
+	var osContainer = $("#os");
 	
 	socket.on('connect', function() {
-		$("#browsers").slideDown(400).addClass("activeControl");
+		$("#browsers").slideDown().addClass("activeControl");
 	});
 	
 	socket.on('message', function(payload) {
 		payload = BISON.decode(payload);
 		
-		totalConnections.innerHTML = payload.totalConnections;
+		totalConnections.html(payload.totalConnections);
+		
 		var trackingData = "";
+		
 		//Get the URL and number of connections for each tracker
 		for(var i = 0; i < payload.trackers.length; i++) {
 			trackingData += "<span class='tracker'><em>" + payload.trackers[i].url + "</em> - <strong>" + payload.trackers[i].numConnections + "</strong></span><br /><br />";
 		}
-		pages.innerHTML = trackingData;
+		pages.html(trackingData);
+		
 		for(var browser in payload.browsers.count) {
 			browserChart.browsers[browser] = payload.browsers.count[browser];
 		}
+		
         browserChart.repaint();
-        mostPopularBrowser.style.color = changeBrowserColor(mostPopularBrowser.innerHTML);
+		
+        mostPopularBrowser.css("color", changeBrowserColor(mostPopularBrowser.html()));
+		
         var resolutionData = "";
         for(var resolution in payload.screenResolutions) {
 			resolutionData += "<div>" + resolution + " - " + payload.screenResolutions[resolution] + "</div>";
     	}
-        screenResContainer.innerHTML = resolutionData;
+        screenResContainer.html(resolutionData);
+		
 		var osData = "";
 		for(var os in payload.os) {
 			osData += "<div>" + os + " - " + payload.os[os] + "</div>";
 		}
-		osContainer.innerHTML = osData;
+		osContainer.html(osData);
 	});
 	
 });
