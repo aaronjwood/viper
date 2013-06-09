@@ -65,6 +65,13 @@ clientSocket.sockets.on('connection', function(client) {
 
     //When a tracker emits a beacon then do necessary processing
     client.on('beacon', function(data) {
+        
+        //Make sure there's even a referer to work with
+        //Don't process any requests without this. Treat them as tampered/malicious
+        //The referer is necessary since it's used as an index into tracker arrays
+        if(!client.handshake.headers.referer) {
+            return;
+        }
 
         payload.totalConnections++;
 
@@ -116,7 +123,14 @@ clientSocket.sockets.on('connection', function(client) {
     });
 
     client.on('disconnect', function() {
-
+        
+        //Make sure there's a referer
+        //Avoid the race condition of a client connecting and disconnecting before their data is sent to the server
+        //Avoid potential malicious/tampered requests that modify the referer
+        if((!client.handshake.headers.referer && !allTrackers.hasOwnProperty(client.handshake.headers.referer)) || !allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
+            return;
+        }
+        
         //Decrement the total connections
         payload.totalConnections--;
 
@@ -157,7 +171,7 @@ clientSocket.sockets.on('connection', function(client) {
 
         //Send the data back after manipulation
         Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
-
+        
     });
 
 });
