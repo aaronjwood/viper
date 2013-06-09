@@ -1,94 +1,99 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 body {
-	background-color: black;
-	color: white;
-	font-family: Verdana, sans-serif;
-	font-size: 14px;
+    background-color: black;
+    color: white;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
 }
 a {
-	color: #ecb220;
-	text-decoration: none;
+    color: #ecb220;
+    text-decoration: none;
 }
 a:hover {
-	color: #ffd454;
+    color: #ffd454;
 }
 #controls {
-	position: absolute;
-	top: 0;
-	left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .control {
-	border-bottom: 2px solid white;
-	border-right: 2px solid white;
-	padding: 25px;
-	font-size: 12px;
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+    padding: 25px;
+    font-size: 12px;
 }
 .control.title {
-	color: #ad011b;
-	font-weight: bold;
-	font-size: 30px;
-	font-family: 'Lobster', cursive;
+    color: #ad011b;
+    font-weight: bold;
+    font-size: 30px;
+    font-family: 'Lobster', cursive;
 }
 .control.last {
-	border-radius: 0 0 10px 0;
+    border-radius: 0 0 10px 0;
 }
 #quickStats {
-	position: fixed;
-	top: -84px;
-	right: 0;
-	width: 250px;
-	background: black;
-	z-index: 99;
+    position: fixed;
+    top: -84px;
+    right: 0;
+    width: 250px;
+    background: black;
+    z-index: 99;
+    font-family: 'Lobster', cursive;
 }
 #quickStatsButton {
-	text-align: center;
-	font-weight: bold;
-	font-size: 17px;
-	background: #AD011B;
-	border-radius: 0 0 10px 10px;
-	padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 17px;
+    background: #AD011B;
+    border-radius: 0 0 10px 10px;
+    padding: 5px;
 }
 #quickStatsButton a {
-	color: white;
+    color: white;
 }
 .section {
-	display: none;
+    display: none;
 }
 .stat {
-	padding: 12px;
-	border-bottom: 1px solid white;
-	border-left: 1px solid white;
+    padding: 12px;
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
 }
 .stat.last {
-	border-bottom: none;
+    border-bottom: none;
 }
 #content {
-	width: 1100px;
-	margin: 30px 0 0 200px;
+    width: 1100px;
+    margin: 30px 0 0 200px;
 }
 .clear {
-	clear: both;
+    clear: both;
 }
 .tracker {
-	color: #bbd4ce;
+    color: #bbd4ce;
 }
 .tracker strong {
-	font-weight: bold;
+    font-weight: bold;
 }
 .waiting {
-	font-size: 14px;
-	color: #ff9900;
-	font-weight: bold;
+    font-size: 14px;
+    color: #ff9900;
+    font-weight: bold;
 }
 .num {
-	color: white;
+    color: white;
 }
 #totalConnections {
-	color: #ECB220;
-	font-weight: bold;
+    color: #ECB220;
+    font-weight: bold;
+    font-family: 'Lobster', cursive;
+}
+#mostPopularBrowser {
+    font-family: 'Lobster', cursive;
 }
 
 /* Chart */
@@ -96,77 +101,77 @@ a:hover {
     position: relative;
 }
 #chartNumbers {
-	font-size: 10px;
+    font-size: 10px;
 }
 #browserTotal {
-	position: absolute;
-	top: 0;
+    position: absolute;
+    top: 0;
 }
 #browserZero {
-	position: absolute;
-	bottom: 0;
+    position: absolute;
+    bottom: 0;
 }
 #chartBars {
-	margin-left: 30px;
-	height: 550px;
-	border-bottom: 1px solid white;
-	border-left: 1px solid white;
-	border-bottom-left-radius: 5px;
+    margin-left: 30px;
+    height: 550px;
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom-left-radius: 5px;
 }
 #chartLabels {
-	margin: 5px 0 0 30px;
+    margin: 5px 0 0 30px;
 }
 .chart {
-	position: relative;
-	width: 90px;
-	height: 550px;
-	overflow: hidden;
-	float: left;
-	margin: 0 10px
+    position: relative;
+    width: 90px;
+    height: 550px;
+    overflow: hidden;
+    float: left;
+    margin: 0 10px
 }
 .chartInner {
-	width: 100%;
-	height: 100%;
-	bottom: -550px;
-	position: relative;
-	border-radius: 7px 7px 0 0;
+    width: 100%;
+    height: 100%;
+    bottom: -550px;
+    position: relative;
+    border-radius: 7px 7px 0 0;
 }
 .chartCount {
-	text-align: center;
-	font-size: 10px;
-	color: #ffffff;
+    text-align: center;
+    font-size: 10px;
+    color: #ffffff;
 }
 .chartLabel {
-	float: left;
-	width: 90px;
-	margin: 0 10px;
-	text-align: center;
-	font-size: 11px;
+    float: left;
+    width: 90px;
+    margin: 0 10px;
+    text-align: center;
+    font-size: 11px;
 }
 .chrome {
-	background: #4cb848;
+    background: #4cb848;
 }
 .firefox {
-	background: #f96400;
+    background: #f96400;
 }
 .ie {
-	background: #00acee;
+    background: #00acee;
 }
 .opera {
-	background: #c70f17;
+    background: #c70f17;
 }
 .safari {
-	background: #1e5b9c;
+    background: #1e5b9c;
 }
 .android {
-	background: #8dd215;
+    background: #8dd215;
 }
 .ipad {
-	background: #717171;
+    background: #717171;
 }
 .iphone {
-	background: #343d46;
+    background: #343d46;
 }
 .other {
-	background: #871F78;
+    background: #871F78;
 }
