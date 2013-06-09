@@ -14,8 +14,8 @@ Since Viper's purpose is to give data on a real-time basis there is no need for 
 	<script type="text/javascript" src="<URL OF SOCKET.IO.JS>"></script>
 	<script type="text/javascript">
 		var tracker = {
-			screenWidth: screen.width,
-			screenHeight: screen.height
+			screenWidth: window.screen.width,
+			screenHeight: window.screen.height
 		};
 		var socket = io.connect("<URL OF SOCKET SERVER>");
 		socket.on('connect', function() {
