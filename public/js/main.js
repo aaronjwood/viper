@@ -11,7 +11,7 @@ $(function() {
 			$("#quickStats").animate({"top": 0});
 		}
 		else {
-			$("#quickStats").animate({"top": -84});
+			$("#quickStats").animate({"top": -85});
 		}
 		return false;
 	});
