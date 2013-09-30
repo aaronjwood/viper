@@ -19,7 +19,14 @@ console.log("Dashboard server created");
 console.log("Creating client socket server...");
 var clientSocket = io.listen(config.socketPort, {
     "log level": 1,
-    "browser client": false
+    "browser client": false,
+    "transports": [
+        "websocket",
+        "flashsocket",
+        "htmlfile",
+        "xhr-polling",
+        "jsonp-polling"
+    ]
 });
 console.log("Client socket server created");
 
@@ -27,7 +34,15 @@ console.log("Creating dashboard socket server...");
 var dashboardSocket = io.listen(viewServer, {
     "log level": 1,
     "browser client minification": true,
-    "browser client etag": true
+    "browser client etag": true,
+    "browser client gzip": true,
+    "transports": [
+        "websocket",
+        "flashsocket",
+        "htmlfile",
+        "xhr-polling",
+        "jsonp-polling"
+    ]
 });
 console.log("Dashboard socket server created");
 
