@@ -35,7 +35,6 @@ var dashboardSocket = io.listen(viewServer, {
     "log level": 1,
     "browser client minification": true,
     "browser client etag": true,
-    //"browser client gzip": true,
     "transports": [
         "websocket",
         "flashsocket",
