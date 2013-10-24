@@ -35,7 +35,7 @@ var dashboardSocket = io.listen(viewServer, {
     "log level": 1,
     "browser client minification": true,
     "browser client etag": true,
-    "browser client gzip": true,
+    //"browser client gzip": true,
     "transports": [
         "websocket",
         "flashsocket",
@@ -81,12 +81,8 @@ clientSocket.sockets.on('connection', function(client) {
     //When a tracker emits a beacon then do necessary processing
     client.on('beacon', function(data) {
         
-        //Make sure there's even a referer to work with
-        //Don't process any requests without this. Treat them as tampered/malicious
-        //The referer is necessary since it's used as an index into tracker arrays
-        if(!client.handshake.headers.referer) {
-            return;
-        }
+        //Add the url of the connected client to the client object to use upon disconnection
+        client.url = data.url;
 
         payload.totalConnections++;
 
@@ -103,16 +99,16 @@ clientSocket.sockets.on('connection', function(client) {
         var newUser = new User(userData);
 
         //If an object tracking the URL already exists then increment the number of connections and assign the new user
-        if (allTrackers.hasOwnProperty(client.handshake.headers.referer)) {
-            allTrackers[client.handshake.headers.referer].numConnections++;
-            allTrackers[client.handshake.headers.referer].clients[client.id] = newUser;
+        if (allTrackers.hasOwnProperty(client.url)) {
+            allTrackers[client.url].numConnections++;
+            allTrackers[client.url].clients[client.id] = newUser;
         }
 
         //Otherwise create a new tracker and user and assign it to the URL
         else {
-            var newTracker = new Tracker(newUser, client.handshake.headers.referer);
-            allTrackers[client.handshake.headers.referer] = newTracker;
-            allTrackers[client.handshake.headers.referer].numConnections = 1;
+            var newTracker = new Tracker(newUser, client.url);
+            allTrackers[client.url] = newTracker;
+            allTrackers[client.url].numConnections = 1;
         }
 
         //Get the string value for the screen resolution and add it to the payload if it doesn't exist
@@ -139,21 +135,14 @@ clientSocket.sockets.on('connection', function(client) {
 
     client.on('disconnect', function() {
         
-        //Make sure there's a referer
-        //Avoid the race condition of a client connecting and disconnecting before their data is sent to the server
-        //Avoid potential malicious/tampered requests that modify the referer
-        if(!client.handshake.headers.referer || !allTrackers.hasOwnProperty(client.handshake.headers.referer) || !allTrackers[client.handshake.headers.referer].clients.hasOwnProperty(client.id)) {
-            return;
-        }
-        
         //Decrement the total connections
         payload.totalConnections--;
 
         //Get the appropriate tracker to work with
-        var killedTracker = allTrackers[client.handshake.headers.referer].clients[client.id];
+        var killedTracker = allTrackers[client.url].clients[client.id];
 
         //Decrement the number of connections to a given URL
-        allTrackers[client.handshake.headers.referer].numConnections--;
+        allTrackers[client.url].numConnections--;
 
         //Decrement the appropriate browser count
         payload.browsers.count[killedTracker.browser]--;
@@ -175,13 +164,13 @@ clientSocket.sockets.on('connection', function(client) {
         }
 
         //Remove the URL if there are no connections to it
-        if (allTrackers[client.handshake.headers.referer].numConnections == 0) {
-            delete allTrackers[client.handshake.headers.referer];
+        if (allTrackers[client.url].numConnections == 0) {
+            delete allTrackers[client.url];
         }
 
         //Otherwise remove the specific client
         else {
-            delete allTrackers[client.handshake.headers.referer].clients[client.id];
+            delete allTrackers[client.url].clients[client.id];
         }
 
         //Send the data back after manipulation

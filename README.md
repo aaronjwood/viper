@@ -14,6 +14,7 @@ Since Viper's purpose is to give data on a real-time basis there is no need for 
 	<script type="text/javascript" src="<URL OF SOCKET.IO.JS>"></script>
 	<script type="text/javascript">
 		var tracker = {
+                        url: document.URL,
 			screenWidth: window.screen.width,
 			screenHeight: window.screen.height
 		};
