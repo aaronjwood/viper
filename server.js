@@ -79,17 +79,17 @@ clientSocket.sockets.on('connection', function(client) {
 
     //When a tracker emits a beacon then do necessary processing
     client.on('beacon', function(data) {
-        
+
         //If a URL isn't sent over the socket then disregard this connection (connections can be manually crafted!)
-        if(!data.url) {
+        if (!data.url) {
             return;
         }
-        
+
         client.userId = Util.generateUuid();
         client.url = data.url;
-        
+
         payload.totalConnections++;
-        
+
         var userData = {
             userId: client.userId,
             browserInfo: Util.getBrowserInfo(client.handshake.headers["user-agent"]),
@@ -137,7 +137,7 @@ clientSocket.sockets.on('connection', function(client) {
     });
 
     client.on('disconnect', function() {
-        
+
         //Decrement the total connections
         payload.totalConnections--;
 
@@ -178,7 +178,7 @@ clientSocket.sockets.on('connection', function(client) {
 
         //Send the data back after manipulation
         Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
-        
+
     });
 
 });

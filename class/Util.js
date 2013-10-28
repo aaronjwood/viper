@@ -1,4 +1,5 @@
-var Util = function() {};
+var Util = function() {
+};
 
 /**
  * Generates a unique identifier to identify connected clients
@@ -6,27 +7,21 @@ var Util = function() {};
  */
 Util.generateUuid = function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 };
 
-//Return the browser's name
+/**
+ * Determines information from the user agent and returns an object with useful tracking information
+ * @param {String} The browser's user agent string
+ * @returns {Object}
+ */
 Util.getBrowserInfo = function(userAgent) {
-
-    if (typeof userAgent === "undefined" || !userAgent) {
-        return {
-            platform: "Other",
-            isCellular: false,
-            browser: "Other",
-            os: "Other"
-        };
-    }
-
-    var platform;
+    var platform = "Other";
     var cellular = false;
-    var browser;
-    var os;
+    var browser = "Other";
+    var os = "Other";
 
     //Detect cellular capabilities
     if (userAgent.match(/iPhone|Android|BlackBerry|Windows Phone/gi)) {
