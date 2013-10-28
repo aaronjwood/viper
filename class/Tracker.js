@@ -3,7 +3,7 @@ var BISON = require("../lib/bison.js");
 var Tracker = function(client, url) {
 	this.clients = {};
 	this.url = url;
-	this.clients[client.id] = client;
+	this.clients[client.userId] = client;
 };
 
 //Sort trackers by connections descending

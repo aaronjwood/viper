@@ -1,5 +1,5 @@
 var User = function(userData) {
-	this.id = userData.sessionId;
+	this.userId = userData.userId;
 	this.browser = userData.browserInfo.browser;
 	this.screenWidth = userData.screenWidth;
 	this.screenHeight = userData.screenHeight;

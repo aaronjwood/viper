@@ -80,14 +80,18 @@ clientSocket.sockets.on('connection', function(client) {
     //When a tracker emits a beacon then do necessary processing
     client.on('beacon', function(data) {
         
-        //Add the url of the connected client to the client object to use upon disconnection
+        //If a URL isn't sent over the socket then disregard this connection (connections can be manually crafted!)
+        if(!data.url) {
+            return;
+        }
+        
+        client.userId = Util.generateUuid();
         client.url = data.url;
-
+        
         payload.totalConnections++;
-
-        //The client id uniquely identifies a user
+        
         var userData = {
-            sessionId: client.id,
+            userId: client.userId,
             browserInfo: Util.getBrowserInfo(client.handshake.headers["user-agent"]),
             screenWidth: data.screenWidth,
             screenHeight: data.screenHeight
@@ -100,7 +104,7 @@ clientSocket.sockets.on('connection', function(client) {
         //If an object tracking the URL already exists then increment the number of connections and assign the new user
         if (allTrackers.hasOwnProperty(client.url)) {
             allTrackers[client.url].numConnections++;
-            allTrackers[client.url].clients[client.id] = newUser;
+            allTrackers[client.url].clients[client.userId] = newUser;
         }
 
         //Otherwise create a new tracker and user and assign it to the URL
@@ -119,7 +123,7 @@ clientSocket.sockets.on('connection', function(client) {
             payload.screenResolutions[screenResolution] = 1;
         }
 
-        //Add the OS to the payload if it doesn't exist
+        //Add the OS to the payload if it doesn't 
         if (payload.os.hasOwnProperty(userData.browserInfo.os)) {
             payload.os[userData.browserInfo.os]++;
         }
@@ -138,7 +142,7 @@ clientSocket.sockets.on('connection', function(client) {
         payload.totalConnections--;
 
         //Get the appropriate tracker to work with
-        var killedTracker = allTrackers[client.url].clients[client.id];
+        var killedTracker = allTrackers[client.url].clients[client.userId];
 
         //Decrement the number of connections to a given URL
         allTrackers[client.url].numConnections--;
@@ -169,7 +173,7 @@ clientSocket.sockets.on('connection', function(client) {
 
         //Otherwise remove the specific client
         else {
-            delete allTrackers[client.url].clients[client.id];
+            delete allTrackers[client.url].clients[client.userId];
         }
 
         //Send the data back after manipulation
