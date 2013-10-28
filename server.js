@@ -18,6 +18,7 @@ console.log("Dashboard server created");
 
 console.log("Creating client socket server...");
 var clientSocket = io.listen(config.socketPort, {
+    "flash policy port": -1,
     "log level": 1,
     "browser client": false,
     "transports": [
@@ -32,6 +33,7 @@ console.log("Client socket server created");
 
 console.log("Creating dashboard socket server...");
 var dashboardSocket = io.listen(viewServer, {
+    "flash policy port": -1,
     "log level": 1,
     "browser client minification": true,
     "browser client etag": true,
@@ -137,6 +139,11 @@ clientSocket.sockets.on('connection', function(client) {
     });
 
     client.on('disconnect', function() {
+        
+        //There could be no URL associated with a client for many reasons (race conditions, asynchronous calls, etc.)
+        if(!client.url) {
+            return;
+        }
 
         //Decrement the total connections
         payload.totalConnections--;
