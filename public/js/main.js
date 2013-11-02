@@ -94,7 +94,7 @@ $(function() {
         });
 
         for (var i = 0; i < oses.length; i++) {
-            osData += "<div>" + os + " - " + payload.os[os] + "</div>";
+            osData += "<div>" + oses[i].os + " - " + oses[i].count + "</div>";
         }
         osContainer.html(osData);
     });
