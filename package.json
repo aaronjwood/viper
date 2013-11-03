@@ -1,11 +1,19 @@
 {
-	"name": "Viper",
-	"version": "0.2.0",
-	"main": "server",
-	"description": "Real-time tracking and analytics using Node.js and Socket.IO",
-	"author": "Aaron Wood",
-	"dependencies": {
-		"socket.io": ">= 0.7.x",
-		"node-static": ">= 0.5.x"
-	}
+    "name": "Viper",
+    "version": "0.5.0",
+    "main": "server",
+    "description": "Real-time tracking and analytics using Node.js and Socket.IO",
+    "author": "Aaron Wood <aaronjwood@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aaronjwood/viper.git"
+    },
+    "dependencies": {
+        "socket.io": ">= 0.9.x",
+        "node-static": ">= 0.7.x",
+        "geoip-lite": ">= 1.1.x"
+    },
+    "engines": {
+        "node": ">= 0.10.x"
+    }
 }

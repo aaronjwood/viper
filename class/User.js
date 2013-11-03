@@ -9,6 +9,7 @@ var User = function(userData) {
     this.screenWidth = userData.screenWidth;
     this.screenHeight = userData.screenHeight;
     this.os = userData.browserInfo.os;
+    this.ip = userData.ip;
 };
 
 /**

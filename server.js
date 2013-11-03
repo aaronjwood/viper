@@ -1,6 +1,7 @@
 var http = require("http");
 var io = require("socket.io");
 var client = require("node-static");
+var geoip = require("geoip-lite");
 var config = require("./sys/config.js");
 var Util = require("./class/Util.js");
 var User = require("./class/User.js");
@@ -96,7 +97,8 @@ clientSocket.sockets.on('connection', function(client) {
             userId: client.userId,
             browserInfo: Util.getBrowserInfo(client.handshake.headers["user-agent"]),
             screenWidth: data.screenWidth,
-            screenHeight: data.screenHeight
+            screenHeight: data.screenHeight,
+            ip: client.handshake.address.address
         };
 
         //Increment the appropriate browser count
@@ -139,9 +141,9 @@ clientSocket.sockets.on('connection', function(client) {
     });
 
     client.on('disconnect', function() {
-        
+
         //There could be no URL associated with a client for many reasons (race conditions, asynchronous calls, etc.)
-        if(!client.url) {
+        if (!client.url) {
             return;
         }
 
