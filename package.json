@@ -11,8 +11,7 @@
     "dependencies": {
         "socket.io": ">= 0.9.x",
         "node-static": ">= 0.7.x",
-        "geoip-lite": ">= 1.1.x",
-        "leaflet": ">= 0.6.4"
+        "geoip-lite": ">= 1.1.x"
     },
     "engines": {
         "node": ">= 0.10.x"
