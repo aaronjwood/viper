@@ -30,6 +30,7 @@ $(function() {
     });
 
     browserChart.init();
+    //var locationsMap = L.map("locationsMap").setView([51.505, -0.09], 13);
 
     var socket = io.connect();
     var pages = $("#pages");
