@@ -24,13 +24,22 @@ $(function() {
             return false;
         }
         $(".activeControl:visible").fadeOut(300, function() {
-            control.fadeIn(300).addClass("activeControl");
+            control.fadeIn(300, function() {
+                locationsMap.invalidateSize();
+            }).addClass("activeControl");
         }).removeClass("activeControl");
         return false;
     });
 
     browserChart.init();
-    //var locationsMap = L.map("locationsMap").setView([51.505, -0.09], 13);
+    var locationsMap = L.map("locationsMap", {
+        center: new L.LatLng(0, 0),
+        worldCopyJump: true,
+        zoom: 1
+    });
+    L.tileLayer("http://{s}.tile.cloudmade.com/1B5CF31556BA4646A5059989DA6FC03C/999/256/{z}/{x}/{y}.png", {
+        maxZoom: 18
+    }).addTo(locationsMap);
 
     var socket = io.connect();
     var pages = $("#pages");
