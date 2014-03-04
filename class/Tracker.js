@@ -1,5 +1,3 @@
-var BISON = require("../lib/bison.js");
-
 /**
  * Tracker class constructor
  * @param {User} client
@@ -41,7 +39,7 @@ Tracker.sendPayload = function(allTrackers, payload, config, socket) {
 
         //Sort the trackers and send the top n as set in the configuration file
         payload.trackers = sortedTrackers.sort(Tracker.sortByConnections).slice(0, config.totalTrackers);
-        socket.sockets.json.send(BISON.encode(payload));
+        socket.sockets.json.send(payload);
     }
 };
 
