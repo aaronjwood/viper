@@ -53,8 +53,6 @@ $(function() {
     });
 
     socket.on('message', function(payload) {
-        payload = BISON.decode(payload);
-
         totalConnections.html(payload.totalConnections);
 
         var trackingData = "";
