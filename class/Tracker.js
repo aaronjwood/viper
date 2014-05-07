@@ -21,8 +21,7 @@ Tracker.sortByConnections = function(tracker1, tracker2) {
 };
 
 /**
- * Determines if there are any connections to the dashboard.
- * If there are, the trackers are sorted and sliced based on the configuration, and sent back over the socket
+ * Sorts the trackers and sends the configured number of trackers back over the socket
  * @param {Object} allTrackers
  * @param {Object} payload
  * @param {Object} config
