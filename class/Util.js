@@ -1,8 +1,9 @@
-var Util = function() {
-};
+var Util = function() {};
 
 /**
  * Generates a unique identifier to identify connected clients
+ * We want a more unique identifier than what socket.io provides us
+ * What if there are hundreds of thousands of connections to a server? Uniqueness is key
  * @returns {String}
  */
 Util.generateUuid = function() {
