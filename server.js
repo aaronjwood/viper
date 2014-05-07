@@ -151,19 +151,18 @@ clientSocket.on('connection', function(client) {
         }
 
         //Decrement the appropriate operating system count
-        payload.os[killedTracker.getOs()]--;
+        payload.os[killedTracker.os]--;
 
         //Remove the operating system if the count is 0
-        if(payload.os[killedTracker.getOs()] === 0) {
-            delete payload.os[killedTracker.getOs()];
+        if(payload.os[killedTracker.os] === 0) {
+            delete payload.os[killedTracker.os];
         }
 
         //Remove the URL if there are no connections to it
+        //Otherwise remove the specific client
         if(allTrackers[client.url].numConnections === 0) {
             delete allTrackers[client.url];
         }
-
-        //Otherwise remove the specific client
         else {
             delete allTrackers[client.url].clients[client.userId];
         }

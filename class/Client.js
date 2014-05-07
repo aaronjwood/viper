@@ -168,12 +168,4 @@ Client.prototype.getScreenResolution = function() {
     return this.screenWidth + "x" + this.screenHeight;
 };
 
-/**
- * Returns the operating system used by the client
- * @returns {String}
- */
-Client.prototype.getOs = function() {
-    return this.os;
-};
-
 module.exports = Client;
