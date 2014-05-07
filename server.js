@@ -75,7 +75,7 @@ clientSocket.on('connection', function(client) {
         payload.totalConnections++;
         client.userId = Client.generateUuid();
         client.url = data.url;
-        
+
         var newClient = new Client({
             userId: client.userId,
             url: client.url,
@@ -84,7 +84,7 @@ clientSocket.on('connection', function(client) {
             screenHeight: data.screenHeight,
             ip: client.request.connection.remoteAddress
         });
-        
+
         //Increment the appropriate browser count
         payload.browsers.count[newClient.browser]++;
 
@@ -95,7 +95,7 @@ clientSocket.on('connection', function(client) {
             allTrackers[client.url].clients[client.userId] = newClient;
         }
         else {
-            allTrackers[client.url] = new Tracker(newClient, client.url);;
+            allTrackers[client.url] = new Tracker(newClient, client.url);
             allTrackers[client.url].numConnections = 1;
         }
 

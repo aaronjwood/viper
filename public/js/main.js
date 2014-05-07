@@ -1,5 +1,5 @@
 function changeBrowserColor(browser) {
-    if (browser) {
+    if(browser) {
         return $("." + browser.toLowerCase()).css("background-color");
     }
 }
@@ -8,7 +8,7 @@ $(function() {
 
     $("#showQuickStats").on("click", function() {
         var quickStats = $("#quickStats");
-        if (parseInt(quickStats.css("top")) != 0) {
+        if(parseInt(quickStats.css("top")) != 0) {
             quickStats.animate({"top": 0});
         }
         else {
@@ -58,12 +58,12 @@ $(function() {
         var trackingData = "";
 
         //Get the URL and number of connections for each tracker
-        for (var i = 0; i < payload.trackers.length; i++) {
-            trackingData += "<div><a href='"+payload.trackers[i].url+"'>" + payload.trackers[i].url + " - <strong>" + payload.trackers[i].numConnections + "</strong></div>";
+        for(var i = 0; i < payload.trackers.length; i++) {
+            trackingData += "<div><a href='" + payload.trackers[i].url + "'>" + payload.trackers[i].url + " - <strong>" + payload.trackers[i].numConnections + "</strong></div>";
         }
         pages.html(trackingData);
 
-        for (var browser in payload.browsers.count) {
+        for(var browser in payload.browsers.count) {
             browserChart.browsers[browser] = payload.browsers.count[browser];
         }
         browserChart.repaint();
@@ -72,7 +72,7 @@ $(function() {
 
         var resolutions = [];
         var resolutionData = "";
-        for (var resolution in payload.screenResolutions) {
+        for(var resolution in payload.screenResolutions) {
             resolutions.push({
                 resolution: resolution,
                 count: payload.screenResolutions[resolution]
@@ -83,14 +83,14 @@ $(function() {
             return b.count - a.count;
         });
 
-        for (var i = 0; i < resolutions.length; i++) {
+        for(var i = 0; i < resolutions.length; i++) {
             resolutionData += "<div>" + resolutions[i].resolution + " - " + resolutions[i].count + "</div>";
         }
         screenResContainer.html(resolutionData);
 
         var oses = [];
         var osData = "";
-        for (var os in payload.os) {
+        for(var os in payload.os) {
             oses.push({
                 os: os,
                 count: payload.os[os]
@@ -101,7 +101,7 @@ $(function() {
             return b.count - a.count;
         });
 
-        for (var i = 0; i < oses.length; i++) {
+        for(var i = 0; i < oses.length; i++) {
             osData += "<div>" + oses[i].os + " - " + oses[i].count + "</div>";
         }
         osContainer.html(osData);
