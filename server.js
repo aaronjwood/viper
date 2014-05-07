@@ -3,8 +3,7 @@ var io = require("socket.io");
 var client = require("node-static");
 var geoip = require("geoip-lite");
 var config = require("./sys/config.js");
-var Util = require("./class/Util.js");
-var User = require("./class/User.js");
+var Client = require("./class/Client.js");
 var Tracker = require("./class/Tracker.js");
 
 //Static server to serve the dashboard
@@ -17,12 +16,14 @@ var viewServer = http.createServer(function(req, res) {
 }).listen(config.dashboardPort);
 console.log("Dashboard server created");
 
+//Websocket server
 console.log("Creating client socket server...");
 var clientServer = http.Server();
 var clientSocket = io(clientServer);
 clientServer.listen(config.socketPort);
 console.log("Client socket server created");
 
+//Dashboard server
 console.log("Creating dashboard socket server...");
 var dashboardServer = viewServer;
 var dashboardSocket = io(dashboardServer);
@@ -54,7 +55,7 @@ var payload = {
 };
 
 dashboardSocket.on("connection", function() {
-    
+
     //Immediately send stats to the dashboard upon request
     Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 });
@@ -65,44 +66,42 @@ clientSocket.on('connection', function(client) {
     //The beacon's data will contain all the necessary tracking information
     client.on('beacon', function(data) {
 
-        //If a URL isn't sent over the socket then disregard this connection (connections can be manually crafted!)
-        if (!data.url) {
+        //If a URL isn't sent over the socket then disregard this connection
+        //Connections can be manually crafted! Data can be manipulated!
+        if(!data.url) {
             return;
         }
 
-        client.userId = Util.generateUuid();
-        client.url = data.url;
-
         payload.totalConnections++;
-
-        var userData = {
+        client.userId = Client.generateUuid();
+        client.url = data.url;
+        
+        var newClient = new Client({
             userId: client.userId,
-            browserInfo: Util.getBrowserInfo(client.request.headers["user-agent"]),
+            url: client.url,
+            browserInfo: client.request.headers["user-agent"],
             screenWidth: data.screenWidth,
             screenHeight: data.screenHeight,
             ip: client.request.connection.remoteAddress
-        };
-
+        });
+        
         //Increment the appropriate browser count
-        payload.browsers.count[userData.browserInfo.browser]++;
-        var newUser = new User(userData);
+        payload.browsers.count[newClient.browser]++;
 
         //If an object tracking the URL already exists then increment the number of connections and assign the new user
-        if (allTrackers.hasOwnProperty(client.url)) {
-            allTrackers[client.url].numConnections++;
-            allTrackers[client.url].clients[client.userId] = newUser;
-        }
-
         //Otherwise create a new tracker and user and assign it to the URL
+        if(allTrackers.hasOwnProperty(client.url)) {
+            allTrackers[client.url].numConnections++;
+            allTrackers[client.url].clients[client.userId] = newClient;
+        }
         else {
-            var newTracker = new Tracker(newUser, client.url);
-            allTrackers[client.url] = newTracker;
+            allTrackers[client.url] = new Tracker(newClient, client.url);;
             allTrackers[client.url].numConnections = 1;
         }
 
         //Get the string value for the screen resolution and add it to the payload if it doesn't exist
-        var screenResolution = newUser.getScreenResolution();
-        if (payload.screenResolutions.hasOwnProperty(screenResolution)) {
+        var screenResolution = newClient.getScreenResolution();
+        if(payload.screenResolutions.hasOwnProperty(screenResolution)) {
             payload.screenResolutions[screenResolution]++;
         }
         else {
@@ -110,11 +109,11 @@ clientSocket.on('connection', function(client) {
         }
 
         //Add the OS to the payload if it doesn't 
-        if (payload.os.hasOwnProperty(userData.browserInfo.os)) {
-            payload.os[userData.browserInfo.os]++;
+        if(payload.os.hasOwnProperty(newClient.os)) {
+            payload.os[newClient.os]++;
         }
         else {
-            payload.os[userData.browserInfo.os] = 1;
+            payload.os[newClient.os] = 1;
         }
 
         //Send the data back
@@ -124,8 +123,10 @@ clientSocket.on('connection', function(client) {
 
     client.on('disconnect', function() {
 
-        //There could be no URL associated with a client for many reasons (race conditions, asynchronous calls, etc.)
-        if (!client.url) {
+        //There could be no URL associated with a client for many reasons
+        //Race conditions
+        //A client connecting and immediately disconnecting before their tracking data is sent
+        if(!client.url) {
             return;
         }
 
@@ -145,7 +146,7 @@ clientSocket.on('connection', function(client) {
         payload.screenResolutions[killedTracker.getScreenResolution()]--;
 
         //Remove the resolution if the count is 0
-        if (payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
+        if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
             delete payload.screenResolutions[killedTracker.getScreenResolution()];
         }
 
@@ -153,12 +154,12 @@ clientSocket.on('connection', function(client) {
         payload.os[killedTracker.getOs()]--;
 
         //Remove the operating system if the count is 0
-        if (payload.os[killedTracker.getOs()] == 0) {
+        if(payload.os[killedTracker.getOs()] == 0) {
             delete payload.os[killedTracker.getOs()];
         }
 
         //Remove the URL if there are no connections to it
-        if (allTrackers[client.url].numConnections == 0) {
+        if(allTrackers[client.url].numConnections == 0) {
             delete allTrackers[client.url];
         }
 

@@ -1,4 +1,18 @@
-var Util = function() {};
+/**
+ * Client class constructor
+ * @param {Object} data Tracking data associated with a client
+ * @returns {Client} A new instance of the client class
+ */
+var Client = function(data) {
+    this.id = data.clientId;
+    this.url = data.url;
+    this.screenWidth = data.screenWidth;
+    this.screenHeight = data.screenHeight;
+    this.os = data.browserInfo.os;
+    this.ip = data.ip;
+    
+    this.getBrowserInfo(data.browserInfo);
+};
 
 /**
  * Generates a unique identifier to identify connected clients
@@ -6,7 +20,7 @@ var Util = function() {};
  * What if there are hundreds of thousands of connections to a server? Uniqueness is key
  * @returns {String}
  */
-Util.generateUuid = function() {
+Client.generateUuid = function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
@@ -18,7 +32,7 @@ Util.generateUuid = function() {
  * @param {String} userAgent The browser's user agent string
  * @returns {Object}
  */
-Util.getBrowserInfo = function(userAgent) {
+Client.prototype.getBrowserInfo = function(userAgent) {
     var platform = "Other";
     var cellular = false;
     var browser = "Other";
@@ -140,12 +154,26 @@ Util.getBrowserInfo = function(userAgent) {
         os = "Other";
     }
 
-    return {
-        platform: platform,
-        isCellular: cellular,
-        browser: browser,
-        os: os
-    };
+    this.platform = platform;
+    this.isCellular = cellular;
+    this.browser = browser;
+    this.os = os;
 };
 
-module.exports = Util;
+/**
+ * Takes the screen width and height and returns it as a resolution
+ * @returns {String}
+ */
+Client.prototype.getScreenResolution = function() {
+    return this.screenWidth + "x" + this.screenHeight;
+};
+
+/**
+ * Returns the operating system used by the client
+ * @returns {String}
+ */
+Client.prototype.getOs = function() {
+    return this.os;
+};
+
+module.exports = Client;

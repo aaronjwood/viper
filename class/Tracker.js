@@ -11,6 +11,15 @@ var Tracker = function(client, url) {
 };
 
 /**
+ * Checks to make sure the tracker has the minimum necessary properties
+ * @param {String} url The URL that the client connected from
+ * @returns {Boolean}
+ */
+Tracker.validate = function(url) {
+    return url && this.ip;
+};
+
+/**
  * Sort trackers by connections descending
  * @param {Tracker} tracker1
  * @param {Tracker} tracker2
@@ -29,7 +38,7 @@ Tracker.sortByConnections = function(tracker1, tracker2) {
  */
 Tracker.sendPayload = function(allTrackers, payload, config, socket) {
     var sortedTrackers = [];
-    for (var tracker in allTrackers) {
+    for(var tracker in allTrackers) {
         sortedTrackers.push(allTrackers[tracker]);
     }
 
