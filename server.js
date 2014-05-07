@@ -146,7 +146,7 @@ clientSocket.on('connection', function(client) {
         payload.screenResolutions[killedTracker.getScreenResolution()]--;
 
         //Remove the resolution if the count is 0
-        if(payload.screenResolutions[killedTracker.getScreenResolution()] == 0) {
+        if(payload.screenResolutions[killedTracker.getScreenResolution()] === 0) {
             delete payload.screenResolutions[killedTracker.getScreenResolution()];
         }
 
@@ -154,12 +154,12 @@ clientSocket.on('connection', function(client) {
         payload.os[killedTracker.getOs()]--;
 
         //Remove the operating system if the count is 0
-        if(payload.os[killedTracker.getOs()] == 0) {
+        if(payload.os[killedTracker.getOs()] === 0) {
             delete payload.os[killedTracker.getOs()];
         }
 
         //Remove the URL if there are no connections to it
-        if(allTrackers[client.url].numConnections == 0) {
+        if(allTrackers[client.url].numConnections === 0) {
             delete allTrackers[client.url];
         }
 
