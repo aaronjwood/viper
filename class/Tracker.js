@@ -29,18 +29,14 @@ Tracker.sortByConnections = function(tracker1, tracker2) {
  * @param {Object} socket
  */
 Tracker.sendPayload = function(allTrackers, payload, config, socket) {
-
-    //Only send the payload if there is a connection to the dashboard
-    if (Object.keys(socket.sockets.manager.connected).length > 0) {
-        var sortedTrackers = [];
-        for (var tracker in allTrackers) {
-            sortedTrackers.push(allTrackers[tracker]);
-        }
-
-        //Sort the trackers and send the top n as set in the configuration file
-        payload.trackers = sortedTrackers.sort(Tracker.sortByConnections).slice(0, config.totalTrackers);
-        socket.sockets.json.send(payload);
+    var sortedTrackers = [];
+    for (var tracker in allTrackers) {
+        sortedTrackers.push(allTrackers[tracker]);
     }
+
+    //Sort the trackers and send the top n as set in the configuration file
+    payload.trackers = sortedTrackers.sort(Tracker.sortByConnections).slice(0, config.totalTrackers);
+    socket.sockets.json.send(payload);
 };
 
 module.exports = Tracker;

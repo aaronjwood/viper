@@ -18,34 +18,15 @@ var viewServer = http.createServer(function(req, res) {
 console.log("Dashboard server created");
 
 console.log("Creating client socket server...");
-var clientSocket = io.listen(config.socketPort, {
-    "flash policy port": -1,
-    "log level": 1,
-    "browser client": false,
-    "transports": [
-        "websocket",
-        "flashsocket",
-        "htmlfile",
-        "xhr-polling",
-        "jsonp-polling"
-    ]
-});
+var clientServer = http.Server();
+var clientSocket = io(clientServer);
+clientServer.listen(config.socketPort);
 console.log("Client socket server created");
 
 console.log("Creating dashboard socket server...");
-var dashboardSocket = io.listen(viewServer, {
-    "flash policy port": -1,
-    "log level": 1,
-    "browser client minification": true,
-    "browser client etag": true,
-    "transports": [
-        "websocket",
-        "flashsocket",
-        "htmlfile",
-        "xhr-polling",
-        "jsonp-polling"
-    ]
-});
+var dashboardServer = viewServer;
+var dashboardSocket = io(dashboardServer);
+dashboardServer.listen(viewServer);
 console.log("Dashboard socket server created");
 
 //Object to hold all trackers
@@ -72,15 +53,16 @@ var payload = {
     os: {}
 };
 
-dashboardSocket.sockets.on("connection", function() {
-
+dashboardSocket.on("connection", function() {
+    
     //Immediately send stats to the dashboard upon request
     Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 });
 
-clientSocket.sockets.on('connection', function(client) {
+clientSocket.on('connection', function(client) {
 
-    //When a tracker emits a beacon then do necessary processing
+    //A client will emit a beacon after it has connected to the server
+    //The beacon's data will contain all the necessary tracking information
     client.on('beacon', function(data) {
 
         //If a URL isn't sent over the socket then disregard this connection (connections can be manually crafted!)
@@ -95,10 +77,10 @@ clientSocket.sockets.on('connection', function(client) {
 
         var userData = {
             userId: client.userId,
-            browserInfo: Util.getBrowserInfo(client.handshake.headers["user-agent"]),
+            browserInfo: Util.getBrowserInfo(client.request.headers["user-agent"]),
             screenWidth: data.screenWidth,
             screenHeight: data.screenHeight,
-            ip: client.handshake.address.address
+            ip: client.request.connection.remoteAddress
         };
 
         //Increment the appropriate browser count
