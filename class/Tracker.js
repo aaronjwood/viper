@@ -7,7 +7,7 @@
 var Tracker = function(client, url) {
     this.clients = {};
     this.url = url;
-    this.clients[client.userId] = client;
+    this.clients[client.id] = client;
 };
 
 /**

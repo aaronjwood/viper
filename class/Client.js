@@ -4,7 +4,7 @@
  * @returns {Client} A new instance of the client class
  */
 var Client = function(data) {
-    this.id = data.clientId;
+    this.id = data.userId;
     this.url = data.url;
     this.screenWidth = data.screenWidth;
     this.screenHeight = data.screenHeight;
