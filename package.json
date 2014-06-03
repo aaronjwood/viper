@@ -9,7 +9,7 @@
         "url": "https://github.com/aaronjwood/viper.git"
     },
     "dependencies": {
-        "socket.io": ">= 0.9.x",
+        "socket.io": ">= 1.0.x",
         "node-static": ">= 0.7.x",
         "geoip-lite": ">= 1.1.x"
     },
