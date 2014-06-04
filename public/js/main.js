@@ -41,7 +41,7 @@ $(function() {
         maxZoom: 18
     }).addTo(locationsMap);
 
-    var socket = io.connect();
+    var socket = io();
     var pages = $("#pages");
     var totalConnections = $("#totalConnections");
     var mostPopularBrowser = $("#mostPopularBrowser");
