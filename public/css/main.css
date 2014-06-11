@@ -40,36 +40,8 @@ a:hover {
 .control.last {
     border-radius: 0 0 10px 0;
 }
-#quickStats {
-    position: fixed;
-    top: -85px;
-    right: 0;
-    width: 250px;
-    background: black;
-    z-index: 99;
-    font-family: 'Lobster', cursive;
-}
-#quickStatsButton {
-    text-align: center;
-    font-weight: bold;
-    font-size: 17px;
-    background: #AD011B;
-    border-radius: 0 0 10px 10px;
-    padding: 5px;
-}
-#quickStatsButton a {
-    color: white;
-}
 .section {
     display: none;
-}
-.stat {
-    padding: 12px;
-    border-bottom: 1px solid white;
-    border-left: 1px solid white;
-}
-.stat.last {
-    border-bottom: none;
 }
 #locationsMap {
     height: 600px;
@@ -83,96 +55,4 @@ a:hover {
 }
 .tracker strong {
     font-weight: bold;
-}
-.waiting {
-    font-size: 14px;
-    color: #ff9900;
-    font-weight: bold;
-}
-.num {
-    color: white;
-}
-#totalConnections {
-    color: #ECB220;
-    font-weight: bold;
-}
-
-/* Chart */
-#browsers {
-    position: relative;
-}
-#chartNumbers {
-    font-size: 10px;
-}
-#browserTotal {
-    position: absolute;
-    top: 0;
-}
-#browserZero {
-    position: absolute;
-    bottom: 0;
-}
-#chartBars {
-    margin-left: 30px;
-    height: 550px;
-    border-bottom: 1px solid white;
-    border-left: 1px solid white;
-    border-bottom-left-radius: 5px;
-}
-#chartLabels {
-    margin: 5px 0 0 30px;
-}
-.chart {
-    position: relative;
-    width: 90px;
-    height: 550px;
-    overflow: hidden;
-    float: left;
-    margin: 0 10px
-}
-.chartInner {
-    width: 100%;
-    height: 100%;
-    bottom: -550px;
-    position: relative;
-    border-radius: 7px 7px 0 0;
-}
-.chartCount {
-    text-align: center;
-    font-size: 10px;
-    color: #ffffff;
-}
-.chartLabel {
-    float: left;
-    width: 90px;
-    margin: 0 10px;
-    text-align: center;
-    font-size: 11px;
-}
-.chrome {
-    background: #4cb848;
-}
-.firefox {
-    background: #f96400;
-}
-.ie {
-    background: #00acee;
-}
-.opera {
-    background: #c70f17;
-}
-.safari {
-    background: #1e5b9c;
-}
-.android {
-    background: #8dd215;
-}
-.ipad {
-    background: #717171;
-}
-.iphone {
-    background: #343d46;
-}
-.other {
-    background: #871F78;
 }
