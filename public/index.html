@@ -3,16 +3,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>Viper</title>
+        <link rel="stylesheet" type="text/css" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
         <link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
-        <link rel="stylesheet" type="text/css" href="/css/lib/leaflet/leaflet.css" />
-        <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/css/lib/leaflet/leaflet.ie.css" /><![endif]-->
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="/js/lib/leaflet/leaflet.js"></script>
-        <!--[if lt IE 9]><script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script><![endif]-->
-        <!--[if gte IE 9]><!--><script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script><!--<![endif]-->
-        <script type="text/javascript" src="/js/charts/browser.js"></script>
-
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="/js/charts/browsers.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
     </head>
     <body>
@@ -49,90 +47,7 @@
         </div>
         <div id="content">
             <div id="pages" class="section"></div>
-
-            <div id="browsers" class="section">
-                <div id="chartNumbers">
-                    <div id="browserTotal"></div>
-                    <div id="browserZero">0</div>
-                </div>
-                <div id="chartBars">
-                    <div class="chart">
-                        <div class="chrome chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="opera chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="ie chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="firefox chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="safari chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="ipad chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="android chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="iphone chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="other chartInner">
-                            <div class="chartCount"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="chartLabels">
-                    <div title="Google Chrome" class="chartLabel">
-                        <img src="img/charts/browser/chrome.png" alt="Google Chrome" />
-                    </div>
-                    <div title="Opera" class="chartLabel">
-                        <img src="img/charts/browser/opera.png" alt="Opera" />
-                    </div>
-                    <div title="Microsoft Internet Explorer" class="chartLabel">
-                        <img src="img/charts/browser/ie.png" alt="Microsoft Internet Explorer" />
-                    </div>
-                    <div title="Mozilla Firefox" class="chartLabel">
-                        <img src="img/charts/browser/firefox.png" alt="Mozilla Firefox" />
-                    </div>
-                    <div title="Apple Safari" class="chartLabel">
-                        <img src="img/charts/browser/safari.png" alt="Apple Safari" />
-                    </div>
-                    <div title="Apple iPad" class="chartLabel">
-                        <img src="img/charts/browser/apple.png" alt="Apple iPad" />
-                    </div>
-                    <div title="Android" class="chartLabel">
-                        <img src="img/charts/browser/android.png" alt="Android" />
-                    </div>
-                    <div title="Apple iPhone" class="chartLabel">
-                        <img src="img/charts/browser/apple.png" alt="Apple iPhone" />
-                    </div>
-                    <div title="Other" class="chartLabel">
-                        <img src="img/charts/browser/other.png" alt="Other" />
-                    </div>
-                </div>
-            </div>
-            <div class="clear"></div>
+            <div id="browsers" class="activeControl"></div>
             <div id="resolutions" class="section"></div>
             <div id="os" class="section"></div>
             <div id="locations" class="section">
