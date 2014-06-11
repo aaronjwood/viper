@@ -1,7 +1,5 @@
-google.load('visualization', '1.0', {'packages': ['corechart']});
-google.setOnLoadCallback(function() {
+google.load('visualization', '1.0', {'packages': ['corechart'], 'callback': function() {
     $(function() {
-
         $("#showQuickStats").on("click", function() {
             var quickStats = $("#quickStats");
             if(parseInt(quickStats.css("top")) != 0) {
@@ -92,7 +90,6 @@ google.setOnLoadCallback(function() {
             }
             osContainer.html(osData);
         });
-
     });
-});
-
+}});
+ 
