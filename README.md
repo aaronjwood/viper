@@ -9,6 +9,9 @@ The way Viper works both functionally and technically is fundamentally different
 
 Since Viper's purpose is to give data on a real-time basis there is no need for tracking sessions or how long it's been since a user made a request of some sort. There is no database behind Viper. Everything is persisted inside of the server which means that all data will be lost if the server is stopped. This is one of the main reasons why Viper is so different from other similar programs.
 
+# Code Status
+[![Code Climate](https://codeclimate.com/github/aaronjwood/viper/badges/gpa.svg)](https://codeclimate.com/github/aaronjwood/viper)
+
 # Tracking Code
 
     <script type="text/javascript" src="<URL OF SOCKET.IO.JS>"></script>
