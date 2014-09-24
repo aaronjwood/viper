@@ -7,28 +7,28 @@ var Client = require("./class/Client.js");
 var Tracker = require("./class/Tracker.js");
 
 //Static server to serve the dashboard
-console.log("Creating dashboard server...");
+console.log("Creating dashboard server...\n");
 var file = new (client.Server)('./public/');
 var viewServer = http.createServer(function(req, res) {
     req.addListener('end', function() {
         file.serve(req, res);
     }).resume();
 }).listen(config.dashboardPort);
-console.log("Dashboard server created");
+console.log("Dashboard server created\n");
 
 //Websocket server
-console.log("Creating client socket server...");
+console.log("Creating client socket server...\n");
 var clientServer = http.Server();
 var clientSocket = io(clientServer);
 clientServer.listen(config.socketPort);
-console.log("Client socket server created");
+console.log("Client socket server created\n");
 
 //Dashboard server
-console.log("Creating dashboard socket server...");
+console.log("Creating dashboard socket server...\n");
 var dashboardServer = viewServer;
 var dashboardSocket = io(dashboardServer);
 dashboardServer.listen(viewServer);
-console.log("Dashboard socket server created");
+console.log("Dashboard socket server created\n");
 
 //Object to hold all trackers
 var allTrackers = {};
