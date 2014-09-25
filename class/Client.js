@@ -1,7 +1,7 @@
 /**
  * Client class constructor
  * @param {Object} data Tracking data associated with a client
- * @returns {Client} A new instance of the client class
+ * @returns {Client} A new instance of the Client class
  */
 var Client = function(data) {
     this.id = data.userId;
