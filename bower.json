@@ -1,0 +1,26 @@
+{
+    "name": "viper",
+    "version": "0.0.4",
+    "homepage": "https://github.com/aaronjwood/viper",
+    "authors": [
+        "Aaron Wood <aaronjwood@gmail.com>"
+    ],
+    "main": "server.js",
+    "moduleType": [
+        "node"
+    ],
+    "license": "GPLv3",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap": "~3.2.0",
+        "angularjs": "~1.2.25",
+        "bootswatch": "~3.2.0+4"
+    }
+}
