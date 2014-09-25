@@ -11,19 +11,10 @@ var Tracker = function(client, url) {
 };
 
 /**
- * Checks to make sure the tracker has the minimum necessary properties
- * @param {String} url The URL that the client connected from
- * @returns {Boolean}
- */
-Tracker.validate = function(url) {
-    return url && this.ip;
-};
-
-/**
  * Sort trackers by connections descending
- * @param {Tracker} tracker1
- * @param {Tracker} tracker2
- * @returns {int}
+ * @param {Tracker} tracker1 First tracker used in comparison
+ * @param {Tracker} tracker2 Second tracker used in comparison
+ * @returns {int} Sorting order
  */
 Tracker.sortByConnections = function(tracker1, tracker2) {
     return tracker2.numConnections - tracker1.numConnections;
