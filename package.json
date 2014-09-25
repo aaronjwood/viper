@@ -9,9 +9,9 @@
         "url": "https://github.com/aaronjwood/viper.git"
     },
     "dependencies": {
-        "socket.io": ">= 1.0.x",
-        "node-static": ">= 0.7.x",
-        "geoip-lite": ">= 1.1.x"
+        "geoip-lite": "^1.1.3",
+        "node-static": "^0.7.5",
+        "socket.io": "^1.1.0"
     },
     "engines": {
         "node": ">= 0.10.x"
