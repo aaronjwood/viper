@@ -1,4 +1,4 @@
-nbproject/private/
+nbproject
 build/
 nbbuild/
 dist/
@@ -19,6 +19,8 @@ pids
 logs
 results
 build
+
+.idea
 
 node_modules
 public/components

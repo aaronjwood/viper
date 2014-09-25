@@ -1,6 +1,6 @@
 {
     "name": "Viper",
-    "version": "0.5.0",
+    "version": "0.0.5",
     "main": "server",
     "description": "Real-time tracking and analytics using Node.js and Socket.IO",
     "author": "Aaron Wood <aaronjwood@gmail.com>",
