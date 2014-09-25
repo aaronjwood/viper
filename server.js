@@ -95,7 +95,7 @@ clientSocket.on('connection', function(client) {
             allTrackers[client.url].clients[client.userId] = newClient;
         }
         else {
-            allTrackers[client.url] = new Tracker(newClient, client.url);
+            allTrackers[client.url] = new Tracker(newClient);
             allTrackers[client.url].numConnections = 1;
         }
 
