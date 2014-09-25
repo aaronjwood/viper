@@ -1,7 +1,7 @@
 /**
  * Tracker class constructor
  * @param {Client} client Data from the client containing tracking information
- * @param {String} url
+ * @param {String} url URL that all clients are associated with
  * @returns {Tracker} New instance of the Tracker class
  */
 var Tracker = function(client, url) {
