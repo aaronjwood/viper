@@ -6,6 +6,7 @@
 var Tracker = function(client) {
     this.clients = {};
     this.clients[client.id] = client;
+    this.numConnections = 1;
 };
 
 /**
