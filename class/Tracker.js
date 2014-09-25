@@ -1,10 +1,12 @@
 /**
  * Tracker class constructor
  * @param {Client} client Data from the client containing tracking information
+ * @param {String} url
  * @returns {Tracker} New instance of the Tracker class
  */
-var Tracker = function(client) {
+var Tracker = function(client, url) {
     this.clients = {};
+    this.url = url;
     this.clients[client.id] = client;
     this.numConnections = 1;
 };
