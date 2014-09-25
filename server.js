@@ -96,7 +96,6 @@ clientSocket.on('connection', function (client) {
         }
         else {
             allTrackers[client.url] = new Tracker(newClient, client.url);
-            allTrackers[client.url].numConnections = 1;
         }
 
         //Get the string value for the screen resolution and add it to the payload if it doesn't exist
