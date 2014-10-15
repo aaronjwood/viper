@@ -1,7 +1,7 @@
 /**
  * Client class constructor
- * @param {Object} data Tracking data associated with a client
- * @returns {Client} A new instance of the Client class
+ * @param Object data Tracking data associated with a client
+ * @returns Client A new instance of the Client class
  */
 var Client = function(data) {
     this.id = data.userId;
@@ -18,7 +18,7 @@ var Client = function(data) {
  * Generates a unique identifier to identify connected clients
  * We want a more unique identifier than what socket.io provides us
  * What if there are hundreds of thousands of connections to a server? Uniqueness is key
- * @returns {String}
+ * @returns String
  */
 Client.generateUuid = function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -29,8 +29,8 @@ Client.generateUuid = function() {
 
 /**
  * Determines information from the user agent and returns an object with useful tracking information
- * @param {String} userAgent The browser's user agent string
- * @returns {Object}
+ * @param String userAgent The browser's user agent string
+ * @returns Object
  */
 Client.prototype.getBrowserInfo = function(userAgent) {
     var platform = "Other";
@@ -40,7 +40,7 @@ Client.prototype.getBrowserInfo = function(userAgent) {
 
     /**
      * Determines if the device has cellular capabilities
-     * @returns {Boolean}
+     * @returns Boolean
      */
     var detectCellular = function() {
         if(userAgent.match(/iPhone|Android|BlackBerry|Windows Phone/gi)) {
@@ -179,7 +179,7 @@ Client.prototype.getBrowserInfo = function(userAgent) {
 
 /**
  * Takes the screen width and height and returns it as a resolution
- * @returns {String}
+ * @returns String
  */
 Client.prototype.getScreenResolution = function() {
     return this.screenWidth + "x" + this.screenHeight;
