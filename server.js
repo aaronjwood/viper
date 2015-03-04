@@ -1,34 +1,35 @@
+"use strict";
+
+var express = require("express");
+var compression = require("compression");
+var bodyParser = require("body-parser");
+var session = require("express-session");
+var cookieParser = require("cookie-parser");
 var http = require("http");
 var io = require("socket.io");
-var client = require("node-static");
 var geoip = require("geoip-lite");
 var config = require("./sys/config.js");
 var Client = require("./class/Client.js");
 var Tracker = require("./class/Tracker.js");
 
-//Static server to serve the dashboard
-console.log("Creating dashboard server...\n");
-var file = new (client.Server)('./public/');
-var viewServer = http.createServer(function (req, res) {
-    req.addListener('end', function () {
-        file.serve(req, res);
-    }).resume();
-}).listen(config.dashboardPort);
-console.log("Dashboard server created\n");
+var dashboard = express();
 
-//Websocket server
-console.log("Creating client socket server...\n");
+dashboard
+    .use(compression())
+    .use(bodyParser.urlencoded({
+        extended: true
+    }))
+    .use(bodyParser.json())
+    .use(cookieParser())
+    .use(express.static(__dirname + "/public"));
+
+var dashboardServer = http.Server(dashboard);
+var dashboardSocket = io(dashboardServer);
+dashboardServer.listen(config.dashboardPort);
+
 var clientServer = http.Server();
 var clientSocket = io(clientServer);
 clientServer.listen(config.socketPort);
-console.log("Client socket server created\n");
-
-//Dashboard server
-console.log("Creating dashboard socket server...\n");
-var dashboardServer = viewServer;
-var dashboardSocket = io(dashboardServer);
-dashboardServer.listen(viewServer);
-console.log("Dashboard socket server created\n");
 
 //Object to hold all trackers
 var allTrackers = {};
@@ -54,21 +55,21 @@ var payload = {
     os: {}
 };
 
-dashboardSocket.on("connection", function () {
+dashboardSocket.on("connection", function() {
 
     //Immediately send stats to the dashboard upon request
     Tracker.sendPayload(allTrackers, payload, config, dashboardSocket);
 });
 
-clientSocket.on('connection', function (client) {
+clientSocket.on('connection', function(client) {
 
     //A client will emit a beacon after it has connected to the server
     //The beacon's data will contain all the necessary tracking information
-    client.on('beacon', function (data) {
+    client.on('beacon', function(data) {
 
         //If a URL isn't sent over the socket then disregard this connection
         //Connections can be manually crafted! Data can be manipulated!
-        if (!data.url) {
+        if(!data.url) {
             return;
         }
 
@@ -90,7 +91,7 @@ clientSocket.on('connection', function (client) {
 
         //If an object tracking the URL already exists then increment the number of connections and assign the new user
         //Otherwise create a new tracker and user and assign it to the URL
-        if (allTrackers.hasOwnProperty(client.url)) {
+        if(allTrackers.hasOwnProperty(client.url)) {
             allTrackers[client.url].numConnections++;
             allTrackers[client.url].clients[client.userId] = newClient;
         }
@@ -100,7 +101,7 @@ clientSocket.on('connection', function (client) {
 
         //Get the string value for the screen resolution and add it to the payload if it doesn't exist
         var screenResolution = newClient.getScreenResolution();
-        if (payload.screenResolutions.hasOwnProperty(screenResolution)) {
+        if(payload.screenResolutions.hasOwnProperty(screenResolution)) {
             payload.screenResolutions[screenResolution]++;
         }
         else {
@@ -108,7 +109,7 @@ clientSocket.on('connection', function (client) {
         }
 
         //Add the OS to the payload if it doesn't 
-        if (payload.os.hasOwnProperty(newClient.os)) {
+        if(payload.os.hasOwnProperty(newClient.os)) {
             payload.os[newClient.os]++;
         }
         else {
@@ -120,12 +121,12 @@ clientSocket.on('connection', function (client) {
 
     });
 
-    client.on('disconnect', function () {
+    client.on('disconnect', function() {
 
         //There could be no URL associated with a client for many reasons
         //Race conditions
         //A client connecting and immediately disconnecting before their tracking data is sent
-        if (!client.url) {
+        if(!client.url) {
             return;
         }
 
@@ -145,7 +146,7 @@ clientSocket.on('connection', function (client) {
         payload.screenResolutions[killedTracker.getScreenResolution()]--;
 
         //Remove the resolution if the count is 0
-        if (payload.screenResolutions[killedTracker.getScreenResolution()] === 0) {
+        if(payload.screenResolutions[killedTracker.getScreenResolution()] === 0) {
             delete payload.screenResolutions[killedTracker.getScreenResolution()];
         }
 
@@ -153,13 +154,13 @@ clientSocket.on('connection', function (client) {
         payload.os[killedTracker.os]--;
 
         //Remove the operating system if the count is 0
-        if (payload.os[killedTracker.os] === 0) {
+        if(payload.os[killedTracker.os] === 0) {
             delete payload.os[killedTracker.os];
         }
 
         //Remove the URL if there are no connections to it
         //Otherwise remove the specific client
-        if (allTrackers[client.url].numConnections === 0) {
+        if(allTrackers[client.url].numConnections === 0) {
             delete allTrackers[client.url];
         }
         else {
