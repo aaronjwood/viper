@@ -6,7 +6,7 @@ var tracker = {
     screenWidth: window.screen.width,
     screenHeight: window.screen.height
 };
-var socket = io.connect("//localhost:3000/socket.io/socket.io.js");
+var socket = io.connect("//localhost:3001/");
 socket.on('connect', function() {
     socket.emit("beacon", tracker);
 });
