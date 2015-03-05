@@ -1,5 +1,5 @@
 module.exports = {
-    "socketPort": 9000,
-    "dashboardPort": 9001,
+    "socketPort": 3001,
+    "dashboardPort": 3000,
     "totalTrackers": 10
 };
