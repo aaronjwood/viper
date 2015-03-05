@@ -8,7 +8,7 @@ var Payload = function() {
 };
 
 Payload.allTrackers = {};
-Payload.payload = {
+Payload.data = {
     totalConnections: 0,
     browsers: {
         count: {
