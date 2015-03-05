@@ -16,6 +16,6 @@ Since Viper's purpose is to give data on a real-time basis there is no need for 
 
     <script type="text/javascript">
         var script = document.createElement("script");
-        script.src = "/js/tracking.js";
+        script.src = "//localhost:3000/js/tracking.js";
         document.getElementsByTagName("head")[0].appendChild(script);
     </script>
