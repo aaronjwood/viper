@@ -16,7 +16,7 @@ module.exports = function(clientSocket, dashboardSocket) {
                 return;
             }
 
-            Payload.totalConnections++;
+            Payload.data.totalConnections++;
             client.userId = Client.generateUuid();
             client.url = data.url;
 
@@ -30,7 +30,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             });
 
             //Increment the appropriate browser count
-            Payload.browsers.count[newClient.browser]++;
+            Payload.data.browsers.count[newClient.browser]++;
 
             //If an object tracking the URL already exists then increment the number of connections and assign the new user
             //Otherwise create a new tracker and user and assign it to the URL
@@ -44,23 +44,23 @@ module.exports = function(clientSocket, dashboardSocket) {
 
             //Get the string value for the screen resolution and add it to the payload if it doesn't exist
             var screenResolution = newClient.getScreenResolution();
-            if(Payload.screenResolutions.hasOwnProperty(screenResolution)) {
-                Payload.screenResolutions[screenResolution]++;
+            if(Payload.data.screenResolutions.hasOwnProperty(screenResolution)) {
+                Payload.data.screenResolutions[screenResolution]++;
             }
             else {
-                Payload.screenResolutions[screenResolution] = 1;
+                Payload.data.screenResolutions[screenResolution] = 1;
             }
 
             //Add the OS to the payload if it doesn't
-            if(Payload.os.hasOwnProperty(newClient.os)) {
-                Payload.os[newClient.os]++;
+            if(Payload.data.os.hasOwnProperty(newClient.os)) {
+                Payload.data.os[newClient.os]++;
             }
             else {
-                Payload.os[newClient.os] = 1;
+                Payload.data.os[newClient.os] = 1;
             }
 
             //Send the data back
-            Tracker.sendPayload(Payload.allTrackers, Payload.payload, config, dashboardSocket);
+            Tracker.sendPayload(Payload, config, dashboardSocket);
 
         });
 
@@ -74,7 +74,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
 
             //Decrement the total connections
-            Payload.totalConnections--;
+            Payload.data.totalConnections--;
 
             //Get the appropriate tracker to work with
             var killedTracker = Payload.allTrackers[client.url].clients[client.userId];
@@ -83,22 +83,22 @@ module.exports = function(clientSocket, dashboardSocket) {
             Payload.allTrackers[client.url].numConnections--;
 
             //Decrement the appropriate browser count
-            Payload.browsers.count[killedTracker.browser]--;
+            Payload.data.browsers.count[killedTracker.browser]--;
 
             //Decrement the appropriate screen resolution count
-            Payload.screenResolutions[killedTracker.getScreenResolution()]--;
+            Payload.data.screenResolutions[killedTracker.getScreenResolution()]--;
 
             //Remove the resolution if the count is 0
-            if(Payload.screenResolutions[killedTracker.getScreenResolution()] === 0) {
-                delete Payload.screenResolutions[killedTracker.getScreenResolution()];
+            if(Payload.data.screenResolutions[killedTracker.getScreenResolution()] === 0) {
+                delete Payload.data.screenResolutions[killedTracker.getScreenResolution()];
             }
 
             //Decrement the appropriate operating system count
-            Payload.os[killedTracker.os]--;
+            Payload.data.os[killedTracker.os]--;
 
             //Remove the operating system if the count is 0
-            if(Payload.os[killedTracker.os] === 0) {
-                delete Payload.os[killedTracker.os];
+            if(Payload.data.os[killedTracker.os] === 0) {
+                delete Payload.data.os[killedTracker.os];
             }
 
             //Remove the URL if there are no connections to it
@@ -111,7 +111,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
 
             //Send the data back after manipulation
-            Tracker.sendPayload(Payload.allTrackers, Payload.payload, config, dashboardSocket);
+            Tracker.sendPayload(Payload, config, dashboardSocket);
 
         });
 

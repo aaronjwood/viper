@@ -6,6 +6,6 @@ module.exports = function(socket) {
     socket.on("connection", function() {
 
         //Immediately send stats to the dashboard upon request
-        Tracker.sendPayload(Payload.allTrackers, Payload.payload, config, socket);
+        Tracker.sendPayload(Payload, config, socket);
     });
 };
