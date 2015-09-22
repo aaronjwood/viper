@@ -14,32 +14,32 @@
     <script type="text/javascript" src="/js/dashboard.js"></script>
 </head>
 <body>
-<div id="controls">
-    <div class="control title">
-        Viper
+<div class="control title">
+    Viper
+</div>
+<div ng-controller="SectionsController">
+    <div>
+        <a>Pages</a>
     </div>
-    <div class="control">
-        <a class="pages" href="#">Pages</a>
+    <div>
+        <a>Browsers</a>
     </div>
-    <div class="control">
-        <a class="browsers" href="#">Browsers</a>
+    <div>
+        <a>Resolutions</a>
     </div>
-    <div class="control">
-        <a class="resolutions" href="#">Resolutions</a>
+    <div>
+        <a>Operating Systems</a>
     </div>
-    <div class="control">
-        <a class="os" href="#">Operating Systems</a>
-    </div>
-    <div class="control last">
-        <a class="locations" href="#">Locations</a>
+    <div>
+        <a>Locations</a>
     </div>
 </div>
-<div id="content">
-    <div id="pages" class="section"></div>
-    <div id="browsers" class="activeControl"></div>
-    <div id="resolutions" class="section"></div>
-    <div id="os" class="section"></div>
-    <div id="locations" class="section">
+<div ng-controller="ContentController">
+    <div id="pages"></div>
+    <div id="browsers"></div>
+    <div id="resolutions"></div>
+    <div id="os"></div>
+    <div id="locations">
         <div id="locationsMap"></div>
     </div>
 </div>
