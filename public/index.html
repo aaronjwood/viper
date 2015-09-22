@@ -1,47 +1,47 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <title>Viper</title>
-        <link rel="stylesheet" type="text/css" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-        <link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript" src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="/js/charts/browsers.js"></script>
-        <script type="text/javascript" src="/js/main.js"></script>
-    </head>
-    <body>
-        <div id="controls">
-            <div class="control title">
-                Viper
-            </div>
-            <div class="control">
-                <a class="pages" href="#">Pages</a>
-            </div>
-            <div class="control">
-                <a class="browsers" href="#">Browsers</a>
-            </div>
-            <div class="control">
-                <a class="resolutions" href="#">Resolutions</a>
-            </div>
-            <div class="control">
-                <a class="os" href="#">Operating Systems</a>
-            </div>
-            <div class="control last">
-                <a class="locations" href="#">Locations</a>
-            </div>
-        </div>
-        <div id="content">
-            <div id="pages" class="section"></div>
-            <div id="browsers" class="activeControl"></div>
-            <div id="resolutions" class="section"></div>
-            <div id="os" class="section"></div>
-            <div id="locations" class="section">
-                <div id="locationsMap"></div>
-            </div>
-        </div>
-    </body>
+<html lang="en" ng-app="viperDashboard">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Viper</title>
+
+    <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script type="text/javascript" src="/components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</head>
+<body>
+<div id="controls">
+    <div class="control title">
+        Viper
+    </div>
+    <div class="control">
+        <a class="pages" href="#">Pages</a>
+    </div>
+    <div class="control">
+        <a class="browsers" href="#">Browsers</a>
+    </div>
+    <div class="control">
+        <a class="resolutions" href="#">Resolutions</a>
+    </div>
+    <div class="control">
+        <a class="os" href="#">Operating Systems</a>
+    </div>
+    <div class="control last">
+        <a class="locations" href="#">Locations</a>
+    </div>
+</div>
+<div id="content">
+    <div id="pages" class="section"></div>
+    <div id="browsers" class="activeControl"></div>
+    <div id="resolutions" class="section"></div>
+    <div id="os" class="section"></div>
+    <div id="locations" class="section">
+        <div id="locationsMap"></div>
+    </div>
+</div>
+</body>
 </html>
