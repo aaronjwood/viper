@@ -2,8 +2,8 @@
 
 var dashboard = angular.module("viperDashboard", []);
 
-dashboard.controller("SectionsController", function () {
-
+dashboard.controller("SectionsController", function ($scope) {
+    $scope.page = "pages";
 });
 
 dashboard.controller("ContentController", function () {

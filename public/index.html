@@ -30,20 +30,20 @@
 
         <div ng-controller="SectionsController" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active">
-                    <a href="#">Pages <span class="sr-only">(current)</span></a>
+                <li ng-class="{active: page == 'pages'}">
+                    <a ng-click="page = 'pages'">Pages</a>
                 </li>
-                <li>
-                    <a href="#">Browsers</a>
+                <li ng-class="{active: page == 'browsers'}">
+                    <a ng-click="page = 'browsers'">Browsers</a>
                 </li>
-                <li>
-                    <a href="#">Resolutions</a>
+                <li ng-class="{active: page == 'resolutions'}">
+                    <a ng-click="page = 'resolutions'">Resolutions</a>
                 </li>
-                <li>
-                    <a href="#">Operating Systems</a>
+                <li ng-class="{active: page == 'os'}">
+                    <a ng-click="page = 'os'">Operating Systems</a>
                 </li>
-                <li>
-                    <a href="#">Locations</a>
+                <li ng-class="{active: page == 'locations'}">
+                    <a ng-click="page = 'locations'">Locations</a>
                 </li>
             </ul>
         </div>
