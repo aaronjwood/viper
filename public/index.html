@@ -30,20 +30,20 @@
 
         <div ng-controller="SectionsController" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li ng-class="{active: page == 'pages'}">
-                    <a ng-click="page = 'pages'">Pages</a>
+                <li ng-class="{active: page.getPage() == 'pages'}">
+                    <a ng-click="page.setPage('pages')">Pages</a>
                 </li>
-                <li ng-class="{active: page == 'browsers'}">
-                    <a ng-click="page = 'browsers'">Browsers</a>
+                <li ng-class="{active: page.getPage() == 'browsers'}">
+                    <a ng-click="page.setPage('browsers')">Browsers</a>
                 </li>
-                <li ng-class="{active: page == 'resolutions'}">
-                    <a ng-click="page = 'resolutions'">Resolutions</a>
+                <li ng-class="{active: page.getPage() == 'resolutions'}">
+                    <a ng-click="page.setPage('resolutions')">Resolutions</a>
                 </li>
-                <li ng-class="{active: page == 'os'}">
-                    <a ng-click="page = 'os'">Operating Systems</a>
+                <li ng-class="{active: page.getPage() == 'os'}">
+                    <a ng-click="page.setPage('os')">Operating Systems</a>
                 </li>
-                <li ng-class="{active: page == 'locations'}">
-                    <a ng-click="page = 'locations'">Locations</a>
+                <li ng-class="{active: page.getPage() == 'locations'}">
+                    <a ng-click="page.setPage('locations')">Locations</a>
                 </li>
             </ul>
         </div>
@@ -51,13 +51,76 @@
 </nav>
 
 <div ng-controller="ContentController">
-    <div id="pages"></div>
-    <div id="browsers"></div>
-    <div id="resolutions"></div>
-    <div id="os"></div>
-    <div id="locations">
-        <div id="locationsMap"></div>
+    <div ng-show="page.getPage() == 'pages'">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header text-center">
+                    <h2>Pages</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+
+    <div ng-show="page.getPage() == 'browsers'">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header text-center">
+                    <h2>Browsers</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+
+    <div ng-show="page.getPage() == 'resolutions'">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header text-center">
+                    <h2>Resolutions</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+
+    <div ng-show="page.getPage() == 'os'">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header text-center">
+                    <h2>Operating Systems</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+
+    <div ng-show="page.getPage() == 'locations'">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header text-center">
+                    <h2>Locations</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
