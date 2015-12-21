@@ -4,11 +4,11 @@ module.exports = function(clientSocket, dashboardSocket) {
     var Client = require("../class/Client.js");
     var Tracker = require("../class/Tracker.js");
 
-    clientSocket.on('connection', function(client) {
+    clientSocket.on("connection", function(client) {
 
         //A client will emit a beacon after it has connected to the server
         //The beacon's data will contain all the necessary tracking information
-        client.on('beacon', function(data) {
+        client.on("beacon", function(data) {
 
             //If a URL isn't sent over the socket then disregard this connection
             //Connections can be manually crafted! Data can be manipulated!
@@ -64,7 +64,7 @@ module.exports = function(clientSocket, dashboardSocket) {
 
         });
 
-        client.on('disconnect', function() {
+        client.on("disconnect", function() {
 
             //There could be no URL associated with a client for many reasons
             //Race conditions
