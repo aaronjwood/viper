@@ -34,7 +34,6 @@ Client.generateUuid = function() {
  */
 Client.prototype.getBrowserInfo = function(userAgent) {
     var platform = "Other";
-    var cellular = false;
     var browser = "Other";
     var os = "Other";
 
