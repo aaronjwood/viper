@@ -10,7 +10,7 @@ script.onreadystatechange = script.onload = function () {
             screenHeight: window.screen.height
         };
         var socket = io.connect("//localhost:3001/");
-        socket.on('connect', function () {
+        socket.on("connect", function () {
             socket.emit("beacon", tracker);
         });
     }
