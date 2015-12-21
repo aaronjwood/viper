@@ -3,7 +3,6 @@
 var express = require("express");
 var compression = require("compression");
 var bodyParser = require("body-parser");
-var session = require("express-session");
 var cookieParser = require("cookie-parser");
 var load = require("express-load");
 var http = require("http");
