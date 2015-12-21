@@ -4,7 +4,6 @@ var express = require("express");
 var compression = require("compression");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
-var load = require("express-load");
 var http = require("http");
 var io = require("socket.io");
 var geoip = require("geoip-lite");
@@ -31,5 +30,3 @@ clientServer.listen(config.socketPort);
 
 require("./sockets/dashboard.js")(dashboardSocket);
 require("./sockets/client.js")(clientSocket, dashboardSocket);
-
-load("routes").into(dashboard);
