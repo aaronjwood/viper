@@ -22,6 +22,7 @@
     "angular": "~1.4.8",
     "bootstrap": "~3.3.5",
     "bootswatch": "~3.3.5",
-    "angular-chart.js": "~0.8.8"
+    "angular-chart.js": "~0.8.8",
+    "Chart.js": "~1.0.2"
   }
 }
