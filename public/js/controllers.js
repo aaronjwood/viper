@@ -10,3 +10,7 @@ module.controller("SectionsController", function ($scope, page) {
 module.controller("ContentController", function ($scope, page) {
     $scope.page = page;
 });
+
+module.controller("PagesController", function ($scope) {
+
+});
