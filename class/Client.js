@@ -18,19 +18,6 @@ class Client {
     }
 
     /**
-     * Generates a unique identifier to identify connected clients
-     * We want a more unique identifier than what socket.io provides us
-     * What if there are hundreds of thousands of connections to a server? Uniqueness is key
-     * @returns {string} UUID
-     */
-    static generateUuid() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-
-    /**
      * Determines information from the user agent and returns an object with useful tracking information
      * @param userAgent The browser's user agent string
      */

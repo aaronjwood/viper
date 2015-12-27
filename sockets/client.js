@@ -1,4 +1,5 @@
 module.exports = function(clientSocket, dashboardSocket) {
+    var uuid = require("node-uuid");
     var config = require("../sys/config.js");
     var Payload = require("../class/Payload.js");
     var Client = require("../class/Client.js");
@@ -17,7 +18,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
 
             Payload.data.totalConnections++;
-            client.userId = Client.generateUuid();
+            client.userId = uuid.v4();
             client.url = data.url;
 
             var newClient = new Client({
