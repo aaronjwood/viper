@@ -14,3 +14,30 @@ module.service("page", function () {
         }
     };
 });
+
+module.service("socket", function ($rootScope) {
+    var socket = io("//localhost:3001");
+
+    return {
+        on: function (event, cb) {
+            socket.on(event, function () {
+                var args = arguments;
+
+                $rootScope.apply(function () {
+                    cb.apply(socket, args);
+                })
+            });
+        },
+        emit: function (event, data, cb) {
+            socket.emit(event, data, function () {
+                var args = arguments;
+
+                $rootScope.apply(function () {
+                    if (cb) {
+                        cb.apply(socket, args);
+                    }
+                });
+            });
+        }
+    }
+});
