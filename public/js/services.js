@@ -23,7 +23,7 @@ module.service("socket", function ($rootScope) {
             socket.on(event, function () {
                 var args = arguments;
 
-                $rootScope.apply(function () {
+                $rootScope.$apply(function () {
                     cb.apply(socket, args);
                 })
             });
@@ -32,7 +32,7 @@ module.service("socket", function ($rootScope) {
             socket.emit(event, data, function () {
                 var args = arguments;
 
-                $rootScope.apply(function () {
+                $rootScope.$apply(function () {
                     if (cb) {
                         cb.apply(socket, args);
                     }
