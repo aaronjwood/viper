@@ -1,11 +1,7 @@
 "use strict";
 
-/**
- * Payload object
- * @constructor
- */
-var Payload = function() {
-};
+class Payload {
+}
 
 Payload.allTrackers = {};
 Payload.data = {
