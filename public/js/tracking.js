@@ -10,7 +10,7 @@
                 screenWidth: window.screen.width,
                 screenHeight: window.screen.height
             };
-            var socket = io.connect("//localhost:3001/");
+            var socket = io("//localhost:3001/");
             socket.on("connect", function () {
                 socket.emit("beacon", tracker);
             });
