@@ -1,6 +1,5 @@
 module.exports = function(clientSocket, dashboardSocket) {
     var uuid = require("node-uuid");
-    var config = require("../sys/config.js");
     var Payload = require("../class/Payload.js");
     var Client = require("../class/Client.js");
     var Tracker = require("../class/Tracker.js");
@@ -69,7 +68,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
 
             //Send the data back
-            Tracker.sendPayload(Payload, config, dashboardSocket);
+            Payload.send(Payload, dashboardSocket);
 
         });
 
@@ -128,7 +127,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
 
             //Send the data back after manipulation
-            Tracker.sendPayload(Payload, config, dashboardSocket);
+            Payload.send(Payload, dashboardSocket);
 
         });
 

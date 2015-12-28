@@ -12,16 +12,6 @@ class Tracker {
         this.clients[client.id] = client;
         this.numConnections = 1;
     }
-
-    /**
-     * Sorts the trackers and sends the configured number of trackers back over the socket
-     * @param tracker Main payload that the client/server uses and transfers
-     * @param config Configuration settings object
-     * @param socket Socket object used to push data back
-     */
-    static sendPayload(tracker, config, socket) {
-        socket.sockets.json.send(tracker.data);
-    }
 }
 
 module.exports = Tracker;
