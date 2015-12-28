@@ -25,7 +25,7 @@ module.service("socket", function ($rootScope) {
 
                 $rootScope.$apply(function () {
                     cb.apply(socket, args);
-                })
+                });
             });
         },
         emit: function (event, data, cb) {
