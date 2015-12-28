@@ -101,7 +101,7 @@ module.exports = function(clientSocket, dashboardSocket) {
 
             //Remove the url if the count is 0
             if(Payload.data.urls[client.url] === 0) {
-                delete Payload.data.urls[client.url]
+                delete Payload.data.urls[client.url];
             }
 
             //Remove the resolution if the count is 0
