@@ -1,7 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script async src="/js/tracking.js"></script>
+    <script type="text/javascript" src="//localhost:3000/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        (function () {
+            var sockets = [];
+
+            setInterval(function() {
+                var tracker = {
+                    url: Math.random().toString(36).substring(2, 3),
+                    screenWidth: Math.floor((Math.random() * 1920) + 1),
+                    screenHeight: Math.floor((Math.random() * 1080) +1)
+                };
+
+                var socket = io("//localhost:3001/", {
+                    "forceNew": true
+                });
+
+                sockets.push(socket);
+                socket.on("connect", function () {
+                    socket.emit("beacon", tracker);
+                });
+            }, 1000);
+
+            setInterval(function() {
+                var socket = sockets.pop();
+
+                socket.disconnect();
+            }, 3000);
+        }());
+    </script>
 </head>
 <body>
 </body>
