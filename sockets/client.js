@@ -31,7 +31,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             });
 
             //Increment the appropriate browser count
-            Payload.data.browsers.count[newClient.browser]++;
+            Payload.data.browsers[newClient.browser]++;
 
             //If an object tracking the URL already exists then increment the number of connections and assign the new user
             //Otherwise create a new tracker and user and assign it to the URL
@@ -41,6 +41,14 @@ module.exports = function(clientSocket, dashboardSocket) {
             }
             else {
                 Payload.allTrackers[client.url] = new Tracker(newClient, client.url);
+            }
+
+            //Update the global URLs
+            if(Payload.data.urls.hasOwnProperty(client.url)) {
+                Payload.data.urls[client.url]++;
+            }
+            else {
+                Payload.data.urls[client.url] = 1;
             }
 
             //Get the string value for the screen resolution and add it to the payload if it doesn't exist
@@ -84,10 +92,18 @@ module.exports = function(clientSocket, dashboardSocket) {
             Payload.allTrackers[client.url].numConnections--;
 
             //Decrement the appropriate browser count
-            Payload.data.browsers.count[killedTracker.browser]--;
+            Payload.data.browsers[killedTracker.browser]--;
 
             //Decrement the appropriate screen resolution count
             Payload.data.screenResolutions[killedTracker.getScreenResolution()]--;
+
+            //Decrement the url count
+            Payload.data.urls[client.url]--;
+
+            //Remove the url if the count is 0
+            if(Payload.data.urls[client.url] === 0) {
+                delete Payload.data.urls[client.url]
+            }
 
             //Remove the resolution if the count is 0
             if(Payload.data.screenResolutions[killedTracker.getScreenResolution()] === 0) {
