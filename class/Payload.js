@@ -3,7 +3,11 @@
 class Payload {
 }
 
+//Holds all of the individual trackers
+//Can be used to break down metrics for more fine grained information
 Payload.allTrackers = {};
+
+//Data that's globally accessible and not associated with any specific user
 Payload.data = {
     totalConnections: 0,
     urls: {},
