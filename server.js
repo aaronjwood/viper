@@ -6,7 +6,6 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var http = require("http");
 var io = require("socket.io");
-var geoip = require("geoip-lite");
 var config = require("./sys/config.js");
 
 var dashboard = express();
