@@ -12,12 +12,72 @@ class Payload {
         socket.sockets.json.send(tracker.data);
     }
 
+    static addUrl(url) {
+        if(Payload.data.urls.hasOwnProperty(url)) {
+            Payload.data.urls[url]++;
+        }
+        else {
+            Payload.data.urls[url] = 1;
+        }
+    }
+
+    static removeUrl(url) {
+        Payload.data.urls[url]--;
+
+        if(Payload.data.urls[url] === 0) {
+            delete Payload.data.urls[url];
+        }
+    }
+
     static addBrowser(browser) {
         Payload.data.browsers[browser]++;
     }
 
+    static removeBrowser(browser) {
+        Payload.data.browsers[browser]--;
+    }
+
     static addConnection() {
         Payload.data.totalConnections++;
+    }
+
+    static removeConnection() {
+        Payload.data.totalConnections--;
+    }
+
+    static addScreenResolution(resolution) {
+        if(Payload.data.screenResolutions.hasOwnProperty(resolution)) {
+            Payload.data.screenResolutions[resolution]++;
+        }
+        else {
+            Payload.data.screenResolutions[resolution] = 1;
+        }
+    }
+
+    static removeScreenResolution(resolution) {
+        Payload.data.screenResolutions[resolution]--;
+
+        if(Payload.data.screenResolutions[resolution] === 0) {
+            delete Payload.data.screenResolutions[resolution];
+        }
+    }
+
+    static addOs(os) {
+        if(Payload.data.os.hasOwnProperty(os)) {
+            Payload.data.os[os]++;
+        }
+        else {
+            Payload.data.os[os] = 1;
+        }
+    }
+
+    static removeOs(os) {
+        Payload.data.os[os]--;
+
+        //Remove the operating system if the count is 0
+        if(Payload.data.os[os] === 0) {
+            delete Payload.data.os[os];
+        }
     }
 
 }

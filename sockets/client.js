@@ -41,34 +41,11 @@ module.exports = function(clientSocket, dashboardSocket) {
                 Payload.allTrackers[client.url] = new Tracker(newClient, client.url);
             }
 
-            //Update the global URLs
-            if(Payload.data.urls.hasOwnProperty(client.url)) {
-                Payload.data.urls[client.url]++;
-            }
-            else {
-                Payload.data.urls[client.url] = 1;
-            }
+            Payload.addUrl(client.url);
+            Payload.addScreenResolution(newClient.getScreenResolution());
+            Payload.addOs(newClient.os);
 
-            //Get the string value for the screen resolution and add it to the payload if it doesn't exist
-            var screenResolution = newClient.getScreenResolution();
-            if(Payload.data.screenResolutions.hasOwnProperty(screenResolution)) {
-                Payload.data.screenResolutions[screenResolution]++;
-            }
-            else {
-                Payload.data.screenResolutions[screenResolution] = 1;
-            }
-
-            //Add the OS to the payload if it doesn't
-            if(Payload.data.os.hasOwnProperty(newClient.os)) {
-                Payload.data.os[newClient.os]++;
-            }
-            else {
-                Payload.data.os[newClient.os] = 1;
-            }
-
-            //Send the data back
             Payload.send(Payload, dashboardSocket);
-
         });
 
         client.on("disconnect", function() {
@@ -80,41 +57,18 @@ module.exports = function(clientSocket, dashboardSocket) {
                 return;
             }
 
-            //Decrement the total connections
-            Payload.data.totalConnections--;
-
             //Get the appropriate tracker to work with
             var killedTracker = Payload.allTrackers[client.url].clients[client.userId];
+
+            Payload.removeConnection();
 
             //Decrement the number of connections to a given URL
             Payload.allTrackers[client.url].numConnections--;
 
-            //Decrement the appropriate browser count
-            Payload.data.browsers[killedTracker.browser]--;
-
-            //Decrement the appropriate screen resolution count
-            Payload.data.screenResolutions[killedTracker.getScreenResolution()]--;
-
-            //Decrement the url count
-            Payload.data.urls[client.url]--;
-
-            //Remove the url if the count is 0
-            if(Payload.data.urls[client.url] === 0) {
-                delete Payload.data.urls[client.url];
-            }
-
-            //Remove the resolution if the count is 0
-            if(Payload.data.screenResolutions[killedTracker.getScreenResolution()] === 0) {
-                delete Payload.data.screenResolutions[killedTracker.getScreenResolution()];
-            }
-
-            //Decrement the appropriate operating system count
-            Payload.data.os[killedTracker.os]--;
-
-            //Remove the operating system if the count is 0
-            if(Payload.data.os[killedTracker.os] === 0) {
-                delete Payload.data.os[killedTracker.os];
-            }
+            Payload.removeBrowser(killedTracker.browser);
+            Payload.removeScreenResolution(killedTracker.getScreenResolution());
+            Payload.removeUrl(client.url);
+            Payload.removeOs(killedTracker.os);
 
             //Remove the URL if there are no connections to it
             //Otherwise remove the specific client
@@ -129,7 +83,5 @@ module.exports = function(clientSocket, dashboardSocket) {
             Payload.send(Payload, dashboardSocket);
 
         });
-
     });
-
 };
