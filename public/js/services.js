@@ -39,5 +39,5 @@ module.service("socket", function ($rootScope) {
                 });
             });
         }
-    }
+    };
 });
