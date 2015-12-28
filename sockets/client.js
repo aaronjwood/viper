@@ -16,7 +16,7 @@ module.exports = function(clientSocket, dashboardSocket) {
                 return;
             }
 
-            Payload.data.totalConnections++;
+            Payload.addConnection();
             client.userId = uuid.v4();
             client.url = data.url;
 
@@ -29,8 +29,7 @@ module.exports = function(clientSocket, dashboardSocket) {
                 ip: client.request.connection.remoteAddress
             });
 
-            //Increment the appropriate browser count
-            Payload.data.browsers[newClient.browser]++;
+            Payload.addBrowser(newClient.browser);
 
             //If an object tracking the URL already exists then increment the number of connections and assign the new user
             //Otherwise create a new tracker and user and assign it to the URL
