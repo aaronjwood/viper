@@ -1,5 +1,7 @@
 "use strict";
 
+var Tracker = require("../class/Tracker.js");
+
 class Payload {
 
     /**
@@ -10,6 +12,27 @@ class Payload {
      */
     static send(tracker, socket) {
         socket.sockets.json.send(tracker.data);
+    }
+
+    static addClient(client) {
+        if(Payload.allTrackers.hasOwnProperty(client.url)) {
+            Payload.allTrackers[client.url].numConnections++;
+            Payload.allTrackers[client.url].clients[client.userId] = client;
+        }
+        else {
+            Payload.allTrackers[client.url] = new Tracker(client, client.url);
+        }
+    }
+
+    static removeClient(client) {
+        Payload.allTrackers[client.url].numConnections--;
+
+        if(Payload.allTrackers[client.url].numConnections === 0) {
+            delete Payload.allTrackers[client.url];
+        }
+        else {
+            delete Payload.allTrackers[client.url].clients[client.userId];
+        }
     }
 
     static addUrl(url) {

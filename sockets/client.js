@@ -16,7 +16,6 @@ module.exports = function(clientSocket, dashboardSocket) {
                 return;
             }
 
-            Payload.addConnection();
             client.userId = uuid.v4();
             client.url = data.url;
 
@@ -29,18 +28,9 @@ module.exports = function(clientSocket, dashboardSocket) {
                 ip: client.request.connection.remoteAddress
             });
 
+            Payload.addConnection();
             Payload.addBrowser(newClient.browser);
-
-            //If an object tracking the URL already exists then increment the number of connections and assign the new user
-            //Otherwise create a new tracker and user and assign it to the URL
-            if(Payload.allTrackers.hasOwnProperty(client.url)) {
-                Payload.allTrackers[client.url].numConnections++;
-                Payload.allTrackers[client.url].clients[client.userId] = newClient;
-            }
-            else {
-                Payload.allTrackers[client.url] = new Tracker(newClient, client.url);
-            }
-
+            Payload.addClient(newClient);
             Payload.addUrl(client.url);
             Payload.addScreenResolution(newClient.getScreenResolution());
             Payload.addOs(newClient.os);
@@ -57,31 +47,16 @@ module.exports = function(clientSocket, dashboardSocket) {
                 return;
             }
 
-            //Get the appropriate tracker to work with
             var killedTracker = Payload.allTrackers[client.url].clients[client.userId];
 
             Payload.removeConnection();
-
-            //Decrement the number of connections to a given URL
-            Payload.allTrackers[client.url].numConnections--;
-
             Payload.removeBrowser(killedTracker.browser);
             Payload.removeScreenResolution(killedTracker.getScreenResolution());
             Payload.removeUrl(client.url);
             Payload.removeOs(killedTracker.os);
+            Payload.removeClient(client);
 
-            //Remove the URL if there are no connections to it
-            //Otherwise remove the specific client
-            if(Payload.allTrackers[client.url].numConnections === 0) {
-                delete Payload.allTrackers[client.url];
-            }
-            else {
-                delete Payload.allTrackers[client.url].clients[client.userId];
-            }
-
-            //Send the data back after manipulation
             Payload.send(Payload, dashboardSocket);
-
         });
     });
 };
