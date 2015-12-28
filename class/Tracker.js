@@ -32,7 +32,9 @@ class Tracker {
     static sendPayload(tracker, config, socket) {
         var sortedTrackers = [];
         for (var t in tracker.allTrackers) {
-            sortedTrackers.push(tracker.allTrackers[t]);
+            if(tracker.allTrackers.hasOwnProperty(t)) {
+                sortedTrackers.push(tracker.allTrackers[t]);
+            }
         }
 
         //Sort the trackers and send the top n as set in the configuration file
