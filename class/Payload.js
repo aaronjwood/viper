@@ -17,7 +17,7 @@ class Payload {
     static addClient(client) {
         if(Payload.allTrackers.hasOwnProperty(client.url)) {
             Payload.allTrackers[client.url].numConnections++;
-            Payload.allTrackers[client.url].clients[client.userId] = client;
+            Payload.allTrackers[client.url].clients[client.id] = client;
         }
         else {
             Payload.allTrackers[client.url] = new Tracker(client, client.url);
