@@ -12,6 +12,14 @@ class Payload {
         socket.sockets.json.send(tracker.data);
     }
 
+    static addBrowser(browser) {
+        Payload.data.browsers[browser]++;
+    }
+
+    static addConnection() {
+        Payload.data.totalConnections++;
+    }
+
 }
 
 //Holds all of the individual trackers
