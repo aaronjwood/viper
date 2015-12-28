@@ -20,8 +20,4 @@ This is one of the main reasons why Viper is so different from other similar pro
 
 # Tracking Code
 
-    <script type="text/javascript">
-        var script = document.createElement("script");
-        script.src = "//localhost:3000/js/tracking.js";
-        document.getElementsByTagName("head")[0].appendChild(script);
-    </script>
+The tracking code can be referenced at `/js/tracking.js` which makes it nice and easy to use anywhere you want with a script tag.
