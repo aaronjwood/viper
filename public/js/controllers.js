@@ -24,9 +24,11 @@ module.controller("PagesController", function ($scope, socket) {
         var labels = [];
         var data = [];
 
-        for (var i = 0; i < payload.trackers.length; i++) {
-            labels.push(payload.trackers[i].url);
-            data.push(payload.trackers[i].numConnections);
+        for (var url in payload.urls) {
+            if (payload.urls.hasOwnProperty(url)) {
+                labels.push(url);
+                data.push(payload.urls[url]);
+            }
         }
 
         $scope.labels = labels;
