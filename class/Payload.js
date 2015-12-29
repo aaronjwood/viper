@@ -63,7 +63,7 @@ class Payload {
     static addData(data) {
         for (var i = 0; i < data.length; i++) {
             if (Payload.data[data[i].type].hasOwnProperty(data[i].value)) {
-                Payload.data[data[i].type][data[i].value]++
+                Payload.data[data[i].type][data[i].value]++;
             }
             else {
                 Payload.data[data[i].type][data[i].value] = 1;
