@@ -28,7 +28,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             });
 
             Payload.addConnection();
-            Payload.addBrowser(newClient.browser);
+            Payload.addBrowser(newClient.getBrowserInfo());
             Payload.addClient(newClient);
             Payload.addUrl(client.url);
             Payload.addScreenResolution(newClient.getScreenResolution());
@@ -49,7 +49,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             var killedTracker = Payload.allTrackers[client.url].clients[client.userId];
 
             Payload.removeConnection();
-            Payload.removeBrowser(killedTracker.browser);
+            Payload.removeBrowser(killedTracker.getBrowserInfo());
             Payload.removeScreenResolution(killedTracker.getScreenResolution());
             Payload.removeUrl(client.url);
             Payload.removeOs(killedTracker.os);

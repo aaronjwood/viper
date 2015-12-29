@@ -52,12 +52,21 @@ class Payload {
         }
     }
 
-    static addBrowser(browser) {
-        Payload.data.browsers[browser]++;
+    static addBrowser(data) {
+        if(Payload.data.browsers.hasOwnProperty(data.browser.name)) {
+            Payload.data.browsers[data.browser.name]++;
+        }
+        else {
+            Payload.data.browsers[data.browser.name] = 1;
+        }
     }
 
-    static removeBrowser(browser) {
-        Payload.data.browsers[browser]--;
+    static removeBrowser(data) {
+        Payload.data.browsers[data.browser.name]--;
+
+        if(Payload.data.browsers[data.browser.name] === 0) {
+            delete Payload.data.browsers[data.browser.name];
+        }
     }
 
     static addConnection() {
@@ -113,17 +122,7 @@ Payload.allTrackers = {};
 Payload.data = {
     totalConnections: 0,
     urls: {},
-    browsers: {
-        "Chrome": 0,
-        "Firefox": 0,
-        "Safari": 0,
-        "Opera": 0,
-        "IE": 0,
-        "Android": 0,
-        "iPad": 0,
-        "iPhone": 0,
-        "Other": 0
-    },
+    browsers: {},
     screenResolutions: {},
     os: {}
 };
