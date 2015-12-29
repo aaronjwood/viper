@@ -19,7 +19,6 @@ class Client {
 
     /**
      * Determines information from the user agent and returns an object with useful tracking information
-     * @param userAgent The browser's user agent string
      */
     getBrowserInfo() {
         return parser(this.userAgent);
