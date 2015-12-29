@@ -15,13 +15,14 @@ class Client {
         this.screenWidth = data.screenWidth;
         this.screenHeight = data.screenHeight;
         this.ip = data.ip;
+        this.browserInfo = parser(this.userAgent);
     }
 
     /**
      * Determines information from the user agent and returns an object with useful tracking information
      */
     getBrowserInfo() {
-        return parser(this.userAgent);
+        return this.browserInfo;
     }
 
     /**
