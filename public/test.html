@@ -21,13 +21,13 @@
                 socket.on("connect", function () {
                     socket.emit("beacon", tracker);
                 });
-            }, 500);
+            }, 700);
 
             setInterval(function() {
                 var socket = sockets.pop();
 
                 socket.disconnect();
-            }, 900);
+            }, 1200);
         }());
     </script>
 </head>
