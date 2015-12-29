@@ -56,18 +56,6 @@ class Payload {
     }
 
     /**
-     * Removes a URL from the payload
-     * @param url
-     */
-    static removeUrl(url) {
-        Payload.data.urls[url]--;
-
-        if (Payload.data.urls[url] === 0) {
-            delete Payload.data.urls[url];
-        }
-    }
-
-    /**
      * Adds a browser name to the payload
      * @param data User agent data object
      */
@@ -77,18 +65,6 @@ class Payload {
         }
         else {
             Payload.data.browsers[data.browser.name] = 1;
-        }
-    }
-
-    /**
-     * Removes a browser name from the payload
-     * @param data User agent data object
-     */
-    static removeBrowser(data) {
-        Payload.data.browsers[data.browser.name]--;
-
-        if (Payload.data.browsers[data.browser.name] === 0) {
-            delete Payload.data.browsers[data.browser.name];
         }
     }
 
@@ -120,18 +96,6 @@ class Payload {
     }
 
     /**
-     * Removes a screen resolution from the payload
-     * @param resolution Screen resolution
-     */
-    static removeScreenResolution(resolution) {
-        Payload.data.screenResolutions[resolution]--;
-
-        if (Payload.data.screenResolutions[resolution] === 0) {
-            delete Payload.data.screenResolutions[resolution];
-        }
-    }
-
-    /**
      * Adds an operating system to the payload
      * @param data User agent data object
      */
@@ -145,17 +109,18 @@ class Payload {
     }
 
     /**
-     * Removes an operating system from the payload
-     * @param data User agent data object
+     * Removes data from the payload
+     * @param data Array of objects that specify what data to remove
      */
-    static removeOs(data) {
-        Payload.data.os[data.os.name]--;
+    static removeData(data) {
+        for (var i = 0; i < data.length; i++) {
+            Payload.data[data[i].type][data[i].value]--;
 
-        if (Payload.data.os[data.os.name] === 0) {
-            delete Payload.data.os[data.os.name];
+            if (Payload.data[data[i].type][data[i].value] === 0) {
+                delete Payload.data[data[i].type][data[i].value];
+            }
         }
     }
-
 }
 
 //Holds all of the individual trackers
