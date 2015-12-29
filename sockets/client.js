@@ -21,7 +21,7 @@ module.exports = function(clientSocket, dashboardSocket) {
             var newClient = new Client({
                 userId: client.userId,
                 url: client.url,
-                browserInfo: client.request.headers["user-agent"],
+                userAgent: client.request.headers["user-agent"],
                 screenWidth: data.screenWidth,
                 screenHeight: data.screenHeight,
                 ip: client.request.connection.remoteAddress
