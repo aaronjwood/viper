@@ -17,8 +17,6 @@ module.controller("PagesController", function ($scope, socket) {
         animation: false,
         percentageInnerCutout: 70
     };
-    $scope.labels = [];
-    $scope.data = [];
 
     socket.on("message", function (payload) {
         var labels = [];
