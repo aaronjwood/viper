@@ -28,11 +28,20 @@ module.exports = function (clientSocket, dashboardSocket) {
             });
 
             Payload.addConnection();
-            Payload.addBrowser(newClient.getBrowserInfo());
+            Payload.addData([{
+                type: "browsers",
+                value: newClient.getBrowserInfo().browser.name
+            }, {
+                type: "urls",
+                value: client.url
+            }, {
+                type: "screenResolutions",
+                value: newClient.getScreenResolution()
+            }, {
+                type: "os",
+                value: newClient.getBrowserInfo().os.name
+            }]);
             Payload.addClient(newClient);
-            Payload.addUrl(client.url);
-            Payload.addScreenResolution(newClient.getScreenResolution());
-            Payload.addOs(newClient.getBrowserInfo());
 
             Payload.send(Payload, dashboardSocket);
         });
@@ -56,10 +65,10 @@ module.exports = function (clientSocket, dashboardSocket) {
                 type: "screenResolutions",
                 value: killedTracker.getScreenResolution()
             }, {
-                type: "browser",
+                type: "browsers",
                 value: killedTracker.getBrowserInfo().browser.name
             }, {
-                type: "url",
+                type: "urls",
                 value: client.url
             }]);
             Payload.removeClient(client);

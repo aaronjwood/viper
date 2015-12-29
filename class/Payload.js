@@ -43,32 +43,6 @@ class Payload {
     }
 
     /**
-     * Adds a URL to the payload
-     * @param url
-     */
-    static addUrl(url) {
-        if (Payload.data.urls.hasOwnProperty(url)) {
-            Payload.data.urls[url]++;
-        }
-        else {
-            Payload.data.urls[url] = 1;
-        }
-    }
-
-    /**
-     * Adds a browser name to the payload
-     * @param data User agent data object
-     */
-    static addBrowser(data) {
-        if (Payload.data.browsers.hasOwnProperty(data.browser.name)) {
-            Payload.data.browsers[data.browser.name]++;
-        }
-        else {
-            Payload.data.browsers[data.browser.name] = 1;
-        }
-    }
-
-    /**
      * Increments the total number of connections
      */
     static addConnection() {
@@ -83,28 +57,17 @@ class Payload {
     }
 
     /**
-     * Adds a screen resolution to the payload
-     * @param resolution Screen resolution
+     * Adds data to the payload
+     * @param data Array of objects that specify what data to add
      */
-    static addScreenResolution(resolution) {
-        if (Payload.data.screenResolutions.hasOwnProperty(resolution)) {
-            Payload.data.screenResolutions[resolution]++;
-        }
-        else {
-            Payload.data.screenResolutions[resolution] = 1;
-        }
-    }
-
-    /**
-     * Adds an operating system to the payload
-     * @param data User agent data object
-     */
-    static addOs(data) {
-        if (Payload.data.os.hasOwnProperty(data.os.name)) {
-            Payload.data.os[data.os.name]++;
-        }
-        else {
-            Payload.data.os[data.os.name] = 1;
+    static addData(data) {
+        for (var i = 0; i < data.length; i++) {
+            if (Payload.data[data[i].type].hasOwnProperty(data[i].value)) {
+                Payload.data[data[i].type][data[i].value]++
+            }
+            else {
+                Payload.data[data[i].type][data[i].value] = 1;
+            }
         }
     }
 
