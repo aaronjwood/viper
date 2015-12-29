@@ -2,7 +2,6 @@ module.exports = function(clientSocket, dashboardSocket) {
     var uuid = require("node-uuid");
     var Payload = require("../class/Payload.js");
     var Client = require("../class/Client.js");
-    var Tracker = require("../class/Tracker.js");
 
     clientSocket.on("connection", function(client) {
 
