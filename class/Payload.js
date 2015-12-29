@@ -7,13 +7,16 @@ class Payload {
     /**
      * Sorts the trackers and sends the configured number of trackers back over the socket
      * @param tracker Main payload that the client/server uses and transfers
-     * @param config Configuration settings object
      * @param socket Socket object used to push data back
      */
     static send(tracker, socket) {
         socket.sockets.json.send(tracker.data);
     }
 
+    /**
+     * Adds a client to the payload, sometimes adding a new tracker with the new client
+     * @param client Client data object
+     */
     static addClient(client) {
         if (Payload.allTrackers.hasOwnProperty(client.url)) {
             Payload.allTrackers[client.url].numConnections++;
