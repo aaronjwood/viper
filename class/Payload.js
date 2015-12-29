@@ -27,6 +27,10 @@ class Payload {
         }
     }
 
+    /**
+     * Removes a client from the payload, sometimes removing a tracker if no more clients are associated with it
+     * @param client Client data object
+     */
     static removeClient(client) {
         Payload.allTrackers[client.url].numConnections--;
 
@@ -38,6 +42,10 @@ class Payload {
         }
     }
 
+    /**
+     * Adds a URL to the payload
+     * @param url
+     */
     static addUrl(url) {
         if (Payload.data.urls.hasOwnProperty(url)) {
             Payload.data.urls[url]++;
@@ -47,6 +55,10 @@ class Payload {
         }
     }
 
+    /**
+     * Removes a URL from the payload
+     * @param url
+     */
     static removeUrl(url) {
         Payload.data.urls[url]--;
 
@@ -55,6 +67,10 @@ class Payload {
         }
     }
 
+    /**
+     * Adds a browser name to the payload
+     * @param data User agent data object
+     */
     static addBrowser(data) {
         if (Payload.data.browsers.hasOwnProperty(data.browser.name)) {
             Payload.data.browsers[data.browser.name]++;
@@ -64,6 +80,10 @@ class Payload {
         }
     }
 
+    /**
+     * Removes a browser name from the payload
+     * @param data User agent data object
+     */
     static removeBrowser(data) {
         Payload.data.browsers[data.browser.name]--;
 
@@ -72,14 +92,24 @@ class Payload {
         }
     }
 
+    /**
+     * Increments the total number of connections
+     */
     static addConnection() {
         Payload.data.totalConnections++;
     }
 
+    /**
+     * Decrements the total number of connections
+     */
     static removeConnection() {
         Payload.data.totalConnections--;
     }
 
+    /**
+     * Adds a screen resolution to the payload
+     * @param resolution Screen resolution
+     */
     static addScreenResolution(resolution) {
         if (Payload.data.screenResolutions.hasOwnProperty(resolution)) {
             Payload.data.screenResolutions[resolution]++;
@@ -89,6 +119,10 @@ class Payload {
         }
     }
 
+    /**
+     * Removes a screen resolution from the payload
+     * @param resolution Screen resolution
+     */
     static removeScreenResolution(resolution) {
         Payload.data.screenResolutions[resolution]--;
 
@@ -97,6 +131,10 @@ class Payload {
         }
     }
 
+    /**
+     * Adds an operating system to the payload
+     * @param os Operating system to be added
+     */
     static addOs(os) {
         if (Payload.data.os.hasOwnProperty(os)) {
             Payload.data.os[os]++;
@@ -106,10 +144,13 @@ class Payload {
         }
     }
 
+    /**
+     * Removes an operating system from the payload
+     * @param os Operating system to be removed
+     */
     static removeOs(os) {
         Payload.data.os[os]--;
 
-        //Remove the operating system if the count is 0
         if (Payload.data.os[os] === 0) {
             delete Payload.data.os[os];
         }
