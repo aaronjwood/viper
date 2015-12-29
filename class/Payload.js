@@ -133,26 +133,26 @@ class Payload {
 
     /**
      * Adds an operating system to the payload
-     * @param os Operating system to be added
+     * @param data User agent data object
      */
-    static addOs(os) {
-        if (Payload.data.os.hasOwnProperty(os)) {
-            Payload.data.os[os]++;
+    static addOs(data) {
+        if (Payload.data.os.hasOwnProperty(data.os.name)) {
+            Payload.data.os[data.os.name]++;
         }
         else {
-            Payload.data.os[os] = 1;
+            Payload.data.os[data.os.name] = 1;
         }
     }
 
     /**
      * Removes an operating system from the payload
-     * @param os Operating system to be removed
+     * @param data User agent data object
      */
-    static removeOs(os) {
-        Payload.data.os[os]--;
+    static removeOs(data) {
+        Payload.data.os[data.os.name]--;
 
-        if (Payload.data.os[os] === 0) {
-            delete Payload.data.os[os];
+        if (Payload.data.os[data.os.name] === 0) {
+            delete Payload.data.os[data.os.name];
         }
     }
 

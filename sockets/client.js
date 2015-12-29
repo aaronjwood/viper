@@ -32,7 +32,7 @@ module.exports = function (clientSocket, dashboardSocket) {
             Payload.addClient(newClient);
             Payload.addUrl(client.url);
             Payload.addScreenResolution(newClient.getScreenResolution());
-            Payload.addOs(newClient.os);
+            Payload.addOs(newClient.getBrowserInfo());
 
             Payload.send(Payload, dashboardSocket);
         });
@@ -52,7 +52,7 @@ module.exports = function (clientSocket, dashboardSocket) {
             Payload.removeBrowser(killedTracker.getBrowserInfo());
             Payload.removeScreenResolution(killedTracker.getScreenResolution());
             Payload.removeUrl(client.url);
-            Payload.removeOs(killedTracker.os);
+            Payload.removeOs(killedTracker.getBrowserInfo());
             Payload.removeClient(client);
 
             Payload.send(Payload, dashboardSocket);
