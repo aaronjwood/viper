@@ -15,7 +15,7 @@ class Payload {
     }
 
     static addClient(client) {
-        if(Payload.allTrackers.hasOwnProperty(client.url)) {
+        if (Payload.allTrackers.hasOwnProperty(client.url)) {
             Payload.allTrackers[client.url].numConnections++;
             Payload.allTrackers[client.url].clients[client.id] = client;
         }
@@ -27,7 +27,7 @@ class Payload {
     static removeClient(client) {
         Payload.allTrackers[client.url].numConnections--;
 
-        if(Payload.allTrackers[client.url].numConnections === 0) {
+        if (Payload.allTrackers[client.url].numConnections === 0) {
             delete Payload.allTrackers[client.url];
         }
         else {
@@ -36,7 +36,7 @@ class Payload {
     }
 
     static addUrl(url) {
-        if(Payload.data.urls.hasOwnProperty(url)) {
+        if (Payload.data.urls.hasOwnProperty(url)) {
             Payload.data.urls[url]++;
         }
         else {
@@ -47,13 +47,13 @@ class Payload {
     static removeUrl(url) {
         Payload.data.urls[url]--;
 
-        if(Payload.data.urls[url] === 0) {
+        if (Payload.data.urls[url] === 0) {
             delete Payload.data.urls[url];
         }
     }
 
     static addBrowser(data) {
-        if(Payload.data.browsers.hasOwnProperty(data.browser.name)) {
+        if (Payload.data.browsers.hasOwnProperty(data.browser.name)) {
             Payload.data.browsers[data.browser.name]++;
         }
         else {
@@ -64,7 +64,7 @@ class Payload {
     static removeBrowser(data) {
         Payload.data.browsers[data.browser.name]--;
 
-        if(Payload.data.browsers[data.browser.name] === 0) {
+        if (Payload.data.browsers[data.browser.name] === 0) {
             delete Payload.data.browsers[data.browser.name];
         }
     }
@@ -78,7 +78,7 @@ class Payload {
     }
 
     static addScreenResolution(resolution) {
-        if(Payload.data.screenResolutions.hasOwnProperty(resolution)) {
+        if (Payload.data.screenResolutions.hasOwnProperty(resolution)) {
             Payload.data.screenResolutions[resolution]++;
         }
         else {
@@ -89,13 +89,13 @@ class Payload {
     static removeScreenResolution(resolution) {
         Payload.data.screenResolutions[resolution]--;
 
-        if(Payload.data.screenResolutions[resolution] === 0) {
+        if (Payload.data.screenResolutions[resolution] === 0) {
             delete Payload.data.screenResolutions[resolution];
         }
     }
 
     static addOs(os) {
-        if(Payload.data.os.hasOwnProperty(os)) {
+        if (Payload.data.os.hasOwnProperty(os)) {
             Payload.data.os[os]++;
         }
         else {
@@ -107,7 +107,7 @@ class Payload {
         Payload.data.os[os]--;
 
         //Remove the operating system if the count is 0
-        if(Payload.data.os[os] === 0) {
+        if (Payload.data.os[os] === 0) {
             delete Payload.data.os[os];
         }
     }
