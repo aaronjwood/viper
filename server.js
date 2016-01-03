@@ -6,7 +6,6 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var http = require("http");
 var io = require("socket.io");
-var config = require("./sys/config.js");
 
 var app = express();
 
@@ -21,7 +20,7 @@ app
 
 var server = http.Server(app);
 var socket = io(server);
-server.listen(config.dashboardPort);
+server.listen(3000);
 
 require("./sockets/dashboard.js")(socket);
 require("./sockets/client.js")(socket);
