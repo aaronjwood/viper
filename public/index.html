@@ -34,7 +34,7 @@
         </div>
 
         <div ng-controller="SectionsController" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li ng-class="{active: page.getPage() == 'pages'}">
                     <a ng-click="page.setPage('pages')">Pages</a>
                 </li>
@@ -49,6 +49,11 @@
                 </li>
                 <li ng-class="{active: page.getPage() == 'locations'}">
                     <a ng-click="page.setPage('locations')">Locations</a>
+                </li>
+            </ul>
+            <ul ng-controller="GlobalStatsController" class="nav navbar-nav navbar-right">
+                <li>
+                    <a>Total Connections <span class="badge">{{totalConnections}}</span></a>
                 </li>
             </ul>
         </div>

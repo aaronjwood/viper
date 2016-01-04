@@ -7,6 +7,14 @@ module.controller("SectionsController", function ($scope, page) {
     $scope.page.setPage("pages");
 });
 
+module.controller("GlobalStatsController", function ($scope, socket) {
+    $scope.totalConnections = 0;
+
+    socket.on("message", function (payload) {
+        $scope.totalConnections = payload.totalConnections;
+    });
+});
+
 module.controller("ContentController", function ($scope, page) {
     $scope.page = page;
 });
