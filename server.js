@@ -22,5 +22,4 @@ var server = http.Server(app);
 var socket = io(server);
 server.listen(3000);
 
-require("./sockets/dashboard.js")(socket);
-require("./sockets/client.js")(socket);
+require("./socket.js")(socket);
