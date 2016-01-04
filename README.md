@@ -9,14 +9,12 @@ The purpose of this analytics program is not to track and accumulate data over t
 What do I mean by real-time?
 For browsers that support [native web sockets](http://caniuse.com/websockets) we're talking about a full-duplex TCP connection that typically has less than 100ms of latency.
 
-The way Viper works both functionally and technically is fundamentally different from Google Analytics and its real-time component.
-As of 6/9/2013, Google Analytics considers a user active if they have triggered an event or pageview within the past 5 minutes.
-This means if someone is sitting on your page for over 5 minutes but is still actively using something, Google Analytics will consider that user inactive and remove them from the real-time count.
-
-Since Viper's purpose is to give data on a real-time basis there is no need for tracking sessions or how long it's been since a user made a request of some sort.
-There is no database behind Viper.
+There is currently no database behind Viper. The main goal of Viper is to work with and present real-time data.
 Everything is persisted inside of the server which means that all data will be lost if the server is stopped.
-This is one of the main reasons why Viper is so different from other similar programs.
+This isn't necessarily an issue if the server is spun back up in a short amount of time following when it was taken down.
+Your clients should reconnect without you having to do anything. This ensures that you get your real-time data back as soon as possible.
+By default, clients will always try to reconnect to the server while utilizing exponential backoff to avoid connection flooding.
+This means that if the server is taken down for a few hours and the same clients remain on the location of where the tracking code is installed, the clients will eventually reconnect when the server is back online.
 
 # Tracking Code
 
