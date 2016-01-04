@@ -8,7 +8,7 @@ module.exports = function (socket) {
     dashboardSocket.on("connection", function () {
 
         //Immediately send stats to the dashboard upon request
-        Payload.send(Payload, socket);
+        Payload.send(Payload, dashboardSocket);
     });
 
     clientSocket.on("connection", function (client) {
