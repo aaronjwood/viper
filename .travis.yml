@@ -2,3 +2,14 @@ language: node_js
 node_js:
   - "5"
   - "5.1"
+
+env:
+  global:
+   - secure: "gFd1iuIzWpJQ3AezDWEyfKynk5A4fk0XQ4BZ2Xn/wWKwAaj7Ri1Km7MXu2iNDEzZJuIISzaUgwSIVRNOcBfpoMbkz7UXi6FKXlmbc/olXVrcuYc8WTGx/Dqm0DeoTZYBYH6B3wbyvVIoSSB0/dw/zvfJkRqbArmPMindwXBHOZksbaatWWPVxFJ6Tvo4yH88GJZtzGzE/2dOhgh24y8RJgHcLrXfDpsmSXmzmFmoZn/hvkCO6x+Kz2nOsDWS4CySnP/RUbzhFKB0zIjckdHSwf5xYAkFDIj14nQPwotFpPK7C/VEQh9t1Hwg6XgAmXzwPBR1R2AEIuTA//uuHlZ5eBtNvvh8lJEfvjozCRvrdcPkYaTPqjV+Dsdp2ccro4quJkR1uAFv2+07GBMPyexZL4e7FbtLLYvrQ+sBaAc+Rl15zBDsR6jX4bo/QDcy6D4uyekqOIiYM6ZXiIA3vQ4DqyE8eYZzl4VEyDSkIHxR+HP+H4jcqkTs4NVz3ZnwlchjMD0XPk0odvsZX3ZnWpHhWyleH+cQBxoqi6+JLrKoQ33SX2DRHjW68FhQTeYo4Zyq3Q2npXzBHJsPg5Lmb6L3eoDrIwqLJxN59ULiIv1I68dhJ+c52PSZ53xtvMXZQZwcFxnQrbeckniudAIqlOFjaMwPa2C9DuSmUe+Ouo5QXNI="
+
+addons:
+  coverity_scan:
+    project:
+      name: "aaronjwood/viper"
+    notification_email: aaronjwood@gmail.com
+    branch_pattern: master
