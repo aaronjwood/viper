@@ -6,11 +6,10 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var http = require("http");
 var io = require("socket.io");
-var config = require("./sys/config.js");
 
-var dashboard = express();
+var app = express();
 
-dashboard
+app
     .use(compression())
     .use(bodyParser.urlencoded({
         extended: true
@@ -19,13 +18,8 @@ dashboard
     .use(cookieParser())
     .use(express.static(__dirname + "/public"));
 
-var dashboardServer = http.Server(dashboard);
-var dashboardSocket = io(dashboardServer);
-dashboardServer.listen(config.dashboardPort);
+var server = http.Server(app);
+var socket = io(server);
+server.listen(3000);
 
-var clientServer = http.Server();
-var clientSocket = io(clientServer);
-clientServer.listen(config.socketPort);
-
-require("./sockets/dashboard.js")(dashboardSocket);
-require("./sockets/client.js")(clientSocket, dashboardSocket);
+require("./socket.js")(socket);

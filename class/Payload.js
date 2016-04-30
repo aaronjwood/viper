@@ -5,12 +5,12 @@ var Tracker = require("../class/Tracker.js");
 class Payload {
 
     /**
-     * Sorts the trackers and sends the configured number of trackers back over the socket
+     * Sends data back to the dashboard
      * @param tracker Main payload that the client/server uses and transfers
      * @param socket Socket object used to push data back
      */
     static send(tracker, socket) {
-        socket.sockets.json.send(tracker.data);
+        socket.emit("message", tracker.data);
     }
 
     /**

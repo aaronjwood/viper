@@ -16,7 +16,7 @@ module.service("page", function () {
 });
 
 module.service("socket", function ($rootScope) {
-    var socket = io("//localhost:3000");
+    var socket = io("//localhost:3000/dashboard");
 
     return {
         on: function (event, cb) {

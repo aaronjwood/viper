@@ -1,7 +1,15 @@
-module.exports = function (clientSocket, dashboardSocket) {
+module.exports = function (socket) {
     var uuid = require("node-uuid");
-    var Payload = require("../class/Payload.js");
-    var Client = require("../class/Client.js");
+    var Payload = require("./class/Payload.js");
+    var Client = require("./class/Client.js");
+    var clientSocket = socket.of("/client");
+    var dashboardSocket = socket.of("/dashboard");
+
+    dashboardSocket.on("connection", function () {
+
+        //Immediately send stats to the dashboard upon request
+        Payload.send(Payload, dashboardSocket);
+    });
 
     clientSocket.on("connection", function (client) {
 
