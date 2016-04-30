@@ -12,5 +12,5 @@ addons:
     project:
       name: "aaronjwood/viper"
     notification_email: aaronjwood@gmail.com
-    build_command: "--no-command --fs-capture-search ./"
+    build_command: "--no-command"
     branch_pattern: master
