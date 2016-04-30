@@ -1,6 +1,7 @@
 # Viper
 [![Code Climate](https://codeclimate.com/github/aaronjwood/viper/badges/gpa.svg)](https://codeclimate.com/github/aaronjwood/viper)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/b4709b23f8a94b83a6b80b5e9a1ac4e6)](https://www.codacy.com/app/aaronjwood/viper)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/8718/badge.svg)](https://scan.coverity.com/projects/aaronjwood-viper)
 
 Real-time tracking and analytics using Node.js and Socket.IO.
 
