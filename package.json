@@ -1,5 +1,5 @@
 {
-  "name": "Viper",
+  "name": "viper",
   "version": "0.1.0",
   "main": "server",
   "description": "Real-time tracking and analytics using Node.js and Socket.IO",
