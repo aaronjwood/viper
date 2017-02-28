@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Viper</title>
     <link rel="stylesheet" type="text/css" href="/components/bootswatch/yeti/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/components/angular-chart.js/dist/angular-chart.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
     <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/components/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/components/Chart.js/Chart.min.js"></script>
+    <script type="text/javascript" src="/components/chart.js/dist/chart.min.js"></script>
     <script type="text/javascript" src="/components/angular-chart.js/dist/angular-chart.min.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
@@ -78,7 +77,7 @@
         </div>
     </div>
 
-    <div ng-show="page.getPage() == 'browsers'">
+    <div ng-controller="BrowsersController" ng-show="page.getPage() == 'browsers'">
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header text-center">
@@ -87,8 +86,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6"></div>
+            <div class="col-md-12">
+                <canvas class="chart chart-doughnut"
+                        chart-data="data" chart-labels="labels" chart-options="options">
+                </canvas>
+            </div>
         </div>
     </div>
 

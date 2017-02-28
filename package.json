@@ -1,5 +1,5 @@
 {
-  "name": "Viper",
+  "name": "viper",
   "version": "0.1.0",
   "main": "server",
   "description": "Real-time tracking and analytics using Node.js and Socket.IO",
@@ -9,19 +9,21 @@
     "url": "https://github.com/aaronjwood/viper.git"
   },
   "dependencies": {
-    "angular": "~1.4.8",
-    "bootstrap": "~3.3.5",
-    "bootswatch": "~3.3.5",
-    "angular-chart.js": "~0.8.8",
-    "body-parser": "^1.14.1",
-    "compression": "^1.6.0",
-    "cookie-parser": "^1.4.0",
-    "express": "^4.13.3",
+    "angular": "^1.6.2",
+    "angular-chart.js": "^1.1.1",
+    "body-parser": "^1.16.0",
+    "bootstrap": "^3.3.7",
+    "bootswatch": "^3.3.7",
+    "chart.js": "^2.5.0",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.1",
     "express-load": "^1.1.15",
-    "geoip-lite": "^1.1.6",
+    "geoip-lite": "^1.1.9",
+    "jquery": "^3.1.1",
     "node-uuid": "^1.4.7",
-    "socket.io": "^1.3.7",
-    "ua-parser-js": "^0.7.10"
+    "socket.io": "^1.7.2",
+    "ua-parser-js": "^0.7.12"
   },
   "engines": {
     "node": ">= 5.0.x"
